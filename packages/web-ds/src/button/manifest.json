@@ -1,0 +1,15 @@
+{
+  "name": "Button",
+  "platform": "web",
+  "description": "Primary interactive button for web product and marketing surfaces.",
+  "figmaFileKey": "",
+  "figmaNodeId": "",
+  "consumesTokens": ["button.primary.bg", "text.primary"],
+  "props": {
+    "variant": ["primary", "secondary", "ghost"],
+    "size": ["sm", "md", "lg"],
+    "disabled": "boolean"
+  },
+  "status": "stable",
+  "usedBy": []
+}

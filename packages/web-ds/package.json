@@ -1,0 +1,15 @@
+{
+  "name": "@statrys/web-ds",
+  "version": "0.1.0",
+  "description": "Statrys Core DS for web — React components built on tokens + icons",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "dependencies": {
+    "@statrys/tokens": "*",
+    "@statrys/icons": "*"
+  }
+}

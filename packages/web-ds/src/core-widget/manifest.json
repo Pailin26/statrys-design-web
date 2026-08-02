@@ -1,0 +1,11 @@
+{
+  "name": "CoreWidget",
+  "platform": "web",
+  "description": "TODO — describe what this widget does and where it's used.",
+  "figmaFileKey": "",
+  "figmaNodeId": "",
+  "consumesTokens": [],
+  "props": {},
+  "status": "draft",
+  "usedBy": []
+}

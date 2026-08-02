@@ -1,0 +1,10 @@
+{
+  "name": "project-b",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Product B — prototype, built on the Statrys Core DS",
+  "dependencies": {
+    "@statrys/tokens": "*",
+    "@statrys/web-ds": "*"
+  }
+}
