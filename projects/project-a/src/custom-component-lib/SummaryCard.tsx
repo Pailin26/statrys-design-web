@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "@statrys/web-ds";
+import styles from "./SummaryCard.module.css";
 
 /**
  * Custom Component Lib — components specific to Product A that compose
@@ -15,7 +16,7 @@ export function SummaryCard({
   onAction?: () => void;
 }) {
   return (
-    <div className="summary-card">
+    <div className={styles.card}>
       <h3>{title}</h3>
       <Button variant="secondary" size="sm" onClick={onAction}>
         View details

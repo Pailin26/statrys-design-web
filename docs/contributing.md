@@ -17,10 +17,50 @@
 
 1. Create `packages/web-ds/src/<name>/` and/or `packages/app-ds/src/<name>/`
    (add both if the component exists on both platforms)
-2. Add the component code and a `manifest.json` (include `"platform": "web"` or `"app"`)
+2. Add the component code, following the file split below, and a `manifest.json`
+   (include `"platform": "web"` or `"app"`)
 3. For web components, also add a `<name>.figma.tsx` Code Connect file
 4. Fill in `figmaFileKey` / `figmaNodeId` once published in the Figma library
 5. Open a PR
+
+## Component file structure — logic and style stay in separate files
+
+A component's `.tsx` is headless: markup, props, and behavior only — no inline
+`style={{...}}`, no `StyleSheet.create` calls, no visual values. All styling lives in
+a sibling file. This keeps the component usable if the visual layer gets reskinned,
+and keeps `git diff` on a style tweak from touching component logic.
+
+**Web (`web-ds`, and Custom Component Lib components under `projects/*`):**
+
+```
+<name>/
+├── <Name>.tsx          ← structure + behavior only, imports the CSS module
+├── <Name>.module.css   ← all visual styles, one class per variant/size/state
+├── <name>.figma.tsx    ← Code Connect (web-ds only)
+└── manifest.json
+```
+
+```tsx
+// Button.tsx
+import styles from "./Button.module.css";
+
+<button className={[styles.base, styles[variant], disabled && styles.disabled]
+  .filter(Boolean).join(" ")} />
+```
+
+**App (`app-ds`, React Native — no CSS, so the equivalent split is a `StyleSheet`
+in its own file):**
+
+```
+<name>/
+├── <Name>.tsx          ← structure + behavior only, imports the stylesheet
+├── <Name>.styles.ts    ← StyleSheet.create({...}), exported as `styles`
+└── manifest.json
+```
+
+Either way, colors/spacing/radii referenced in the style file should come from
+`@statrys/tokens` (CSS custom properties on web, the JS token export on native) —
+see the PR checklist below.
 
 ## Adding or changing a token
 
@@ -31,6 +71,8 @@
 
 ## PR checklist
 
+- [ ] Component logic (`.tsx`) has no inline styles — visuals live in
+      `.module.css` (web) or `.styles.ts` (app)
 - [ ] No hardcoded hex/px values in component source (use token references)
 - [ ] manifest.json filled in, including `platform`
 - [ ] If added to only one platform, note whether the other platform needs it too

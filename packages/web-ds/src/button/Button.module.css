@@ -1,0 +1,43 @@
+/* TODO: replace raw hex values with @statrys/tokens once the CSS custom
+   property output (tokens.css) is wired in — kept literal here for scaffold
+   clarity, matching packages/app-ds/src/button/Button.styles.ts */
+
+.base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.primary {
+  background-color: #ff4a15;
+}
+
+.secondary {
+  background-color: #1b1b1b;
+}
+
+.ghost {
+  background-color: transparent;
+}
+
+.sm {
+  padding: 6px 12px;
+}
+
+.md {
+  padding: 10px 16px;
+}
+
+.lg {
+  padding: 14px 20px;
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
