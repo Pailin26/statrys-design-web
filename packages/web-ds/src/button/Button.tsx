@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./Button.module.css";
 
 export type ButtonProps = {
-  variant?: "primary" | "secondary" | "ghost";
+  variant?: "primary" | "secondary" | "tertiary";
   size?: "sm" | "md" | "lg";
   disabled?: boolean;
   children: React.ReactNode;
@@ -18,9 +18,7 @@ export function Button({
 }: ButtonProps) {
   return (
     <button
-      className={[styles.base, styles[variant], styles[size], disabled && styles.disabled]
-        .filter(Boolean)
-        .join(" ")}
+      className={[styles.base, styles[variant], styles[size]].filter(Boolean).join(" ")}
       disabled={disabled}
       onClick={onClick}
     >

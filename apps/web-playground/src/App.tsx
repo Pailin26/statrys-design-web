@@ -1,6 +1,6 @@
 import { Button } from "@statrys/web-ds";
 
-const VARIANTS = ["primary", "secondary", "ghost"] as const;
+const VARIANTS = ["primary", "secondary", "tertiary"] as const;
 const SIZES = ["sm", "md", "lg"] as const;
 
 export function App() {

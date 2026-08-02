@@ -4,9 +4,14 @@
   "description": "Primary interactive button for web product and marketing surfaces.",
   "figmaFileKey": "",
   "figmaNodeId": "",
-  "consumesTokens": ["button.primary.bg", "text.primary"],
+  "consumesTokens": [
+    "button.primary", "button.primaryHover", "button.primaryActive",
+    "button.secondary", "button.secondaryHover", "button.secondaryActive",
+    "button.tertiary", "button.tertiaryHover", "button.tertiaryActive",
+    "button.disabled", "text.neutralInverse.primary", "text.neutralInverse.disabled"
+  ],
   "props": {
-    "variant": ["primary", "secondary", "ghost"],
+    "variant": ["primary", "secondary", "tertiary"],
     "size": ["sm", "md", "lg"],
     "disabled": "boolean"
   },

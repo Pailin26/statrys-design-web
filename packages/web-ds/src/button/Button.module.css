@@ -1,29 +1,73 @@
-/* TODO: replace raw hex values with @statrys/tokens once the CSS custom
-   property output (tokens.css) is wired in — kept literal here for scaffold
-   clarity, matching packages/app-ds/src/button/Button.styles.ts */
+/* Colors come from @statrys/tokens (packages/tokens/dist/tokens.css) — the
+   consuming app must import that stylesheet once so these custom properties
+   exist. Hierarchy/states mirror apa-statrys/accounting's real Button
+   (src/app/ui/Button/index.module.css): primary = filled, secondary =
+   outline, tertiary = text-only. */
 
 .base {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: none;
+  border: 1px solid transparent;
   border-radius: 8px;
   font-weight: 600;
-  color: #ffffff;
   cursor: pointer;
+  transition: background-color 0.1s, border-color 0.1s, color 0.1s;
+}
+.base:disabled {
+  cursor: not-allowed;
 }
 
 .primary {
-  background-color: #ff4a15;
+  background: var(--button-primary);
+  border-color: var(--button-primary);
+  color: var(--text-neutral-inverse-primary);
+}
+.primary:hover:not(:disabled) {
+  background: var(--button-primary-hover);
+  border-color: var(--button-primary-hover);
+}
+.primary:active:not(:disabled) {
+  background: var(--button-primary-active);
+  border-color: var(--button-primary-active);
+}
+.primary:disabled {
+  background: var(--button-disabled);
+  border-color: transparent;
+  color: var(--text-neutral-inverse-disabled);
 }
 
 .secondary {
-  background-color: #1b1b1b;
+  background: transparent;
+  border-color: var(--button-primary);
+  color: var(--button-primary);
+}
+.secondary:hover:not(:disabled) {
+  border-color: var(--button-secondary-hover);
+  color: var(--button-secondary-hover);
+}
+.secondary:active:not(:disabled) {
+  border-color: var(--button-secondary-active);
+  color: var(--button-secondary-active);
+}
+.secondary:disabled {
+  border-color: var(--button-disabled);
+  color: var(--button-disabled);
 }
 
-.ghost {
-  background-color: transparent;
-  color: #ff4a15;
+.tertiary {
+  background: transparent;
+  border-color: transparent;
+  color: var(--button-primary);
+}
+.tertiary:hover:not(:disabled) {
+  background: var(--button-tertiary-hover);
+}
+.tertiary:active:not(:disabled) {
+  background: var(--button-tertiary-active);
+}
+.tertiary:disabled {
+  color: var(--button-disabled);
 }
 
 .sm {
@@ -36,9 +80,4 @@
 
 .lg {
   padding: 14px 20px;
-}
-
-.disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
 }
