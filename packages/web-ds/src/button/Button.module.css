@@ -11,7 +11,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid transparent;
+  border: var(--button-border-width) solid transparent;
   border-radius: var(--button-radius);
   font-family: var(--button-font-family);
   font-weight: var(--button-font-weight);
