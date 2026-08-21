@@ -1,26 +1,19 @@
 {
   "name": "HorizontalTabs",
   "platform": "web",
-  "description": "Horizontal tab list — renders one Tab (Figma \"TabsBase\") per item internally; Tab is not exported on its own.",
+  "description": "Horizontal tab list, Style=Underline only — renders one Tab (Figma \"TabsBase\") per item internally; Tab is not exported on its own. Style=Button isn't used and isn't implemented.",
   "figmaFileKey": "abElBYcwuc5skfPX1c7FlP",
   "figmaNodeId": "2725:16713",
   "consumesTokens": [
-    "tabs.bg", "tabs.bgHover", "tabs.bgActive",
-    "tabs.underlineColor", "tabs.underlineWidth", "tabs.borderColor", "tabs.borderWidth",
-    "tabs.textDefault", "tabs.textActive", "tabs.badgeBg", "tabs.badgeText",
-    "tabs.radius", "tabs.fontFamily", "tabs.fontWeight", "tabs.gap", "tabs.listGap",
-    "tabs.paddingHorizontal", "tabs.badgePaddingVertical",
-    "tabs.fontSizeMd", "tabs.lineHeightMd", "tabs.paddingVerticalMd", "tabs.heightMd",
-    "tabs.iconSizeMd", "tabs.badgeHeightMd", "tabs.badgePaddingHorizontalMd", "tabs.badgeFontSizeMd",
-    "tabs.fontSizeLg", "tabs.lineHeightLg", "tabs.paddingVerticalLg",
-    "tabs.iconSizeLg", "tabs.badgeHeightLg", "tabs.badgePaddingHorizontalLg", "tabs.badgeFontSizeLg"
+    "text.secondary", "text.primary", "icon.brand", "bg.neutral.tertiary", "border.neutral.primary",
+    "button.radius", "button.heightSm",
+    "link.fontFamily", "link.fontWeight", "link.iconSize"
   ],
   "props": {
     "items": "TabItem[] — { id, label, icon?, badge? }",
     "activeId": "string",
     "onChange": "(id: string) => void",
-    "size": ["md", "lg"],
-    "variant": ["button", "underline"]
+    "size": ["md", "lg"]
   },
   "status": "stable",
   "usedBy": []

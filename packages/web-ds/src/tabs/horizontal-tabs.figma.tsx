@@ -10,12 +10,8 @@ figma.connect(
         md: "md",
         lg: "lg",
       }),
-      variant: figma.enum("Style", {
-        Button: "button",
-        Underline: "underline",
-      }),
     },
-    example: ({ size, variant }) => (
+    example: ({ size }) => (
       <HorizontalTabs
         items={[
           { id: "one", label: "Tab one", badge: 2 },
@@ -25,7 +21,6 @@ figma.connect(
         activeId="one"
         onChange={() => {}}
         size={size}
-        variant={variant}
       />
     ),
   }

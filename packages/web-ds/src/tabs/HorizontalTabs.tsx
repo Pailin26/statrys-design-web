@@ -14,17 +14,15 @@ export type HorizontalTabsProps = {
   activeId: string;
   onChange: (id: string) => void;
   size?: "md" | "lg";
-  variant?: "button" | "underline";
 };
 
-export function HorizontalTabs({ items, activeId, onChange, size = "md", variant = "button" }: HorizontalTabsProps) {
+export function HorizontalTabs({ items, activeId, onChange, size = "md" }: HorizontalTabsProps) {
   return (
-    <div role="tablist" className={[styles.list, styles[variant]].join(" ")}>
+    <div role="tablist" className={styles.list}>
       {items.map((item) => (
         <Tab
           key={item.id}
           size={size}
-          variant={variant}
           active={item.id === activeId}
           icon={item.icon}
           badge={item.badge}

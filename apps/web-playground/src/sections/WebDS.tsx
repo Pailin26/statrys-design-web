@@ -135,48 +135,26 @@ const TAB_ITEMS = [
 ];
 
 function HorizontalTabsDemo() {
-  const [buttonMdActive, setButtonMdActive] = useState("one");
-  const [buttonLgActive, setButtonLgActive] = useState("two");
-  const [underlineMdActive, setUnderlineMdActive] = useState("one");
-  const [underlineLgActive, setUnderlineLgActive] = useState("three");
+  const [mdActive, setMdActive] = useState("one");
+  const [lgActive, setLgActive] = useState("three");
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
       <h1>Horizontal Tabs</h1>
       <p style={{ color: "#666", maxWidth: 560 }}>
-        Renders one internal <code>Tab</code> (Figma "TabsBase") per item — <code>Tab</code> isn't exported
-        on its own. See <code>packages/web-ds/src/tabs</code>.
+        Style=Underline only — Style=Button isn't used and isn't implemented. Renders one internal{" "}
+        <code>Tab</code> (Figma "TabsBase") per item — <code>Tab</code> isn't exported on its own. See{" "}
+        <code>packages/web-ds/src/tabs</code>.
       </p>
 
       <div>
-        <h2 style={{ fontSize: 16, marginTop: 0 }}>Style=Button / size=md</h2>
-        <HorizontalTabs items={TAB_ITEMS} activeId={buttonMdActive} onChange={setButtonMdActive} />
+        <h2 style={{ fontSize: 16, marginTop: 0 }}>size=md</h2>
+        <HorizontalTabs items={TAB_ITEMS} activeId={mdActive} onChange={setMdActive} />
       </div>
 
       <div>
-        <h2 style={{ fontSize: 16, marginTop: 0 }}>Style=Button / size=lg</h2>
-        <HorizontalTabs items={TAB_ITEMS} activeId={buttonLgActive} onChange={setButtonLgActive} size="lg" />
-      </div>
-
-      <div>
-        <h2 style={{ fontSize: 16, marginTop: 0 }}>Style=Underline / size=md</h2>
-        <HorizontalTabs
-          items={TAB_ITEMS}
-          activeId={underlineMdActive}
-          onChange={setUnderlineMdActive}
-          variant="underline"
-        />
-      </div>
-
-      <div>
-        <h2 style={{ fontSize: 16, marginTop: 0 }}>Style=Underline / size=lg</h2>
-        <HorizontalTabs
-          items={TAB_ITEMS}
-          activeId={underlineLgActive}
-          onChange={setUnderlineLgActive}
-          size="lg"
-          variant="underline"
-        />
+        <h2 style={{ fontSize: 16, marginTop: 0 }}>size=lg</h2>
+        <HorizontalTabs items={TAB_ITEMS} activeId={lgActive} onChange={setLgActive} size="lg" />
       </div>
     </div>
   );

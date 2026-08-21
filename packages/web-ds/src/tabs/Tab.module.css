@@ -1,7 +1,10 @@
-/* Every value here comes from the component-level semantic tokens in
-   packages/tokens/semantic/tabs.json (never a primitive directly, or
-   another file's semantic token — see Button.module.css for the full
-   rationale). Internal building block rendered by HorizontalTabs — not
+/* Style=Underline only — Style=Button isn't used, so it's not implemented
+   here. Reuses existing tokens/primitives directly rather than a
+   tab-specific semantic file: text.secondary/primary for the label color,
+   icon.brand for the active indicator, button.radius for the badge corners
+   (same precedent as ButtonHighlight reusing Button's radius), and the
+   space and typography primitive scales for sizing that has no existing
+   semantic alias. Internal building block rendered by HorizontalTabs — not
    exported on its own (Figma's "TabsBase").
 
    Figma: https://www.figma.com/design/abElBYcwuc5skfPX1c7FlP/-WEB--Design-System?node-id=2723-16660 */
@@ -10,55 +13,40 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--tabs-gap);
-  padding: 0 var(--tabs-padding-horizontal);
+  gap: var(--space-3);
+  padding: 0 var(--space-6);
   border: none;
+  border-radius: 0;
+  border-bottom: var(--border-width-md) solid transparent;
   background: none;
-  border-radius: var(--tabs-radius);
-  font-family: var(--tabs-font-family);
-  font-weight: var(--tabs-font-weight);
-  color: var(--tabs-text-default);
+  font-family: var(--link-font-family);
+  font-weight: var(--link-font-weight);
+  color: var(--text-secondary);
   cursor: pointer;
   white-space: nowrap;
-  transition: background-color 0.1s, color 0.1s, border-color 0.1s;
+  transition: color 0.1s, border-color 0.1s;
 }
 .tab:hover {
-  color: var(--tabs-text-active);
+  color: var(--text-primary);
 }
 .tab.active {
-  color: var(--tabs-text-active);
-}
-
-.button {
-  background: var(--tabs-bg);
-}
-.button:hover {
-  background: var(--tabs-bg-hover);
-}
-.button.active {
-  background: var(--tabs-bg-active);
-}
-
-.underline {
-  border-bottom: var(--tabs-underline-width) solid transparent;
-}
-.underline.active {
-  border-bottom-color: var(--tabs-underline-color);
+  color: var(--text-primary);
+  border-bottom-color: var(--icon-brand);
 }
 
 .md {
-  height: var(--tabs-height-md);
-  padding-top: var(--tabs-padding-vertical-md);
-  padding-bottom: var(--tabs-padding-vertical-md);
-  font-size: var(--tabs-font-size-md);
-  line-height: var(--tabs-line-height-md);
+  height: var(--button-height-sm);
+  padding-top: var(--space-3);
+  padding-bottom: var(--space-3);
+  font-size: var(--typography-body-md);
+  line-height: 1.3;
 }
 
 .lg {
-  padding-top: var(--tabs-padding-vertical-lg);
-  padding-bottom: var(--tabs-padding-vertical-lg);
-  font-size: var(--tabs-font-size-lg);
-  line-height: var(--tabs-line-height-lg);
+  padding-top: var(--space-4);
+  padding-bottom: var(--space-4);
+  font-size: var(--typography-body-lg);
+  line-height: 1.1;
 }
 
 .icon {
@@ -66,12 +54,12 @@
   flex-shrink: 0;
 }
 .md .icon {
-  width: var(--tabs-icon-size-md);
-  height: var(--tabs-icon-size-md);
+  width: var(--link-icon-size);
+  height: var(--link-icon-size);
 }
 .lg .icon {
-  width: var(--tabs-icon-size-lg);
-  height: var(--tabs-icon-size-lg);
+  width: var(--space-10);
+  height: var(--space-10);
 }
 
 .badge {
@@ -79,20 +67,20 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  background: var(--tabs-badge-bg);
-  color: var(--tabs-badge-text);
-  border-radius: var(--tabs-radius);
-  padding: var(--tabs-badge-padding-vertical) 0;
+  background: var(--bg-neutral-tertiary);
+  color: var(--text-secondary);
+  border-radius: var(--button-radius);
+  padding: var(--space-1) 0;
 }
 .md .badge {
-  height: var(--tabs-badge-height-md);
-  padding-left: var(--tabs-badge-padding-horizontal-md);
-  padding-right: var(--tabs-badge-padding-horizontal-md);
-  font-size: var(--tabs-badge-font-size-md);
+  height: var(--space-8);
+  padding-left: var(--space-3);
+  padding-right: var(--space-3);
+  font-size: var(--typography-caption);
 }
 .lg .badge {
-  height: var(--tabs-badge-height-lg);
-  padding-left: var(--tabs-badge-padding-horizontal-lg);
-  padding-right: var(--tabs-badge-padding-horizontal-lg);
-  font-size: var(--tabs-badge-font-size-lg);
+  height: var(--space-9);
+  padding-left: var(--space-4);
+  padding-right: var(--space-4);
+  font-size: var(--typography-body-sm);
 }
