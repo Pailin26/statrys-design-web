@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Foundation } from "./sections/Foundation";
 import { WebDS } from "./sections/WebDS";
+import { TabBar } from "./TabBar";
 
 export type Tab = "foundation" | "components";
 
@@ -98,16 +99,14 @@ export function App() {
   return (
     <div className="shell">
       <header className="topnav">
+        <div className="topnav-mark" />
         <div className="topnav-title">Statrys Design System — Web</div>
-        {TABS.map((t) => (
-          <button
-            key={t.id}
-            className={"topnav-tab" + (route.tab === t.id ? " active" : "")}
-            onClick={() => go(t.id)}
-          >
-            {t.label}
-          </button>
-        ))}
+        <TabBar
+          variant="top"
+          tabs={TABS.map((t) => t.id)}
+          active={route.tab}
+          onChange={(id) => go(id)}
+        />
       </header>
       <div className="body">
         <nav className="sidebar">
