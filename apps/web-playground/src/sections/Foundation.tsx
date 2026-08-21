@@ -1,30 +1,30 @@
-// TODO: this reads packages/tokens/{primitives,semantic} source JSON directly
-// since the build pipeline (tokens.css / tokens.js) isn't wired up yet — swap
-// to importing the built output once packages/tokens/dist exists for real.
-import neutralTokens from "../../../../packages/tokens/primitives/color/neutral.json";
-import brandTokens from "../../../../packages/tokens/primitives/color/brand.json";
-import statusTokens from "../../../../packages/tokens/primitives/color/status.json";
-import alphaBlack from "../../../../packages/tokens/primitives/color/alpha/alpha-black.json";
-import alphaBrand from "../../../../packages/tokens/primitives/color/alpha/alpha-brand.json";
-import alphaWhite from "../../../../packages/tokens/primitives/color/alpha/alpha-white.json";
-import spacingTokens from "../../../../packages/tokens/primitives/spacing.json";
-import radiusTokens from "../../../../packages/tokens/primitives/radius.json";
-import effectTokens from "../../../../packages/tokens/primitives/effect.json";
-import motionTokens from "../../../../packages/tokens/primitives/motion.json";
-import zIndexTokens from "../../../../packages/tokens/primitives/z-index.json";
-import typographyTokens from "../../../../packages/tokens/primitives/typography.json";
-import bgTokens from "../../../../packages/tokens/semantic/bg.json";
-import typographySemanticTokens from "../../../../packages/tokens/semantic/typography.json";
-import textTokens from "../../../../packages/tokens/semantic/text.json";
-import iconTokens from "../../../../packages/tokens/semantic/icon.json";
-import borderTokens from "../../../../packages/tokens/semantic/border.json";
-import buttonTokens from "../../../../packages/tokens/semantic/button.json";
-import linkTokens from "../../../../packages/tokens/semantic/link.json";
-import fieldTokens from "../../../../packages/tokens/semantic/field.json";
-import focusTokens from "../../../../packages/tokens/semantic/focus.json";
-import scrollbarTokens from "../../../../packages/tokens/semantic/scrollbar.json";
-import gradientTokens from "../../../../packages/tokens/semantic/gradient.json";
-import miscTokens from "../../../../packages/tokens/semantic/misc.json";
+// TODO: this reads @statrys/tokens' {primitives,semantic} source JSON
+// directly since the build pipeline (tokens.css / tokens.js) isn't wired
+// into this display page yet — swap to importing the built output once it is.
+import neutralTokens from "@statrys/tokens/primitives/color/neutral.json";
+import brandTokens from "@statrys/tokens/primitives/color/brand.json";
+import statusTokens from "@statrys/tokens/primitives/color/status.json";
+import alphaBlack from "@statrys/tokens/primitives/color/alpha/alpha-black.json";
+import alphaBrand from "@statrys/tokens/primitives/color/alpha/alpha-brand.json";
+import alphaWhite from "@statrys/tokens/primitives/color/alpha/alpha-white.json";
+import spacingTokens from "@statrys/tokens/primitives/spacing.json";
+import radiusTokens from "@statrys/tokens/primitives/radius.json";
+import effectTokens from "@statrys/tokens/primitives/effect.json";
+import motionTokens from "@statrys/tokens/primitives/motion.json";
+import zIndexTokens from "@statrys/tokens/primitives/z-index.json";
+import typographyTokens from "@statrys/tokens/primitives/typography.json";
+import bgTokens from "@statrys/tokens/semantic/bg.json";
+import typographySemanticTokens from "@statrys/tokens/semantic/typography.json";
+import textTokens from "@statrys/tokens/semantic/text.json";
+import iconTokens from "@statrys/tokens/semantic/icon.json";
+import borderTokens from "@statrys/tokens/semantic/border.json";
+import buttonTokens from "@statrys/tokens/semantic/button.json";
+import linkTokens from "@statrys/tokens/semantic/link.json";
+import fieldTokens from "@statrys/tokens/semantic/field.json";
+import focusTokens from "@statrys/tokens/semantic/focus.json";
+import scrollbarTokens from "@statrys/tokens/semantic/scrollbar.json";
+import gradientTokens from "@statrys/tokens/semantic/gradient.json";
+import miscTokens from "@statrys/tokens/semantic/misc.json";
 
 type TokenLeaf = { value: string | number; type: string; comment?: string };
 type TokenTree = { [key: string]: TokenTree | TokenLeaf };
@@ -177,8 +177,9 @@ function Intro() {
   return (
     <p style={{ color: "#666" }}>
       Values sourced from <code>apa-statrys/accounting</code>, shared across{" "}
-      <code>web-ds</code> and <code>app-ds</code> — see <code>packages/tokens</code>. Single
-      theme only (no dark mode defined upstream yet).
+      <code>web-ds</code> and <code>app-ds</code> — see{" "}
+      <a href="https://github.com/Pailin26/statrys-tokens">statrys-tokens</a>. Single theme
+      only (no dark mode defined upstream yet).
     </p>
   );
 }
