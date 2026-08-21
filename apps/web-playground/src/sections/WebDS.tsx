@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ChevronDown } from "lucide-react";
 import { Button, ButtonHighlight, Link, HorizontalTabs } from "@statrys/web-ds";
 
 const VARIANTS = ["primary", "secondary", "tertiary"] as const;
@@ -116,13 +116,19 @@ function LinkDemo() {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
       <h1>Link</h1>
+      <p style={{ color: "#666", maxWidth: 560 }}>
+        <code>iconLeft</code>/<code>iconRight</code> are consumer-supplied <code>ReactNode</code> — no
+        re-export layer in <code>@statrys/web-ds</code>. Here it's Lucide's <code>ArrowUpRight</code>,
+        matching Figma's own icon. No <code>color</code> prop passed — it inherits the link's current text
+        color (default/hover/active/disabled) via SVG's <code>currentColor</code>.
+      </p>
       <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
         {SIZES.map((size) => (
-          <Link key={size} size={size} href="#" iconRight="→">
+          <Link key={size} size={size} href="#" iconRight={<ArrowUpRight size={16} />}>
             primary link / {size}
           </Link>
         ))}
-        <Link href="#" disabled iconRight="→">
+        <Link href="#" disabled iconRight={<ArrowUpRight size={16} />}>
           disabled
         </Link>
       </div>
@@ -130,11 +136,11 @@ function LinkDemo() {
       <h2 style={{ fontSize: 16, marginTop: 8 }}>Inverse (dark surface)</h2>
       <div style={{ background: "var(--neutral-8)", padding: 24, borderRadius: "var(--radius-lg)", display: "flex", gap: 24, alignItems: "center" }}>
         {SIZES.map((size) => (
-          <Link key={size} size={size} inverse href="#" iconRight="→">
+          <Link key={size} size={size} inverse href="#" iconRight={<ArrowUpRight size={16} />}>
             inverse link / {size}
           </Link>
         ))}
-        <Link inverse href="#" disabled iconRight="→">
+        <Link inverse href="#" disabled iconRight={<ArrowUpRight size={16} />}>
           disabled
         </Link>
       </div>
@@ -143,7 +149,7 @@ function LinkDemo() {
 }
 
 const TAB_ITEMS = [
-  { id: "one", label: "Tab one", badge: 2 },
+  { id: "one", label: "Tab one", badge: 2, icon: <ChevronDown size={16} /> },
   { id: "two", label: "Tab two" },
   { id: "three", label: "Tab three" },
 ];
