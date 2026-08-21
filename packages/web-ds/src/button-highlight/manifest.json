@@ -10,7 +10,7 @@
     "button.highlightSecondaryBg", "button.highlightSecondaryBgHover", "button.highlightSecondaryBgActive",
     "button.primaryHover", "button.primaryActive", "button.secondaryHover", "button.secondaryActive",
     "button.disabled", "button.textOnFill", "button.textOnFillDisabled",
-    "button.radius", "button.fontFamily", "button.fontWeight",
+    "button.radius", "button.borderWidth", "button.gap", "button.fontFamily", "button.fontWeight",
     "button.fontSizeSm", "button.paddingVerticalSm", "button.paddingHorizontalSm", "button.heightSm",
     "button.fontSizeMd", "button.paddingVerticalMd", "button.paddingHorizontalMd", "button.minHeightMd",
     "button.fontSizeLg", "button.paddingVerticalLg", "button.paddingHorizontalLg", "button.minHeightLg"
