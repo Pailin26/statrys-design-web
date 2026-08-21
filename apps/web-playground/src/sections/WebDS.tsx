@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ArrowUpRight } from "lucide-react";
 import { Button, ButtonHighlight, Link, HorizontalTabs } from "@statrys/web-ds";
 
 const VARIANTS = ["primary", "secondary", "tertiary"] as const;
@@ -54,8 +55,8 @@ function ButtonDemo() {
 
       <h2 style={{ fontSize: 16, marginTop: 8 }}>Shape=Square / Circle (icon-only)</h2>
       <p style={{ color: "#666", maxWidth: 560 }}>
-        Icon-only variants have no built-in icon asset — <code>packages/icons/src</code> is empty, and the
-        design-to-code rules forbid hand-drawing SVGs. Consumers supply their own <code>icon</code> node.
+        <code>icon</code> is a consumer-supplied <code>ReactNode</code> — no re-export layer in
+        <code> @statrys/web-ds</code>. Here it's Lucide's <code>ArrowUpRight</code>, matching Figma's own icon.
       </p>
       {(["square", "circle"] as const).map((shape) => (
         <div key={shape} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -63,9 +64,22 @@ function ButtonDemo() {
           {VARIANTS.map((variant) => (
             <div key={variant} style={{ display: "flex", gap: 12, alignItems: "center" }}>
               {SIZES.map((size) => (
-                <Button key={size} variant={variant} size={size} shape={shape} icon="→" aria-label={`${variant} ${shape} ${size}`} />
+                <Button
+                  key={size}
+                  variant={variant}
+                  size={size}
+                  shape={shape}
+                  icon={<ArrowUpRight size={size === "sm" ? 16 : size === "md" ? 20 : 24} />}
+                  aria-label={`${variant} ${shape} ${size}`}
+                />
               ))}
-              <Button variant={variant} shape={shape} icon="→" aria-label={`${variant} ${shape} disabled`} disabled />
+              <Button
+                variant={variant}
+                shape={shape}
+                icon={<ArrowUpRight size={20} />}
+                aria-label={`${variant} ${shape} disabled`}
+                disabled
+              />
             </div>
           ))}
         </div>
