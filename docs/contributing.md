@@ -78,9 +78,11 @@ numeric weight straight to a native `Text` style. Use
 `nativeFontFamily(family, weight)` from `@statrys/app-ds` to map to the
 correct registered name (see `Button.styles.ts`), and register the actual
 weight files via `expo-font`'s `useFonts` once, at the app root — see
-`apps/app-playground/src/fonts.ts`. Naming the font isn't enough on any
-platform; without loading it, both this alias step and the underlying
-`useFonts` call are required, matching how web needs the explicit
+`apps/app-playground/src/fonts.ts` (uses the `.ttf` build,
+`packages/tokens/fonts/GTWalsheimLC-*.ttf` — not the `.woff2` web-playground
+uses, since RN has no woff2 decoder on true native). Naming the font isn't
+enough on any platform; without loading it, both this alias step and the
+underlying `useFonts` call are required, matching how web needs the explicit
 `@statrys/tokens/fonts.css` import.
 
 ## Component file structure — logic and style stay in separate files
@@ -139,10 +141,15 @@ adds a dark theme, mirror it in as a second value per token then, not before.
 Same for typography's tablet/mobile breakpoint overrides — only the desktop
 size is modeled today.
 
-`GT Walsheim LC` (`packages/tokens/fonts/*.woff2`, loaded via
-`packages/tokens/fonts.css`) is a licensed typeface, copied over from
-accounting's own `public/fonts/` for this org's internal use across both
-repos — don't redistribute those files outside Statrys' own products.
+`GT Walsheim LC` is a licensed typeface (Grilli Type) — don't redistribute
+these files outside Statrys' own products. Two builds live in
+`packages/tokens/fonts/`, for the two platforms' different loading
+mechanisms:
+- `*.woff2` — copied from accounting's own `public/fonts/`, loaded via
+  `packages/tokens/fonts.css` on web.
+- `*.ttf` — sourced from Statrys' own GT Walsheim LC license (order_120580),
+  since accounting never had a native-compatible build; loaded via
+  `expo-font` on native, see the RN font quirk above.
 
 ## PR checklist
 
