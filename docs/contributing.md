@@ -17,11 +17,58 @@
 
 1. Create `packages/web-ds/src/<name>/` and/or `packages/app-ds/src/<name>/`
    (add both if the component exists on both platforms)
-2. Add the component code, following the file split below, and a `manifest.json`
+2. Add `packages/tokens/semantic/<name>.json` — see "Component-level tokens" below.
+   Do this **before** writing the component's styles, not after.
+3. Add the component code, following the file split below, and a `manifest.json`
    (include `"platform": "web"` or `"app"`)
-3. For web components, also add a `<name>.figma.tsx` Code Connect file
-4. Fill in `figmaFileKey` / `figmaNodeId` once published in the Figma library
-5. Open a PR
+4. For web components, also add a `<name>.figma.tsx` Code Connect file
+5. Fill in `figmaFileKey` / `figmaNodeId` once published in the Figma library
+6. Open a PR
+
+## Component-level tokens — this is the system, not a one-off
+
+Every value a component needs — color, font, radius, padding, whatever — lives
+in exactly one place: `packages/tokens/semantic/<component-name>.json`. The
+component's own style file (`.module.css` / `.styles.ts`) may reference *only*
+that file's tokens — never a primitive directly, and never reaching into
+another component's or a shared file's tokens directly either. If a component
+needs a shared semantic value (e.g. `text.neutralInverse.primary`), alias it
+into the component's own file first (see `button.textOnFill` in
+`semantic/button.json` for the pattern) rather than referencing `text.*` from
+component code.
+
+This is what makes a token change propagate automatically instead of needing
+a per-component code edit:
+
+```
+primitive (brand.5, radius.md, fontSize.base, ...)
+   ↓ referenced by
+semantic/<component>.json   (button.primary, button.radius, button.fontSizeMd, ...)
+   ↓ built into
+dist/tokens.css (web, keeps units)  +  dist/tokens.js (native, unitless numbers — see below)
+   ↓ consumed by
+<Component>.module.css / <Component>.styles.ts   — the ONLY place a component references a token
+```
+
+Change a primitive's value, or a component's semantic mapping, run
+`npm run build:tokens`, rebuild the consuming app — every component using that
+token updates. No component code changes, because component code never held
+the value in the first place.
+
+`packages/tokens/build/build.js` (not just `build/config.json`) registers two
+custom transforms on the native (`js`) platform, so this holds for every
+future component without extra work per-component:
+- `size/native` — strips `px` and converts to a plain number (`"16px"` → `16`),
+  since RN's `StyleSheet` rejects unit strings.
+- `fontFamily/native` — takes just the first, unquoted name from a CSS font
+  stack (`"GT Walsheim LC", "Helvetica Neue", ...` → `GT Walsheim LC`), since
+  RN's `fontFamily` has no fallback-list concept.
+
+RN quirk worth knowing before you wire a new component: `Text` does not
+inherit font styles from an ancestor `View`/`Pressable` the way CSS cascades
+on web. Keep layout tokens (padding, height) on the container's style and
+font tokens (`fontSize`, `fontFamily`, `fontWeight`) on the `Text` itself —
+see `Button.styles.ts`'s `container*` vs `text*` split.
 
 ## Component file structure — logic and style stay in separate files
 
@@ -89,5 +136,8 @@ repos — don't redistribute those files outside Statrys' own products.
 - [ ] Component logic (`.tsx`) has no inline styles — visuals live in
       `.module.css` (web) or `.styles.ts` (app)
 - [ ] No hardcoded hex/px values in component source (use token references)
+- [ ] Component style file references only `semantic/<component-name>.json`
+      tokens — not a primitive, and not another component's/shared semantic
+      file's tokens directly (alias those into the component's own file first)
 - [ ] manifest.json filled in, including `platform`
 - [ ] If added to only one platform, note whether the other platform needs it too

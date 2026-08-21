@@ -1,6 +1,9 @@
-/* Colors come from @statrys/tokens (packages/tokens/dist/tokens.css) — the
-   consuming app must import that stylesheet once so these custom properties
-   exist. Hierarchy/states mirror apa-statrys/accounting's real Button
+/* Every value here — color, radius, font, padding — comes from the
+   component-level semantic tokens in packages/tokens/semantic/button.json
+   (never a primitive directly, so changing button.* there is the only edit
+   needed to restyle every Button everywhere). The consuming app must import
+   @statrys/tokens/dist/tokens.css once so these custom properties exist.
+   Hierarchy/states mirror apa-statrys/accounting's real Button
    (src/app/ui/Button/index.module.css): primary = filled, secondary =
    outline, tertiary = text-only. */
 
@@ -9,8 +12,9 @@
   align-items: center;
   justify-content: center;
   border: 1px solid transparent;
-  border-radius: 8px;
-  font-weight: 600;
+  border-radius: var(--button-radius);
+  font-family: var(--button-font-family);
+  font-weight: var(--button-font-weight);
   cursor: pointer;
   transition: background-color 0.1s, border-color 0.1s, color 0.1s;
 }
@@ -21,7 +25,7 @@
 .primary {
   background: var(--button-primary);
   border-color: var(--button-primary);
-  color: var(--text-neutral-inverse-primary);
+  color: var(--button-text-on-fill);
 }
 .primary:hover:not(:disabled) {
   background: var(--button-primary-hover);
@@ -34,7 +38,7 @@
 .primary:disabled {
   background: var(--button-disabled);
   border-color: transparent;
-  color: var(--text-neutral-inverse-disabled);
+  color: var(--button-text-on-fill-disabled);
 }
 
 .secondary {
@@ -71,13 +75,19 @@
 }
 
 .sm {
-  padding: 6px 12px;
+  font-size: var(--button-font-size-sm);
+  padding: var(--button-padding-vertical-sm) var(--button-padding-horizontal-sm);
+  height: var(--button-height-sm);
 }
 
 .md {
-  padding: 10px 16px;
+  font-size: var(--button-font-size-md);
+  padding: var(--button-padding-vertical-md) var(--button-padding-horizontal-md);
+  min-height: var(--button-min-height-md);
 }
 
 .lg {
-  padding: 14px 20px;
+  font-size: var(--button-font-size-lg);
+  padding: var(--button-padding-vertical-lg) var(--button-padding-horizontal-lg);
+  min-height: var(--button-min-height-lg);
 }
