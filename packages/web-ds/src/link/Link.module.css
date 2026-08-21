@@ -1,0 +1,62 @@
+/* Colors, font, gap and icon sizing come from the component-level semantic
+   tokens in packages/tokens/semantic/link.json — never a primitive directly
+   (see Button.module.css for the full rationale, same rule applies here).
+
+   Figma: https://www.figma.com/design/abElBYcwuc5skfPX1c7FlP/-WEB--Design-System?node-id=2153-6347 */
+
+.base {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--link-gap);
+  font-family: var(--link-font-family);
+  font-weight: var(--link-font-weight);
+  text-transform: capitalize;
+  text-decoration: none;
+  cursor: pointer;
+  color: var(--link-primary);
+  transition: color 0.1s;
+}
+.base:hover {
+  color: var(--link-primary-hover);
+}
+.base:active {
+  color: var(--link-primary-active);
+}
+.base.disabled {
+  color: var(--link-primary-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Inverse (dark-surface) — same structural pattern as above, cream-scale
+   tokens. Combined `.base.inverse` selectors (rather than relying on source
+   order) so specificity, not declaration order, decides the cascade. */
+.base.inverse {
+  color: var(--link-inverse);
+}
+.base.inverse:hover {
+  color: var(--link-inverse-hover);
+}
+.base.inverse:active {
+  color: var(--link-inverse-active);
+}
+.base.inverse.disabled {
+  color: var(--link-inverse-disabled);
+}
+
+.icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: var(--link-icon-size);
+  height: var(--link-icon-size);
+}
+
+.sm {
+  font-size: var(--link-font-size-sm);
+}
+.md {
+  font-size: var(--link-font-size-md);
+}
+.lg {
+  font-size: var(--link-font-size-lg);
+}

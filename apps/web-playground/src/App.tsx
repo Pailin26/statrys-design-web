@@ -49,6 +49,7 @@ const NAV: Record<Tab, NavGroup[]> = {
       items: [
         { id: "button", label: "Button" },
         { id: "button-highlight", label: "Button Highlight" },
+        { id: "link", label: "Link" },
       ],
     },
   ],

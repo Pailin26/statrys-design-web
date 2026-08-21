@@ -42,19 +42,22 @@
 }
 
 .secondary {
-  background: transparent;
+  background: var(--button-secondary-bg);
   border-color: var(--button-primary);
   color: var(--button-primary);
 }
 .secondary:hover:not(:disabled) {
+  background: var(--button-secondary-bg-hover);
   border-color: var(--button-secondary-hover);
   color: var(--button-secondary-hover);
 }
 .secondary:active:not(:disabled) {
+  background: var(--button-secondary-bg-active);
   border-color: var(--button-secondary-active);
   color: var(--button-secondary-active);
 }
 .secondary:disabled {
+  background: var(--button-secondary-bg-disabled);
   border-color: var(--button-disabled);
   color: var(--button-disabled);
 }
@@ -147,4 +150,47 @@
   font-size: var(--button-font-size-lg);
   padding: var(--button-padding-vertical-lg) var(--button-padding-horizontal-lg);
   min-height: var(--button-min-height-lg);
+}
+
+/* Shape=Rounded — same hierarchy/size rules as the default rec shape, pill
+   radius instead of --button-radius. */
+.rounded {
+  border-radius: var(--button-radius-full);
+}
+
+/* Shape=Square/Circle — icon-only, fixed square box (Figma has no
+   Inverse=True Square/Circle variants, so these aren't meant to combine with
+   .inverse). Overrides the hierarchy classes' padding and the size classes'
+   height/min-height with an explicit width+height per size tier. */
+.square,
+.circle {
+  padding: 0;
+  gap: 0;
+}
+.circle {
+  border-radius: var(--button-radius-full);
+}
+.square.sm {
+  width: var(--button-square-size-sm);
+  height: var(--button-square-size-sm);
+}
+.circle.sm {
+  width: var(--button-circle-size-sm);
+  height: var(--button-circle-size-sm);
+}
+.square.md {
+  width: var(--button-square-size-md);
+  height: var(--button-square-size-md);
+}
+.circle.md {
+  width: var(--button-circle-size-md);
+  height: var(--button-circle-size-md);
+}
+.square.lg {
+  width: var(--button-square-size-lg);
+  height: var(--button-square-size-lg);
+}
+.circle.lg {
+  width: var(--button-circle-size-lg);
+  height: var(--button-circle-size-lg);
 }

@@ -7,19 +7,25 @@
   "consumesTokens": [
     "button.primary", "button.primaryHover", "button.primaryActive",
     "button.secondary", "button.secondaryHover", "button.secondaryActive",
+    "button.secondaryBg", "button.secondaryBgHover", "button.secondaryBgActive", "button.secondaryBgDisabled",
     "button.tertiary", "button.tertiaryHover", "button.tertiaryActive",
     "button.inverse", "button.inverseHover", "button.inverseActive", "button.inverseDisabled",
     "button.disabled", "button.textOnFill", "button.textOnFillDisabled", "button.textOnInverseFillDisabled",
-    "button.radius", "button.fontFamily", "button.fontWeight",
+    "button.radius", "button.radiusFull", "button.fontFamily", "button.fontWeight",
     "button.fontSizeSm", "button.paddingVerticalSm", "button.paddingHorizontalSm", "button.heightSm",
+    "button.squareSizeSm", "button.circleSizeSm",
     "button.fontSizeMd", "button.paddingVerticalMd", "button.paddingHorizontalMd", "button.minHeightMd",
-    "button.fontSizeLg", "button.paddingVerticalLg", "button.paddingHorizontalLg", "button.minHeightLg"
+    "button.squareSizeMd", "button.circleSizeMd",
+    "button.fontSizeLg", "button.paddingVerticalLg", "button.paddingHorizontalLg", "button.minHeightLg",
+    "button.squareSizeLg", "button.circleSizeLg"
   ],
   "props": {
     "variant": ["primary", "secondary", "tertiary"],
     "size": ["sm", "md", "lg"],
     "disabled": "boolean",
-    "inverse": "boolean"
+    "inverse": "boolean",
+    "shape": ["rec", "rounded", "square", "circle"],
+    "icon": "ReactNode (required when shape is square or circle, in place of children)"
   },
   "status": "stable",
   "usedBy": []

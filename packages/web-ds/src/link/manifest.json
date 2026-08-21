@@ -1,0 +1,23 @@
+{
+  "name": "Link",
+  "platform": "web",
+  "description": "Text-only navigational link with icon slots — inline anchor styling for body copy and lists, not a variant of Button.",
+  "figmaFileKey": "abElBYcwuc5skfPX1c7FlP",
+  "figmaNodeId": "2153:6347",
+  "consumesTokens": [
+    "link.primary", "link.primaryHover", "link.primaryActive", "link.primaryDisabled",
+    "link.inverse", "link.inverseHover", "link.inverseActive", "link.inverseDisabled",
+    "link.fontFamily", "link.fontWeight", "link.gap", "link.iconSize",
+    "link.fontSizeSm", "link.fontSizeMd", "link.fontSizeLg"
+  ],
+  "props": {
+    "size": ["sm", "md", "lg"],
+    "inverse": "boolean",
+    "disabled": "boolean",
+    "iconLeft": "ReactNode",
+    "iconRight": "ReactNode",
+    "href": "string"
+  },
+  "status": "stable",
+  "usedBy": []
+}

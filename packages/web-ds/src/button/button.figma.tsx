@@ -18,9 +18,13 @@ figma.connect(
       }),
       inverse: figma.boolean("Inverse"),
       disabled: figma.enum("State", { Disable: true }),
+      shape: figma.enum("Shape", {
+        Rec: "rec",
+        Rounded: "rounded",
+      }),
     },
-    example: ({ variant, size, inverse, disabled }) => (
-      <Button variant={variant} size={size} inverse={inverse} disabled={disabled}>
+    example: ({ variant, size, inverse, disabled, shape }) => (
+      <Button variant={variant} size={size} inverse={inverse} disabled={disabled} shape={shape}>
         Label
       </Button>
     ),
