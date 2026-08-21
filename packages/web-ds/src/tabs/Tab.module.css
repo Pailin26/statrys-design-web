@@ -1,0 +1,98 @@
+/* Every value here comes from the component-level semantic tokens in
+   packages/tokens/semantic/tabs.json (never a primitive directly, or
+   another file's semantic token — see Button.module.css for the full
+   rationale). Internal building block rendered by HorizontalTabs — not
+   exported on its own (Figma's "TabsBase").
+
+   Figma: https://www.figma.com/design/abElBYcwuc5skfPX1c7FlP/-WEB--Design-System?node-id=2723-16660 */
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--tabs-gap);
+  padding: 0 var(--tabs-padding-horizontal);
+  border: none;
+  background: none;
+  border-radius: var(--tabs-radius);
+  font-family: var(--tabs-font-family);
+  font-weight: var(--tabs-font-weight);
+  color: var(--tabs-text-default);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.1s, color 0.1s, border-color 0.1s;
+}
+.tab:hover {
+  color: var(--tabs-text-active);
+}
+.tab.active {
+  color: var(--tabs-text-active);
+}
+
+.button {
+  background: var(--tabs-bg);
+}
+.button:hover {
+  background: var(--tabs-bg-hover);
+}
+.button.active {
+  background: var(--tabs-bg-active);
+}
+
+.underline {
+  border-bottom: var(--tabs-underline-width) solid transparent;
+}
+.underline.active {
+  border-bottom-color: var(--tabs-underline-color);
+}
+
+.md {
+  height: var(--tabs-height-md);
+  padding-top: var(--tabs-padding-vertical-md);
+  padding-bottom: var(--tabs-padding-vertical-md);
+  font-size: var(--tabs-font-size-md);
+  line-height: var(--tabs-line-height-md);
+}
+
+.lg {
+  padding-top: var(--tabs-padding-vertical-lg);
+  padding-bottom: var(--tabs-padding-vertical-lg);
+  font-size: var(--tabs-font-size-lg);
+  line-height: var(--tabs-line-height-lg);
+}
+
+.icon {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+.md .icon {
+  width: var(--tabs-icon-size-md);
+  height: var(--tabs-icon-size-md);
+}
+.lg .icon {
+  width: var(--tabs-icon-size-lg);
+  height: var(--tabs-icon-size-lg);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--tabs-badge-bg);
+  color: var(--tabs-badge-text);
+  border-radius: var(--tabs-radius);
+  padding: var(--tabs-badge-padding-vertical) 0;
+}
+.md .badge {
+  height: var(--tabs-badge-height-md);
+  padding-left: var(--tabs-badge-padding-horizontal-md);
+  padding-right: var(--tabs-badge-padding-horizontal-md);
+  font-size: var(--tabs-badge-font-size-md);
+}
+.lg .badge {
+  height: var(--tabs-badge-height-lg);
+  padding-left: var(--tabs-badge-padding-horizontal-lg);
+  padding-right: var(--tabs-badge-padding-horizontal-lg);
+  font-size: var(--tabs-badge-font-size-lg);
+}

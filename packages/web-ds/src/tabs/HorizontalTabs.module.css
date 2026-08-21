@@ -1,0 +1,19 @@
+/* Every value here comes from the component-level semantic tokens in
+   packages/tokens/semantic/tabs.json — never a primitive directly (see
+   Button.module.css for the full rationale).
+
+   Figma: https://www.figma.com/design/abElBYcwuc5skfPX1c7FlP/-WEB--Design-System?node-id=2725-16713 */
+
+.list {
+  display: flex;
+  align-items: center;
+}
+
+.button {
+  gap: var(--tabs-list-gap);
+}
+
+.underline {
+  gap: 0;
+  border-bottom: var(--tabs-border-width) solid var(--tabs-border-color);
+}

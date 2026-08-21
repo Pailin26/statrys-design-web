@@ -1,4 +1,5 @@
-import { Button, ButtonHighlight, Link } from "@statrys/web-ds";
+import { useState } from "react";
+import { Button, ButtonHighlight, Link, HorizontalTabs } from "@statrys/web-ds";
 
 const VARIANTS = ["primary", "secondary", "tertiary"] as const;
 const HIGHLIGHT_VARIANTS = ["primary", "secondary"] as const;
@@ -127,9 +128,64 @@ function LinkDemo() {
   );
 }
 
+const TAB_ITEMS = [
+  { id: "one", label: "Tab one", badge: 2 },
+  { id: "two", label: "Tab two" },
+  { id: "three", label: "Tab three" },
+];
+
+function HorizontalTabsDemo() {
+  const [buttonMdActive, setButtonMdActive] = useState("one");
+  const [buttonLgActive, setButtonLgActive] = useState("two");
+  const [underlineMdActive, setUnderlineMdActive] = useState("one");
+  const [underlineLgActive, setUnderlineLgActive] = useState("three");
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+      <h1>Horizontal Tabs</h1>
+      <p style={{ color: "#666", maxWidth: 560 }}>
+        Renders one internal <code>Tab</code> (Figma "TabsBase") per item — <code>Tab</code> isn't exported
+        on its own. See <code>packages/web-ds/src/tabs</code>.
+      </p>
+
+      <div>
+        <h2 style={{ fontSize: 16, marginTop: 0 }}>Style=Button / size=md</h2>
+        <HorizontalTabs items={TAB_ITEMS} activeId={buttonMdActive} onChange={setButtonMdActive} />
+      </div>
+
+      <div>
+        <h2 style={{ fontSize: 16, marginTop: 0 }}>Style=Button / size=lg</h2>
+        <HorizontalTabs items={TAB_ITEMS} activeId={buttonLgActive} onChange={setButtonLgActive} size="lg" />
+      </div>
+
+      <div>
+        <h2 style={{ fontSize: 16, marginTop: 0 }}>Style=Underline / size=md</h2>
+        <HorizontalTabs
+          items={TAB_ITEMS}
+          activeId={underlineMdActive}
+          onChange={setUnderlineMdActive}
+          variant="underline"
+        />
+      </div>
+
+      <div>
+        <h2 style={{ fontSize: 16, marginTop: 0 }}>Style=Underline / size=lg</h2>
+        <HorizontalTabs
+          items={TAB_ITEMS}
+          activeId={underlineLgActive}
+          onChange={setUnderlineLgActive}
+          size="lg"
+          variant="underline"
+        />
+      </div>
+    </div>
+  );
+}
+
 export function WebDS({ item }: { item: string }) {
   if (item === "button") return <ButtonDemo />;
   if (item === "button-highlight") return <ButtonHighlightDemo />;
   if (item === "link") return <LinkDemo />;
+  if (item === "horizontal-tabs") return <HorizontalTabsDemo />;
   return <div>Unknown component: {item}</div>;
 }
