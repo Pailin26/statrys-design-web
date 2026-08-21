@@ -1,0 +1,105 @@
+/* Colors, radius, padding, font come from the component-level semantic
+   tokens in packages/tokens/semantic/button.json — this component shares
+   Button's exact size/radius/font tokens (button-padding-*, button-font-*,
+   button-radius) since Figma specs it identically, plus a set of
+   button-highlight-* tokens of its own (gradient fill, gradient-clipped
+   secondary text). Never a primitive directly — see Button.module.css for
+   the full rationale.
+
+   Figma: https://www.figma.com/design/abElBYcwuc5skfPX1c7FlP/-WEB--Design-System?node-id=1847-8095 */
+
+.base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border: 1px solid transparent;
+  border-radius: var(--button-radius);
+  font-family: var(--button-font-family);
+  font-weight: var(--button-font-weight);
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.1s, border-color 0.1s, color 0.1s;
+}
+.base:disabled {
+  cursor: not-allowed;
+}
+
+.primary {
+  background-image: var(--button-highlight-gradient);
+  border-color: transparent;
+  color: var(--button-text-on-fill);
+}
+.primary:hover:not(:disabled) {
+  background-image: none;
+  background-color: var(--button-primary-hover);
+}
+.primary:active:not(:disabled) {
+  background-image: none;
+  background-color: var(--button-primary-active);
+}
+.primary:disabled {
+  background-image: var(--button-highlight-gradient-disabled);
+  color: var(--button-text-on-fill-disabled);
+}
+
+.secondary {
+  background: var(--button-highlight-secondary-bg);
+  border-color: var(--button-highlight-secondary-border);
+}
+.secondary:hover:not(:disabled) {
+  background: var(--button-highlight-secondary-bg-hover);
+  border-color: var(--button-secondary-hover);
+}
+.secondary:active:not(:disabled) {
+  background: var(--button-highlight-secondary-bg-active);
+  border-color: var(--button-secondary-active);
+}
+.secondary:disabled {
+  background: transparent;
+  border-color: var(--button-disabled);
+}
+
+/* Secondary's label is gradient-clipped text by default, but a plain solid
+   color on hover/active/disabled (matching Figma exactly) — kept on its own
+   element since background-clip: text needs to own the whole background. */
+.secondaryLabel {
+  background-image: var(--button-highlight-secondary-text-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.secondary:hover:not(:disabled) .secondaryLabel {
+  background-image: none;
+  -webkit-text-fill-color: var(--button-secondary-hover);
+  color: var(--button-secondary-hover);
+}
+.secondary:active:not(:disabled) .secondaryLabel {
+  background-image: none;
+  -webkit-text-fill-color: var(--button-secondary-active);
+  color: var(--button-secondary-active);
+}
+.secondary:disabled .secondaryLabel {
+  background-image: none;
+  -webkit-text-fill-color: var(--button-disabled);
+  color: var(--button-disabled);
+}
+
+.sm {
+  font-size: var(--button-font-size-sm);
+  padding: var(--button-padding-vertical-sm) var(--button-padding-horizontal-sm);
+  height: var(--button-height-sm);
+}
+
+.md {
+  font-size: var(--button-font-size-md);
+  padding: var(--button-padding-vertical-md) var(--button-padding-horizontal-md);
+  min-height: var(--button-min-height-md);
+}
+
+.lg {
+  font-size: var(--button-font-size-lg);
+  padding: var(--button-padding-vertical-lg) var(--button-padding-horizontal-lg);
+  min-height: var(--button-min-height-lg);
+}

@@ -2,18 +2,24 @@
   "name": "Button",
   "platform": "web",
   "description": "Primary interactive button for web product and marketing surfaces.",
-  "figmaFileKey": "",
-  "figmaNodeId": "",
+  "figmaFileKey": "abElBYcwuc5skfPX1c7FlP",
+  "figmaNodeId": "537:1561",
   "consumesTokens": [
     "button.primary", "button.primaryHover", "button.primaryActive",
     "button.secondary", "button.secondaryHover", "button.secondaryActive",
     "button.tertiary", "button.tertiaryHover", "button.tertiaryActive",
-    "button.disabled", "text.neutralInverse.primary", "text.neutralInverse.disabled"
+    "button.inverse", "button.inverseHover", "button.inverseActive", "button.inverseDisabled",
+    "button.disabled", "button.textOnFill", "button.textOnFillDisabled", "button.textOnInverseFillDisabled",
+    "button.radius", "button.fontFamily", "button.fontWeight",
+    "button.fontSizeSm", "button.paddingVerticalSm", "button.paddingHorizontalSm", "button.heightSm",
+    "button.fontSizeMd", "button.paddingVerticalMd", "button.paddingHorizontalMd", "button.minHeightMd",
+    "button.fontSizeLg", "button.paddingVerticalLg", "button.paddingHorizontalLg", "button.minHeightLg"
   ],
   "props": {
     "variant": ["primary", "secondary", "tertiary"],
     "size": ["sm", "md", "lg"],
-    "disabled": "boolean"
+    "disabled": "boolean",
+    "inverse": "boolean"
   },
   "status": "stable",
   "usedBy": []

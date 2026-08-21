@@ -74,6 +74,63 @@
   color: var(--button-disabled);
 }
 
+/* Inverse (dark-surface) hierarchies — same structural pattern as above
+   (primary = filled, secondary = outline, tertiary = text-only) with
+   inverse-appropriate tokens. Applied as a second class alongside the
+   hierarchy class (e.g. `${styles.primary} ${styles.inverse}`), so these
+   combined selectors win via source order + specificity. */
+.inverse.primary {
+  background: var(--button-inverse);
+  border-color: var(--button-inverse);
+  color: var(--button-primary);
+}
+.inverse.primary:hover:not(:disabled) {
+  background: var(--button-inverse-hover);
+  border-color: var(--button-inverse-hover);
+}
+.inverse.primary:active:not(:disabled) {
+  background: var(--button-inverse-active);
+  border-color: var(--button-inverse-active);
+}
+.inverse.primary:disabled {
+  background: var(--button-inverse-disabled);
+  border-color: transparent;
+  color: var(--button-text-on-inverse-fill-disabled);
+}
+
+.inverse.secondary {
+  background: transparent;
+  border-color: var(--button-inverse);
+  color: var(--button-inverse);
+}
+.inverse.secondary:hover:not(:disabled) {
+  border-color: var(--button-inverse-hover);
+  color: var(--button-inverse-hover);
+}
+.inverse.secondary:active:not(:disabled) {
+  border-color: var(--button-inverse-active);
+  color: var(--button-inverse-active);
+}
+.inverse.secondary:disabled {
+  border-color: var(--button-inverse-disabled);
+  color: var(--button-inverse-disabled);
+}
+
+.inverse.tertiary {
+  background: transparent;
+  border-color: transparent;
+  color: var(--button-inverse);
+}
+.inverse.tertiary:hover:not(:disabled) {
+  background: var(--button-inverse-hover);
+}
+.inverse.tertiary:active:not(:disabled) {
+  background: var(--button-inverse-active);
+}
+.inverse.tertiary:disabled {
+  color: var(--button-inverse-disabled);
+}
+
 .sm {
   font-size: var(--button-font-size-sm);
   padding: var(--button-padding-vertical-sm) var(--button-padding-horizontal-sm);

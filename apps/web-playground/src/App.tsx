@@ -43,7 +43,15 @@ const NAV: Record<Tab, NavGroup[]> = {
       ],
     },
   ],
-  components: [{ group: "Components", items: [{ id: "button", label: "Button" }] }],
+  components: [
+    {
+      group: "Components",
+      items: [
+        { id: "button", label: "Button" },
+        { id: "button-highlight", label: "Button Highlight" },
+      ],
+    },
+  ],
 };
 
 function firstItem(tab: Tab): string {

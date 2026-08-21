@@ -1,0 +1,27 @@
+{
+  "name": "ButtonHighlight",
+  "platform": "web",
+  "description": "Gradient-filled CTA button for high-emphasis marketing surfaces — a distinct component from Button, not a variant of it.",
+  "figmaFileKey": "abElBYcwuc5skfPX1c7FlP",
+  "figmaNodeId": "1847:8095",
+  "consumesTokens": [
+    "button.highlightGradient", "button.highlightGradientDisabled",
+    "button.highlightSecondaryTextGradient", "button.highlightSecondaryBorder",
+    "button.highlightSecondaryBg", "button.highlightSecondaryBgHover", "button.highlightSecondaryBgActive",
+    "button.primaryHover", "button.primaryActive", "button.secondaryHover", "button.secondaryActive",
+    "button.disabled", "button.textOnFill", "button.textOnFillDisabled",
+    "button.radius", "button.fontFamily", "button.fontWeight",
+    "button.fontSizeSm", "button.paddingVerticalSm", "button.paddingHorizontalSm", "button.heightSm",
+    "button.fontSizeMd", "button.paddingVerticalMd", "button.paddingHorizontalMd", "button.minHeightMd",
+    "button.fontSizeLg", "button.paddingVerticalLg", "button.paddingHorizontalLg", "button.minHeightLg"
+  ],
+  "props": {
+    "variant": ["primary", "secondary"],
+    "size": ["sm", "md", "lg"],
+    "disabled": "boolean",
+    "iconLeft": "ReactNode",
+    "iconRight": "ReactNode"
+  },
+  "status": "stable",
+  "usedBy": []
+}
