@@ -70,6 +70,19 @@ on web. Keep layout tokens (padding, height) on the container's style and
 font tokens (`fontSize`, `fontFamily`, `fontWeight`) on the `Text` itself —
 see `Button.styles.ts`'s `container*` vs `text*` split.
 
+Second RN font quirk: unlike CSS, RN can't select a weight *within* one
+registered family — `fontFamily: "GT Walsheim LC", fontWeight: "500"` renders
+the OS default, silently, no error. Each weight has to be its own registered
+family name (`GTWalsheimLC-Medium`, etc.) — never pass a bare token family +
+numeric weight straight to a native `Text` style. Use
+`nativeFontFamily(family, weight)` from `@statrys/app-ds` to map to the
+correct registered name (see `Button.styles.ts`), and register the actual
+weight files via `expo-font`'s `useFonts` once, at the app root — see
+`apps/app-playground/src/fonts.ts`. Naming the font isn't enough on any
+platform; without loading it, both this alias step and the underlying
+`useFonts` call are required, matching how web needs the explicit
+`@statrys/tokens/fonts.css` import.
+
 ## Component file structure — logic and style stay in separate files
 
 A component's `.tsx` is headless: markup, props, and behavior only — no inline
