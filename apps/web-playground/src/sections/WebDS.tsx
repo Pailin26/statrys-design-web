@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { ArrowUpRight, ChevronDown } from "lucide-react";
 import { Button, ButtonHighlight, Link, HorizontalTabs, Toggle, Checkbox, Radio, SearchInput, TextInputFluid } from "@statrys/web-ds";
+import { ComponentPage } from "../ComponentPage";
+
+const FIGMA_FILE = "https://www.figma.com/design/abElBYcwuc5skfPX1c7FlP/-WEB--Design-System?node-id=";
 
 const VARIANTS = ["primary", "secondary", "tertiary"] as const;
 const HIGHLIGHT_VARIANTS = ["primary", "secondary"] as const;
@@ -8,143 +11,160 @@ const SIZES = ["sm", "md", "lg"] as const;
 
 function ButtonDemo() {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-      <h1>Button</h1>
-      {VARIANTS.map((variant) => (
-        <div key={variant} style={{ display: "flex", gap: 12, alignItems: "center" }}>
-          {SIZES.map((size) => (
-            <Button key={size} variant={variant} size={size}>
-              {variant} / {size}
-            </Button>
-          ))}
-          <Button variant={variant} disabled>
-            disabled
-          </Button>
-        </div>
-      ))}
-
-      <h2 style={{ fontSize: 16, marginTop: 8 }}>Inverse (dark surface)</h2>
-      <div style={{ background: "var(--neutral-8)", padding: 24, borderRadius: "var(--radius-lg)", display: "flex", flexDirection: "column", gap: 24 }}>
+    <ComponentPage
+      id="button"
+      title="Button"
+      usage="Primary interactive button for web product and marketing surfaces. Use variant to set hierarchy (primary/secondary/tertiary), shape for Rec/Rounded/Square/Circle, and inverse on dark surfaces."
+      figmaUrl={`${FIGMA_FILE}537-1561`}
+      code={`import { Button } from "@statrys/web-ds";\n\n<Button variant="primary" size="md" onClick={handleClick}>\n  Continue\n</Button>\n\n// Icon-only (Shape=Square/Circle) — icon is a consumer-supplied ReactNode\nimport { ArrowUpRight } from "lucide-react";\n\n<Button\n  variant="primary"\n  shape="circle"\n  icon={<ArrowUpRight size={20} />}\n  aria-label="Open"\n/>`}
+    >
+      <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
         {VARIANTS.map((variant) => (
           <div key={variant} style={{ display: "flex", gap: 12, alignItems: "center" }}>
             {SIZES.map((size) => (
-              <Button key={size} variant={variant} size={size} inverse>
+              <Button key={size} variant={variant} size={size}>
                 {variant} / {size}
               </Button>
             ))}
-            <Button variant={variant} inverse disabled>
+            <Button variant={variant} disabled>
               disabled
             </Button>
           </div>
         ))}
-      </div>
 
-      <h2 style={{ fontSize: 16, marginTop: 8 }}>Shape=Rounded</h2>
-      {VARIANTS.map((variant) => (
-        <div key={variant} style={{ display: "flex", gap: 12, alignItems: "center" }}>
-          {SIZES.map((size) => (
-            <Button key={size} variant={variant} size={size} shape="rounded">
-              {variant} / {size}
-            </Button>
-          ))}
-          <Button variant={variant} shape="rounded" disabled>
-            disabled
-          </Button>
-        </div>
-      ))}
-
-      <h2 style={{ fontSize: 16, marginTop: 8 }}>Shape=Square / Circle (icon-only)</h2>
-      <p style={{ color: "#666", maxWidth: 560 }}>
-        <code>icon</code> is a consumer-supplied <code>ReactNode</code> — no re-export layer in
-        <code> @statrys/web-ds</code>. Here it's Lucide's <code>ArrowUpRight</code>, matching Figma's own icon.
-      </p>
-      {(["square", "circle"] as const).map((shape) => (
-        <div key={shape} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          <h3 style={{ fontSize: 14, margin: 0, textTransform: "capitalize" }}>{shape}</h3>
+        <h2 style={{ fontSize: 16, marginTop: 8 }}>Inverse (dark surface)</h2>
+        <div style={{ background: "var(--neutral-8)", padding: 24, borderRadius: "var(--radius-lg)", display: "flex", flexDirection: "column", gap: 24 }}>
           {VARIANTS.map((variant) => (
             <div key={variant} style={{ display: "flex", gap: 12, alignItems: "center" }}>
               {SIZES.map((size) => (
-                <Button
-                  key={size}
-                  variant={variant}
-                  size={size}
-                  shape={shape}
-                  icon={<ArrowUpRight size={size === "sm" ? 16 : size === "md" ? 20 : 24} />}
-                  aria-label={`${variant} ${shape} ${size}`}
-                />
+                <Button key={size} variant={variant} size={size} inverse>
+                  {variant} / {size}
+                </Button>
               ))}
-              <Button
-                variant={variant}
-                shape={shape}
-                icon={<ArrowUpRight size={20} />}
-                aria-label={`${variant} ${shape} disabled`}
+              <Button variant={variant} inverse disabled>
                 disabled
-              />
+              </Button>
             </div>
           ))}
         </div>
-      ))}
-    </div>
+
+        <h2 style={{ fontSize: 16, marginTop: 8 }}>Shape=Rounded</h2>
+        {VARIANTS.map((variant) => (
+          <div key={variant} style={{ display: "flex", gap: 12, alignItems: "center" }}>
+            {SIZES.map((size) => (
+              <Button key={size} variant={variant} size={size} shape="rounded">
+                {variant} / {size}
+              </Button>
+            ))}
+            <Button variant={variant} shape="rounded" disabled>
+              disabled
+            </Button>
+          </div>
+        ))}
+
+        <h2 style={{ fontSize: 16, marginTop: 8 }}>Shape=Square / Circle (icon-only)</h2>
+        <p style={{ color: "#666", maxWidth: 560 }}>
+          <code>icon</code> is a consumer-supplied <code>ReactNode</code> — no re-export layer in
+          <code> @statrys/web-ds</code>. Here it's Lucide's <code>ArrowUpRight</code>, matching Figma's own icon.
+        </p>
+        {(["square", "circle"] as const).map((shape) => (
+          <div key={shape} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <h3 style={{ fontSize: 14, margin: 0, textTransform: "capitalize" }}>{shape}</h3>
+            {VARIANTS.map((variant) => (
+              <div key={variant} style={{ display: "flex", gap: 12, alignItems: "center" }}>
+                {SIZES.map((size) => (
+                  <Button
+                    key={size}
+                    variant={variant}
+                    size={size}
+                    shape={shape}
+                    icon={<ArrowUpRight size={size === "sm" ? 16 : size === "md" ? 20 : 24} />}
+                    aria-label={`${variant} ${shape} ${size}`}
+                  />
+                ))}
+                <Button
+                  variant={variant}
+                  shape={shape}
+                  icon={<ArrowUpRight size={20} />}
+                  aria-label={`${variant} ${shape} disabled`}
+                  disabled
+                />
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </ComponentPage>
   );
 }
 
 function ButtonHighlightDemo() {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-      <h1>Button Highlight</h1>
-      <p style={{ color: "#666", maxWidth: 560 }}>
-        Gradient-filled CTA — a distinct component from <code>Button</code>, not a variant of it.
-        See <code>packages/web-ds/src/button-highlight</code>.
-      </p>
-      {HIGHLIGHT_VARIANTS.map((variant) => (
-        <div key={variant} style={{ display: "flex", gap: 12, alignItems: "center" }}>
-          {SIZES.map((size) => (
-            <ButtonHighlight key={size} variant={variant} size={size}>
-              {variant} / {size}
+    <ComponentPage
+      id="button-highlight"
+      title="Button Highlight"
+      usage="Gradient-filled CTA button for high-emphasis marketing surfaces — a distinct component from Button, not a variant of it."
+      figmaUrl={`${FIGMA_FILE}1847-8095`}
+      code={`import { ButtonHighlight } from "@statrys/web-ds";\n\n<ButtonHighlight variant="primary" size="md" onClick={handleClick}>\n  Get started\n</ButtonHighlight>`}
+    >
+      <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+        {HIGHLIGHT_VARIANTS.map((variant) => (
+          <div key={variant} style={{ display: "flex", gap: 12, alignItems: "center" }}>
+            {SIZES.map((size) => (
+              <ButtonHighlight key={size} variant={variant} size={size}>
+                {variant} / {size}
+              </ButtonHighlight>
+            ))}
+            <ButtonHighlight variant={variant} disabled>
+              disabled
             </ButtonHighlight>
-          ))}
-          <ButtonHighlight variant={variant} disabled>
-            disabled
-          </ButtonHighlight>
-        </div>
-      ))}
-    </div>
+          </div>
+        ))}
+      </div>
+    </ComponentPage>
   );
 }
 
 function LinkDemo() {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-      <h1>Link</h1>
-      <p style={{ color: "#666", maxWidth: 560 }}>
-        <code>iconLeft</code>/<code>iconRight</code> are consumer-supplied <code>ReactNode</code> — no
-        re-export layer in <code>@statrys/web-ds</code>. Here it's Lucide's <code>ArrowUpRight</code>,
-        matching Figma's own icon. No <code>color</code> prop passed — it inherits the link's current text
-        color (default/hover/active/disabled) via SVG's <code>currentColor</code>.
-      </p>
-      <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
-        {SIZES.map((size) => (
-          <Link key={size} size={size} href="#" iconRight={<ArrowUpRight size={16} />}>
-            primary link / {size}
+    <ComponentPage
+      id="link"
+      title="Link"
+      usage="Text-only navigational link with icon slots — inline anchor styling for body copy and lists, not a variant of Button."
+      figmaUrl={`${FIGMA_FILE}2153-6347`}
+      code={`import { Link } from "@statrys/web-ds";\nimport { ArrowUpRight } from "lucide-react";\n\n<Link href="/docs" size="md" iconRight={<ArrowUpRight size={16} />}>\n  Learn more\n</Link>`}
+    >
+      <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+        <p style={{ color: "#666", maxWidth: 560 }}>
+          <code>iconLeft</code>/<code>iconRight</code> are consumer-supplied <code>ReactNode</code> — no
+          re-export layer in <code>@statrys/web-ds</code>. Here it's Lucide's <code>ArrowUpRight</code>,
+          matching Figma's own icon. No <code>color</code> prop passed — it inherits the link's current text
+          color (default/hover/active/disabled) via SVG's <code>currentColor</code>.
+        </p>
+        <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
+          {SIZES.map((size) => (
+            <Link key={size} size={size} href="#" iconRight={<ArrowUpRight size={16} />}>
+              primary link / {size}
+            </Link>
+          ))}
+          <Link href="#" disabled iconRight={<ArrowUpRight size={16} />}>
+            disabled
           </Link>
-        ))}
-        <Link href="#" disabled iconRight={<ArrowUpRight size={16} />}>
-          disabled
-        </Link>
-      </div>
+        </div>
 
-      <h2 style={{ fontSize: 16, marginTop: 8 }}>Inverse (dark surface)</h2>
-      <div style={{ background: "var(--neutral-8)", padding: 24, borderRadius: "var(--radius-lg)", display: "flex", gap: 24, alignItems: "center" }}>
-        {SIZES.map((size) => (
-          <Link key={size} size={size} inverse href="#" iconRight={<ArrowUpRight size={16} />}>
-            inverse link / {size}
+        <h2 style={{ fontSize: 16, marginTop: 8 }}>Inverse (dark surface)</h2>
+        <div style={{ background: "var(--neutral-8)", padding: 24, borderRadius: "var(--radius-lg)", display: "flex", gap: 24, alignItems: "center" }}>
+          {SIZES.map((size) => (
+            <Link key={size} size={size} inverse href="#" iconRight={<ArrowUpRight size={16} />}>
+              inverse link / {size}
+            </Link>
+          ))}
+          <Link inverse href="#" disabled iconRight={<ArrowUpRight size={16} />}>
+            disabled
           </Link>
-        ))}
-        <Link inverse href="#" disabled iconRight={<ArrowUpRight size={16} />}>
-          disabled
-        </Link>
+        </div>
       </div>
-    </div>
+    </ComponentPage>
   );
 }
 
@@ -159,24 +179,25 @@ function HorizontalTabsDemo() {
   const [lgActive, setLgActive] = useState("three");
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
-      <h1>Horizontal Tabs</h1>
-      <p style={{ color: "#666", maxWidth: 560 }}>
-        Style=Underline only — Style=Button isn't used and isn't implemented. Renders one internal{" "}
-        <code>Tab</code> (Figma "TabsBase") per item — <code>Tab</code> isn't exported on its own. See{" "}
-        <code>packages/web-ds/src/tabs</code>.
-      </p>
+    <ComponentPage
+      id="horizontal-tabs"
+      title="Horizontal Tabs"
+      usage="Horizontal tab list, Style=Underline only — renders one internal Tab (Figma 'TabsBase') per item; Tab is not exported on its own."
+      figmaUrl={`${FIGMA_FILE}2725-16713`}
+      code={`import { HorizontalTabs } from "@statrys/web-ds";\n\nconst items = [\n  { id: "one", label: "Tab one", badge: 2 },\n  { id: "two", label: "Tab two" },\n];\n\n<HorizontalTabs items={items} activeId={activeId} onChange={setActiveId} />`}
+    >
+      <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+        <div>
+          <h2 style={{ fontSize: 16, marginTop: 0 }}>size=md</h2>
+          <HorizontalTabs items={TAB_ITEMS} activeId={mdActive} onChange={setMdActive} />
+        </div>
 
-      <div>
-        <h2 style={{ fontSize: 16, marginTop: 0 }}>size=md</h2>
-        <HorizontalTabs items={TAB_ITEMS} activeId={mdActive} onChange={setMdActive} />
+        <div>
+          <h2 style={{ fontSize: 16, marginTop: 0 }}>size=lg</h2>
+          <HorizontalTabs items={TAB_ITEMS} activeId={lgActive} onChange={setLgActive} size="lg" />
+        </div>
       </div>
-
-      <div>
-        <h2 style={{ fontSize: 16, marginTop: 0 }}>size=lg</h2>
-        <HorizontalTabs items={TAB_ITEMS} activeId={lgActive} onChange={setLgActive} size="lg" />
-      </div>
-    </div>
+    </ComponentPage>
   );
 }
 
@@ -185,19 +206,20 @@ function ToggleDemo() {
   const [defaultOff, setDefaultOff] = useState(false);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-      <h1>Toggle</h1>
-      <p style={{ color: "#666", maxWidth: 560 }}>
-        A switch to change between two states, on and off — an alternative for the checkbox (per Figma's
-        usage note on this component). No Hover variant is defined in Figma, so none is implemented here.
-      </p>
+    <ComponentPage
+      id="toggle"
+      title="Toggle"
+      usage="A switch to change between two states, on and off — an alternative for the checkbox (per Figma's usage note on this component). No Hover variant is defined in Figma, so none is implemented here."
+      figmaUrl={`${FIGMA_FILE}3784-2555`}
+      code={`import { Toggle } from "@statrys/web-ds";\n\n<Toggle selected={enabled} onChange={setEnabled} aria-label="Enable notifications" />`}
+    >
       <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
         <Toggle selected={defaultOff} onChange={setDefaultOff} aria-label="off by default" />
         <Toggle selected={defaultOn} onChange={setDefaultOn} aria-label="on by default" />
         <Toggle selected={false} disabled aria-label="off, disabled" />
         <Toggle selected={true} disabled aria-label="on, disabled" />
       </div>
-    </div>
+    </ComponentPage>
   );
 }
 
@@ -207,12 +229,13 @@ function CheckboxDemo() {
   const [indeterminate, setIndeterminate] = useState(true);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-      <h1>Checkbox</h1>
-      <p style={{ color: "#666", maxWidth: 560 }}>
-        Built on a native <code>input[type=checkbox]</code> for real form/keyboard/screen-reader
-        semantics, visually replaced by a styled box.
-      </p>
+    <ComponentPage
+      id="checkbox"
+      title="Checkbox"
+      usage="Checkbox with a label and optional description, built on a native input[type=checkbox] for real form/keyboard/screen-reader semantics, visually replaced by a styled box."
+      figmaUrl={`${FIGMA_FILE}3417-179`}
+      code={`import { Checkbox } from "@statrys/web-ds";\n\n<Checkbox label="Remember me" selected={checked} onChange={setChecked} />\n\n<Checkbox\n  label="Remember me"\n  description="Save my login details for next time"\n  selected={checked}\n  onChange={setChecked}\n/>`}
+    >
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         <Checkbox label="Remember me" selected={plain} onChange={setPlain} />
         <Checkbox
@@ -225,7 +248,7 @@ function CheckboxDemo() {
         <Checkbox label="Disabled, unchecked" disabled />
         <Checkbox label="Disabled, checked" selected disabled />
       </div>
-    </div>
+    </ComponentPage>
   );
 }
 
@@ -233,12 +256,13 @@ function RadioDemo() {
   const [choice, setChoice] = useState("a");
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-      <h1>Radio</h1>
-      <p style={{ color: "#666", maxWidth: 560 }}>
-        No labeled wrapper was published in Figma for this component (unlike Checkbox) — just the bare
-        indicator, built on a native <code>input[type=radio]</code>.
-      </p>
+    <ComponentPage
+      id="radio"
+      title="Radio"
+      usage="Radio button built on a native input[type=radio] for real form/keyboard/screen-reader semantics (group via the name prop). No labeled wrapper was published in Figma for this component (unlike Checkbox) — just the bare indicator."
+      figmaUrl={`${FIGMA_FILE}3081-4828`}
+      code={`import { Radio } from "@statrys/web-ds";\n\n<Radio name="plan" value="monthly" selected={plan === "monthly"} onChange={() => setPlan("monthly")} />\n<Radio name="plan" value="yearly" selected={plan === "yearly"} onChange={() => setPlan("yearly")} />`}
+    >
       <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
         {(["a", "b", "c"] as const).map((v) => (
           <label key={v} style={{ display: "flex", gap: 8, alignItems: "center", cursor: "pointer" }}>
@@ -249,7 +273,7 @@ function RadioDemo() {
         <Radio size="md" selected disabled aria-label="disabled, selected" />
         <Radio size="md" selected={false} disabled aria-label="disabled, unselected" />
       </div>
-    </div>
+    </ComponentPage>
   );
 }
 
@@ -257,14 +281,19 @@ function SearchInputDemo() {
   const [values, setValues] = useState<Record<string, string>>({ sm: "", md: "Statrys", lg: "" });
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-      <h1>Search Input</h1>
-      <p style={{ color: "#666", maxWidth: 560 }}>
-        "Filled" isn't a discrete prop — it's derived from whether <code>value</code> is non-empty, since a
-        real input can be both focused and filled at once, a combination Figma's flat state enum can't
-        represent.
-      </p>
+    <ComponentPage
+      id="search-input"
+      title="Search Input"
+      usage="Search field with a leading search icon and a clear button once filled. Hover/Active are real CSS states; 'Filled' is derived from value being non-empty, not a discrete prop."
+      figmaUrl={`${FIGMA_FILE}818-2874`}
+      code={`import { SearchInput } from "@statrys/web-ds";\n\n<SearchInput value={query} onChange={setQuery} placeholder="Search" />`}
+    >
       <div style={{ display: "flex", flexDirection: "column", gap: 16, maxWidth: 343 }}>
+        <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
+          "Filled" isn't a discrete prop — it's derived from whether <code>value</code> is non-empty, since a
+          real input can be both focused and filled at once, a combination Figma's flat state enum can't
+          represent.
+        </p>
         {(["sm", "md", "lg"] as const).map((size) => (
           <SearchInput
             key={size}
@@ -275,7 +304,7 @@ function SearchInputDemo() {
         ))}
         <SearchInput size="md" value="" onChange={() => {}} disabled />
       </div>
-    </div>
+    </ComponentPage>
   );
 }
 
@@ -284,14 +313,18 @@ function TextInputFluidDemo() {
   const [errorValue, setErrorValue] = useState("bad-input");
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-      <h1>Text Input Fluid</h1>
-      <p style={{ color: "#666", maxWidth: 560 }}>
-        The label floats to a caption above once focused or filled — computed from focus state and
-        whether <code>value</code> is non-empty, not a discrete prop (see{" "}
-        <code>packages/web-ds/src/text-input</code>).
-      </p>
+    <ComponentPage
+      id="text-input-fluid"
+      title="Text Input Fluid"
+      usage="Text field with a floating label — the label sits as a placeholder-sized prompt until focused or filled, then shrinks to a caption above the real placeholder/value."
+      figmaUrl={`${FIGMA_FILE}1085-5372`}
+      code={`import { TextInputFluid } from "@statrys/web-ds";\n\n<TextInputFluid\n  label="Email"\n  value={email}\n  onChange={setEmail}\n  placeholder="you@example.com"\n  hint="We'll never share your email"\n/>`}
+    >
       <div style={{ display: "flex", flexDirection: "column", gap: 20, maxWidth: 343 }}>
+        <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
+          The label floats to a caption above once focused or filled — computed from focus state and
+          whether <code>value</code> is non-empty, not a discrete prop.
+        </p>
         {(["sm", "md", "lg"] as const).map((size) => (
           <TextInputFluid
             key={size}
@@ -314,7 +347,7 @@ function TextInputFluidDemo() {
         <TextInputFluid label="Country" placeholder="Select a country" dropdown value="" onChange={() => {}} />
         <TextInputFluid label="Disabled field" value="" onChange={() => {}} disabled />
       </div>
-    </div>
+    </ComponentPage>
   );
 }
 

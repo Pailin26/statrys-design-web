@@ -45,17 +45,22 @@ const NAV: Record<Tab, NavGroup[]> = {
   ],
   components: [
     {
-      group: "Components",
+      group: "Forms and input",
       items: [
         { id: "button", label: "Button" },
         { id: "button-highlight", label: "Button Highlight" },
-        { id: "link", label: "Link" },
-        { id: "horizontal-tabs", label: "Horizontal Tabs" },
-        { id: "toggle", label: "Toggle" },
         { id: "checkbox", label: "Checkbox" },
         { id: "radio", label: "Radio" },
+        { id: "toggle", label: "Toggle" },
         { id: "search-input", label: "Search Input" },
         { id: "text-input-fluid", label: "Text Input Fluid" },
+      ],
+    },
+    {
+      group: "Navigation",
+      items: [
+        { id: "link", label: "Link" },
+        { id: "horizontal-tabs", label: "Horizontal Tabs" },
       ],
     },
   ],

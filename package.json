@@ -9,9 +9,13 @@
     "apps/web-playground"
   ],
   "scripts": {
+    "predev": "node scripts/generate-changelogs.js",
     "dev": "npm run dev --workspace=apps/web-playground",
+    "prebuild": "node scripts/generate-changelogs.js",
+    "build": "npm run build --workspace=apps/web-playground",
     "lint:tokens": "node scripts/lint-hardcoded-values.js",
-    "generate:manifests": "node scripts/generate-manifest.js"
+    "generate:manifests": "node scripts/generate-manifest.js",
+    "generate:changelogs": "node scripts/generate-changelogs.js"
   },
   "license": "UNLICENSED"
 }

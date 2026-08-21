@@ -5,3 +5,4 @@ dist/
 */dist/
 *.log
 .DS_Store
+apps/web-playground/src/changelogs.generated.json
