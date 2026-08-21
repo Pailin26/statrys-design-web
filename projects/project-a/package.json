@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "description": "Product A — prototype, built on the Statrys Core DS",
   "dependencies": {
-    "@statrys/tokens": "*",
+    "@statrys/tokens": "github:Pailin26/statrys-tokens",
     "@statrys/web-ds": "*"
   }
 }

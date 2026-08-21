@@ -1,0 +1,17 @@
+{
+  "name": "statrys-design-web",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Statrys Core DS for web (@statrys/web-ds) + web playground + product prototypes",
+  "workspaces": [
+    "packages/*",
+    "projects/*",
+    "apps/web-playground"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=apps/web-playground",
+    "lint:tokens": "node scripts/lint-hardcoded-values.js",
+    "generate:manifests": "node scripts/generate-manifest.js"
+  },
+  "license": "UNLICENSED"
+}
