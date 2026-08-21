@@ -8,3 +8,5 @@ export { HorizontalTabs } from "./tabs/HorizontalTabs";
 export type { HorizontalTabsProps, TabItem } from "./tabs/HorizontalTabs";
 export { IconProvider } from "./icon/IconProvider";
 export type { IconProviderProps } from "./icon/IconProvider";
+export { Toggle } from "./toggle/Toggle";
+export type { ToggleProps } from "./toggle/Toggle";

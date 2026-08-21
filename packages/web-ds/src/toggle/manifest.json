@@ -1,0 +1,19 @@
+{
+  "name": "Toggle",
+  "platform": "web",
+  "description": "A switch to change between two states, on and off — an alternative for the checkbox (per Figma's usage note on this component).",
+  "figmaFileKey": "abElBYcwuc5skfPX1c7FlP",
+  "figmaNodeId": "3784:2555",
+  "consumesTokens": [
+    "bg.neutralInverse.tertiary", "bg.brand.primary", "bg.neutral.disabled", "bg.neutral.primary",
+    "border.neutral.primary", "radius.full",
+    "toggle.trackBorderWidth", "toggle.knobOffset", "toggle.knobOffsetWithBorder"
+  ],
+  "props": {
+    "selected": "boolean",
+    "disabled": "boolean",
+    "onChange": "(selected: boolean) => void"
+  },
+  "status": "stable",
+  "usedBy": []
+}

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ArrowUpRight, ChevronDown } from "lucide-react";
-import { Button, ButtonHighlight, Link, HorizontalTabs } from "@statrys/web-ds";
+import { Button, ButtonHighlight, Link, HorizontalTabs, Toggle } from "@statrys/web-ds";
 
 const VARIANTS = ["primary", "secondary", "tertiary"] as const;
 const HIGHLIGHT_VARIANTS = ["primary", "secondary"] as const;
@@ -180,10 +180,32 @@ function HorizontalTabsDemo() {
   );
 }
 
+function ToggleDemo() {
+  const [defaultOn, setDefaultOn] = useState(true);
+  const [defaultOff, setDefaultOff] = useState(false);
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+      <h1>Toggle</h1>
+      <p style={{ color: "#666", maxWidth: 560 }}>
+        A switch to change between two states, on and off — an alternative for the checkbox (per Figma's
+        usage note on this component). No Hover variant is defined in Figma, so none is implemented here.
+      </p>
+      <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
+        <Toggle selected={defaultOff} onChange={setDefaultOff} aria-label="off by default" />
+        <Toggle selected={defaultOn} onChange={setDefaultOn} aria-label="on by default" />
+        <Toggle selected={false} disabled aria-label="off, disabled" />
+        <Toggle selected={true} disabled aria-label="on, disabled" />
+      </div>
+    </div>
+  );
+}
+
 export function WebDS({ item }: { item: string }) {
   if (item === "button") return <ButtonDemo />;
   if (item === "button-highlight") return <ButtonHighlightDemo />;
   if (item === "link") return <LinkDemo />;
   if (item === "horizontal-tabs") return <HorizontalTabsDemo />;
+  if (item === "toggle") return <ToggleDemo />;
   return <div>Unknown component: {item}</div>;
 }

@@ -1,0 +1,72 @@
+/* Colors reuse existing semantic tokens directly (bg.*, border.*) — they
+   exactly match values already established for other components. The
+   handful of genuinely new dimensional values (sub-pixel border width,
+   knob insets) live in their own minimal semantic/toggle.json since
+   nothing existing matches them — see that file for why.
+
+   Every state combo below is written as a single, mutually-exclusive
+   selector (:not(.selected):not(:disabled), :not(.selected):disabled,
+   .selected:not(:disabled), .selected:disabled) rather than letting
+   partial rules cascade — two rules at equal specificity, with the loser
+   decided only by source order, is exactly what silently broke Tab's
+   active-background earlier; this avoids that class of bug entirely by
+   construction, regardless of edit order.
+
+   Figma: https://www.figma.com/design/abElBYcwuc5skfPX1c7FlP/-WEB--Design-System?node-id=3784-2555 */
+
+.track {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: var(--toggle-track-width);
+  height: var(--toggle-track-height);
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+.track:not(.selected):not(:disabled) {
+  background: var(--bg-neutral-inverse-tertiary);
+}
+.track:not(.selected):disabled {
+  background: transparent;
+  border: var(--toggle-track-border-width) solid var(--border-neutral-primary);
+  cursor: not-allowed;
+}
+.track.selected:not(:disabled) {
+  background: var(--bg-brand-primary);
+}
+.track.selected:disabled {
+  background: var(--bg-neutral-disabled);
+  border: var(--toggle-track-border-width) solid var(--border-neutral-primary);
+  cursor: not-allowed;
+}
+
+.knob {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--toggle-knob-size);
+  height: var(--toggle-knob-size);
+  border-radius: var(--radius-full);
+  transition: left 0.15s, right 0.15s, background-color 0.15s;
+}
+.track:not(.selected):not(:disabled) .knob {
+  left: var(--toggle-knob-offset);
+  background: var(--bg-neutral-primary);
+}
+.track:not(.selected):disabled .knob {
+  left: var(--toggle-knob-offset-with-border);
+  background: var(--bg-neutral-disabled);
+}
+.track.selected:not(:disabled) .knob {
+  left: auto;
+  right: var(--toggle-knob-offset);
+  background: var(--bg-neutral-primary);
+}
+.track.selected:disabled .knob {
+  left: auto;
+  right: var(--toggle-knob-offset-with-border);
+  background: var(--bg-neutral-disabled);
+}

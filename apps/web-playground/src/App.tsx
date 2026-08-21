@@ -51,6 +51,7 @@ const NAV: Record<Tab, NavGroup[]> = {
         { id: "button-highlight", label: "Button Highlight" },
         { id: "link", label: "Link" },
         { id: "horizontal-tabs", label: "Horizontal Tabs" },
+        { id: "toggle", label: "Toggle" },
       ],
     },
   ],
