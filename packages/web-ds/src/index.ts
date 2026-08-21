@@ -6,3 +6,5 @@ export { Link } from "./link/Link";
 export type { LinkProps } from "./link/Link";
 export { HorizontalTabs } from "./tabs/HorizontalTabs";
 export type { HorizontalTabsProps, TabItem } from "./tabs/HorizontalTabs";
+export { IconProvider } from "./icon/IconProvider";
+export type { IconProviderProps } from "./icon/IconProvider";

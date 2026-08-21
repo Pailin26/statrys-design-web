@@ -1,0 +1,11 @@
+{
+  "name": "IconProvider",
+  "platform": "web",
+  "description": "Sets lucide-react's global default strokeWidth to 1 (its own default is 2) for every icon rendered under it. Not a Figma component — a one-time root-level setup wrapper, same category as importing tokens.css once. Icons themselves are imported directly from lucide-react, not re-exported here.",
+  "consumesTokens": [],
+  "props": {
+    "children": "ReactNode"
+  },
+  "status": "stable",
+  "usedBy": []
+}

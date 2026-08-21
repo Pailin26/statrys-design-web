@@ -134,6 +134,23 @@ Either way, colors/spacing/radii referenced in the style file should come from
 `@statrys/tokens` (CSS custom properties on web, the JS token export on native) —
 see the PR checklist below.
 
+## Icons
+
+[Lucide](https://lucide.dev) is the icon library for both platforms —
+`lucide-react` on web, `lucide-react-native` on app (same icon set, matching
+names, different renderer). Import an icon directly from the platform
+package, e.g. `import { ArrowRight } from "lucide-react"` — there's no
+`@statrys/icons` re-export layer for this (`packages/icons` in statrys-tokens
+is still an empty scaffold).
+
+Lucide's own default `strokeWidth` is 2; ours is 1. Rather than passing
+`strokeWidth={1}` at every call site, wrap the app root once in
+`<IconProvider>` (exported from `@statrys/web-ds` / `@statrys/app-ds`) — see
+`apps/web-playground/src/main.tsx` / `apps/app-playground/App.tsx` for the
+setup. It's a thin wrapper around Lucide's own `LucideProvider`; any icon
+rendered under it picks up `strokeWidth=1` automatically unless a call site
+overrides it explicitly.
+
 ## Adding or changing a token
 
 Done in the **statrys-tokens** repo, not here:

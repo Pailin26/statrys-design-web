@@ -9,6 +9,7 @@
     "react": ">=18"
   },
   "dependencies": {
-    "@statrys/tokens": "github:Pailin26/statrys-tokens"
+    "@statrys/tokens": "github:Pailin26/statrys-tokens",
+    "lucide-react": "^1.33.0"
   }
 }
