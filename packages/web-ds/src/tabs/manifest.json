@@ -5,7 +5,7 @@
   "figmaFileKey": "abElBYcwuc5skfPX1c7FlP",
   "figmaNodeId": "2725:16713",
   "consumesTokens": [
-    "text.secondary", "text.primary", "icon.brand", "bg.neutral.tertiary", "border.neutral.primary",
+    "text.secondary", "text.primary", "border.brand.primary", "bg.neutral.tertiary", "border.neutral.primary",
     "button.radius", "button.heightSm",
     "link.fontFamily", "link.fontWeight", "link.iconSize"
   ],

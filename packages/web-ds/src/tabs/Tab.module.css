@@ -1,7 +1,7 @@
 /* Style=Underline only — Style=Button isn't used, so it's not implemented
    here. Reuses existing tokens/primitives directly rather than a
    tab-specific semantic file: text.secondary/primary for the label color,
-   icon.brand for the active indicator, button.radius for the badge corners
+   border.brand.primary for the active indicator, button.radius for the badge corners
    (same precedent as ButtonHighlight reusing Button's radius), and the
    space and typography primitive scales for sizing that has no existing
    semantic alias. Internal building block rendered by HorizontalTabs — not
@@ -31,7 +31,7 @@
 }
 .tab.active {
   color: var(--text-primary);
-  border-bottom-color: var(--icon-brand);
+  border-bottom-color: var(--border-brand-primary);
 }
 
 .md {
