@@ -1,0 +1,102 @@
+/* Every value here is an existing token/primitive — field.* already covers
+   this component's bg/border states exactly (see docs/contributing.md),
+   and the sizing matches the existing space/radius primitive scale exactly,
+   so no new semantic file is needed.
+
+   Hover/Active(focus) are real CSS pseudo-classes on the container, not
+   JS-driven props — matching Button/Link/Tab's convention. "Filled" isn't
+   a discrete prop either: it's derived from whether value is non-empty,
+   since a real input can be simultaneously focused AND filled (typing),
+   a combination Figma's flat 5-state enum can't represent but real usage
+   needs.
+
+   Figma: https://www.figma.com/design/abElBYcwuc5skfPX1c7FlP/-WEB--Design-System?node-id=818-2874 */
+
+.container {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  box-sizing: border-box;
+  border: var(--border-width-sm) solid var(--field-border);
+  background: var(--field-bg);
+  transition: border-color 0.1s, background-color 0.1s;
+}
+.container:not(.disabled):hover {
+  border-color: var(--field-border-hover);
+}
+.container:not(.disabled):focus-within {
+  border-color: var(--field-border-focus);
+}
+.container.disabled {
+  background: var(--field-bg-disabled);
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.sm {
+  height: var(--field-height-sm);
+  padding: var(--space-5);
+  border-radius: var(--radius-lg);
+}
+.md {
+  height: var(--field-height-md);
+  padding: var(--space-4) var(--space-8);
+  border-radius: var(--radius-xl);
+}
+.lg {
+  height: var(--field-height-lg);
+  padding: var(--space-5) var(--space-8);
+  border-radius: var(--radius-2xl);
+}
+
+.icon {
+  flex-shrink: 0;
+  width: var(--field-icon-size);
+  height: var(--field-icon-size);
+  color: var(--icon-secondary);
+}
+.container.disabled .icon {
+  color: var(--icon-disabled);
+}
+
+.input {
+  flex: 1 0 0;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: none;
+  padding: 0;
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-base);
+  color: var(--text-primary);
+}
+.input::placeholder {
+  color: var(--text-placeholder);
+}
+.input:disabled {
+  color: var(--text-disabled);
+  cursor: not-allowed;
+}
+.input:disabled::placeholder {
+  color: var(--text-disabled);
+}
+
+.clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--field-clear-icon-wrapper-size);
+  height: var(--field-clear-icon-wrapper-size);
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--icon-secondary);
+}
+.clearIcon {
+  width: var(--field-clear-icon-size);
+  height: var(--field-clear-icon-size);
+}

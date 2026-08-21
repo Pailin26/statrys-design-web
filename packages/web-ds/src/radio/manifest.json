@@ -1,0 +1,21 @@
+{
+  "name": "Radio",
+  "platform": "web",
+  "description": "Radio button built on a native input[type=radio] for real form/keyboard/screen-reader semantics (group via the name prop), visually replaced by a styled circle. No labeled wrapper was published in Figma for this component (unlike Checkbox) — just the bare indicator.",
+  "figmaFileKey": "abElBYcwuc5skfPX1c7FlP",
+  "figmaNodeId": "3081:4828",
+  "consumesTokens": [
+    "icon.secondary", "icon.brand", "icon.disabled", "focus.default", "radius.full",
+    "radio.wrapperSizeSm", "radio.wrapperSizeMd", "radio.dotSizeSm", "radio.dotSizeMd"
+  ],
+  "props": {
+    "selected": "boolean",
+    "size": ["sm", "md"],
+    "disabled": "boolean",
+    "onChange": "() => void",
+    "name": "string",
+    "value": "string"
+  },
+  "status": "stable",
+  "usedBy": []
+}

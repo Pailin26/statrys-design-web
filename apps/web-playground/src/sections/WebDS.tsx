@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ArrowUpRight, ChevronDown } from "lucide-react";
-import { Button, ButtonHighlight, Link, HorizontalTabs, Toggle } from "@statrys/web-ds";
+import { Button, ButtonHighlight, Link, HorizontalTabs, Toggle, Checkbox, Radio, SearchInput, TextInputFluid } from "@statrys/web-ds";
 
 const VARIANTS = ["primary", "secondary", "tertiary"] as const;
 const HIGHLIGHT_VARIANTS = ["primary", "secondary"] as const;
@@ -201,11 +201,132 @@ function ToggleDemo() {
   );
 }
 
+function CheckboxDemo() {
+  const [plain, setPlain] = useState(true);
+  const [withDesc, setWithDesc] = useState(false);
+  const [indeterminate, setIndeterminate] = useState(true);
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+      <h1>Checkbox</h1>
+      <p style={{ color: "#666", maxWidth: 560 }}>
+        Built on a native <code>input[type=checkbox]</code> for real form/keyboard/screen-reader
+        semantics, visually replaced by a styled box.
+      </p>
+      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+        <Checkbox label="Remember me" selected={plain} onChange={setPlain} />
+        <Checkbox
+          label="Remember me"
+          description="Save my login details for next time"
+          selected={withDesc}
+          onChange={setWithDesc}
+        />
+        <Checkbox label="Select all" indeterminate selected={indeterminate} onChange={setIndeterminate} size="md" />
+        <Checkbox label="Disabled, unchecked" disabled />
+        <Checkbox label="Disabled, checked" selected disabled />
+      </div>
+    </div>
+  );
+}
+
+function RadioDemo() {
+  const [choice, setChoice] = useState("a");
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+      <h1>Radio</h1>
+      <p style={{ color: "#666", maxWidth: 560 }}>
+        No labeled wrapper was published in Figma for this component (unlike Checkbox) — just the bare
+        indicator, built on a native <code>input[type=radio]</code>.
+      </p>
+      <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
+        {(["a", "b", "c"] as const).map((v) => (
+          <label key={v} style={{ display: "flex", gap: 8, alignItems: "center", cursor: "pointer" }}>
+            <Radio name="demo" value={v} selected={choice === v} onChange={() => setChoice(v)} />
+            option {v}
+          </label>
+        ))}
+        <Radio size="md" selected disabled aria-label="disabled, selected" />
+        <Radio size="md" selected={false} disabled aria-label="disabled, unselected" />
+      </div>
+    </div>
+  );
+}
+
+function SearchInputDemo() {
+  const [values, setValues] = useState<Record<string, string>>({ sm: "", md: "Statrys", lg: "" });
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+      <h1>Search Input</h1>
+      <p style={{ color: "#666", maxWidth: 560 }}>
+        "Filled" isn't a discrete prop — it's derived from whether <code>value</code> is non-empty, since a
+        real input can be both focused and filled at once, a combination Figma's flat state enum can't
+        represent.
+      </p>
+      <div style={{ display: "flex", flexDirection: "column", gap: 16, maxWidth: 343 }}>
+        {(["sm", "md", "lg"] as const).map((size) => (
+          <SearchInput
+            key={size}
+            size={size}
+            value={values[size]}
+            onChange={(v) => setValues((prev) => ({ ...prev, [size]: v }))}
+          />
+        ))}
+        <SearchInput size="md" value="" onChange={() => {}} disabled />
+      </div>
+    </div>
+  );
+}
+
+function TextInputFluidDemo() {
+  const [values, setValues] = useState<Record<string, string>>({ sm: "", md: "", lg: "" });
+  const [errorValue, setErrorValue] = useState("bad-input");
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+      <h1>Text Input Fluid</h1>
+      <p style={{ color: "#666", maxWidth: 560 }}>
+        The label floats to a caption above once focused or filled — computed from focus state and
+        whether <code>value</code> is non-empty, not a discrete prop (see{" "}
+        <code>packages/web-ds/src/text-input</code>).
+      </p>
+      <div style={{ display: "flex", flexDirection: "column", gap: 20, maxWidth: 343 }}>
+        {(["sm", "md", "lg"] as const).map((size) => (
+          <TextInputFluid
+            key={size}
+            label="Label"
+            placeholder="Placeholder"
+            hint="This is a help text to hint user"
+            tooltip="Helpful context"
+            size={size}
+            value={values[size]}
+            onChange={(v) => setValues((prev) => ({ ...prev, [size]: v }))}
+          />
+        ))}
+        <TextInputFluid
+          label="Email"
+          placeholder="you@example.com"
+          error="Enter a valid email address"
+          value={errorValue}
+          onChange={setErrorValue}
+        />
+        <TextInputFluid label="Country" placeholder="Select a country" dropdown value="" onChange={() => {}} />
+        <TextInputFluid label="Disabled field" value="" onChange={() => {}} disabled />
+      </div>
+    </div>
+  );
+}
+
 export function WebDS({ item }: { item: string }) {
   if (item === "button") return <ButtonDemo />;
   if (item === "button-highlight") return <ButtonHighlightDemo />;
   if (item === "link") return <LinkDemo />;
   if (item === "horizontal-tabs") return <HorizontalTabsDemo />;
   if (item === "toggle") return <ToggleDemo />;
+  if (item === "checkbox") return <CheckboxDemo />;
+  if (item === "radio") return <RadioDemo />;
+  if (item === "search-input") return <SearchInputDemo />;
+  if (item === "text-input-fluid") return <TextInputFluidDemo />;
   return <div>Unknown component: {item}</div>;
 }

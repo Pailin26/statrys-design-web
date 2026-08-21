@@ -1,0 +1,24 @@
+{
+  "name": "Checkbox",
+  "platform": "web",
+  "description": "Checkbox with a label and optional description, built on a native input[type=checkbox] for real form/keyboard/screen-reader semantics, visually replaced by a styled box.",
+  "figmaFileKey": "abElBYcwuc5skfPX1c7FlP",
+  "figmaNodeId": "3417:179",
+  "consumesTokens": [
+    "icon.secondary", "icon.brand", "icon.disabled", "bg.neutral.disabled", "bg.neutral.primary",
+    "text.primary", "text.secondary", "focus.default",
+    "checkbox.wrapperSizeSm", "checkbox.wrapperSizeMd", "checkbox.boxSizeSm", "checkbox.boxSizeMd",
+    "checkbox.radiusSm", "checkbox.radiusMd", "checkbox.selectedBorderWidthMd"
+  ],
+  "props": {
+    "label": "string",
+    "description": "string",
+    "size": ["sm", "md"],
+    "selected": "boolean",
+    "indeterminate": "boolean",
+    "disabled": "boolean",
+    "onChange": "(selected: boolean) => void"
+  },
+  "status": "stable",
+  "usedBy": []
+}

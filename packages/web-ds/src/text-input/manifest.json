@@ -1,0 +1,27 @@
+{
+  "name": "TextInputFluid",
+  "platform": "web",
+  "description": "Text field with a floating label — the label sits as a placeholder-sized prompt until focused or filled, then shrinks to a caption above the real placeholder/value. \"Filled\"/\"Active\" aren't discrete props: floating is computed from focus state and whether value is non-empty, since a real input can be both at once.",
+  "figmaFileKey": "abElBYcwuc5skfPX1c7FlP",
+  "figmaNodeId": "1085:5372",
+  "consumesTokens": [
+    "field.bg", "field.bgDisabled", "field.border", "field.borderHover", "field.borderFocus",
+    "bg.error.subtle", "border.error.bold", "text.error.primary",
+    "icon.secondary", "icon.disabled", "text.primary", "text.placeholder", "text.secondary", "text.disabled",
+    "radius.lg", "radius.xl", "radius.2xl", "borderWidth.sm"
+  ],
+  "props": {
+    "label": "string",
+    "value": "string",
+    "onChange": "(value: string) => void",
+    "placeholder": "string",
+    "hint": "string",
+    "error": "string",
+    "tooltip": "string",
+    "dropdown": "boolean",
+    "size": ["sm", "md", "lg"],
+    "disabled": "boolean"
+  },
+  "status": "stable",
+  "usedBy": []
+}

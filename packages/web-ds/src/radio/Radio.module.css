@@ -1,0 +1,89 @@
+/* Colors reuse existing semantic tokens directly (icon.*), mirroring
+   Checkbox's exact palette — Figma's RadioBase returns pre-rendered SVG
+   assets per state rather than Tailwind color classes, so the colors here
+   are inferred from Checkbox's parallel Default/Disabled × selected
+   structure (same design system, same form-control family). Sizing
+   (wrapper, inner dot) lives in semantic/radio.json since it's the one
+   part that IS derivable exactly from Figma's layout percentages.
+
+   Figma: https://www.figma.com/design/abElBYcwuc5skfPX1c7FlP/-WEB--Design-System?node-id=3081-4828 */
+
+.wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.wrapper.sm {
+  width: var(--radio-wrapper-size-sm);
+  height: var(--radio-wrapper-size-sm);
+}
+.wrapper.md {
+  width: var(--radio-wrapper-size-md);
+  height: var(--radio-wrapper-size-md);
+}
+
+.input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.input:disabled {
+  cursor: not-allowed;
+}
+
+.circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  border-style: solid;
+  border-width: var(--border-width-md);
+  box-sizing: border-box;
+  transition: border-color 0.1s;
+}
+.circle.sm {
+  width: var(--radio-wrapper-size-sm);
+  height: var(--radio-wrapper-size-sm);
+}
+.circle.md {
+  width: var(--radio-wrapper-size-md);
+  height: var(--radio-wrapper-size-md);
+}
+
+.input:not(:checked):not(:disabled) + .circle {
+  border-color: var(--icon-secondary);
+}
+.input:not(:checked):disabled + .circle {
+  border-color: var(--icon-disabled);
+}
+.input:checked:not(:disabled) + .circle {
+  border-color: var(--icon-brand);
+}
+.input:checked:disabled + .circle {
+  border-color: var(--icon-disabled);
+}
+
+.input:focus-visible + .circle {
+  outline: var(--space-1) solid var(--focus-default);
+  outline-offset: var(--space-1);
+}
+
+.dot {
+  border-radius: var(--radius-full);
+  background: var(--icon-brand);
+}
+.dot.sm {
+  width: var(--radio-dot-size-sm);
+  height: var(--radio-dot-size-sm);
+}
+.dot.md {
+  width: var(--radio-dot-size-md);
+  height: var(--radio-dot-size-md);
+}
+.input:disabled + .circle .dot {
+  background: var(--icon-disabled);
+}

@@ -1,0 +1,127 @@
+/* Colors reuse existing semantic tokens directly (icon.*, bg.neutral.disabled)
+   — the sizing/radius/border-width values that have no existing equivalent
+   live in their own minimal semantic/checkbox.json. Every state combo below
+   is a single mutually-exclusive selector rather than letting partial rules
+   cascade at equal specificity — see Toggle.module.css for why.
+
+   Figma: https://www.figma.com/design/abElBYcwuc5skfPX1c7FlP/-WEB--Design-System?node-id=3417-179 */
+
+.root {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  cursor: pointer;
+}
+.root.withDescription {
+  align-items: flex-start;
+}
+.root:not(.withDescription) {
+  align-items: center;
+}
+
+.wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.wrapper.sm {
+  width: var(--checkbox-wrapper-size-sm);
+  height: var(--checkbox-wrapper-size-sm);
+}
+.wrapper.md {
+  width: var(--checkbox-wrapper-size-md);
+  height: var(--checkbox-wrapper-size-md);
+}
+
+.input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: inherit;
+}
+
+.box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-style: solid;
+  box-sizing: border-box;
+  transition: background-color 0.1s, border-color 0.1s;
+}
+.box.sm {
+  width: var(--checkbox-box-size-sm);
+  height: var(--checkbox-box-size-sm);
+  border-radius: var(--checkbox-radius-sm);
+}
+.box.md {
+  width: var(--checkbox-box-size-md);
+  height: var(--checkbox-box-size-md);
+  border-radius: var(--checkbox-radius-md);
+}
+
+.input:not(:checked):not(:disabled) + .box {
+  background: transparent;
+  border-width: var(--border-width-sm);
+  border-color: var(--icon-secondary);
+}
+.input:not(:checked):disabled + .box {
+  background: var(--bg-neutral-disabled);
+  border-width: var(--border-width-sm);
+  border-color: var(--icon-disabled);
+}
+.input:checked:not(:disabled) + .box {
+  background: var(--icon-brand);
+  border-color: var(--icon-brand);
+}
+.input:checked:not(:disabled) + .box.sm {
+  border-width: var(--border-width-md);
+}
+.input:checked:not(:disabled) + .box.md {
+  border-width: var(--checkbox-selected-border-width-md);
+}
+.input:checked:disabled + .box {
+  background: var(--bg-neutral-disabled);
+  border-width: var(--border-width-sm);
+  border-color: var(--icon-disabled);
+}
+
+.input:focus-visible + .box {
+  outline: var(--space-1) solid var(--focus-default);
+  outline-offset: var(--space-1);
+}
+
+.icon {
+  width: 70%;
+  height: 70%;
+  color: var(--bg-neutral-primary);
+}
+.input:disabled + .box .icon {
+  /* White is invisible against bg.neutral.disabled's near-transparent
+     fill — Figma uses a differently-colored checkmark asset for this
+     exact state, matching the border color is the closest token
+     equivalent. */
+  color: var(--icon-disabled);
+}
+
+.text {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0;
+}
+.label {
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-sm);
+  line-height: 1.3;
+  color: var(--text-primary);
+}
+.description {
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-xs);
+  line-height: 1.3;
+  color: var(--text-secondary);
+}
