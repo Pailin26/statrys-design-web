@@ -444,7 +444,7 @@ function HorizontalTabsDemo() {
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                <ControlGroupLabel>State</ControlGroupLabel>
+                <ControlGroupLabel>Content</ControlGroupLabel>
                 <Checkbox label="Icon + badge on first tab" selected={withIconBadge} onChange={setWithIconBadge} />
               </div>
             </div>
@@ -544,8 +544,12 @@ function CheckboxDemo() {
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                <ControlGroupLabel>State</ControlGroupLabel>
+                <ControlGroupLabel>Content</ControlGroupLabel>
                 <Checkbox label="Description" selected={showDescription} onChange={setShowDescription} />
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>State</ControlGroupLabel>
                 <Checkbox label="Selected" selected={selected} onChange={setSelected} />
                 <Checkbox label="Indeterminate" selected={indeterminate} onChange={setIndeterminate} />
                 <Checkbox label="Disabled" selected={disabled} onChange={setDisabled} />
@@ -746,14 +750,18 @@ function TextInputFluidDemo() {
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 <ControlGroupLabel>Layout</ControlGroupLabel>
                 <DemoRadioGroup label="Size" options={TEXT_INPUT_SIZES} value={size} onChange={setSize} />
+                <Checkbox label="Dropdown" selected={dropdown} onChange={setDropdown} />
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>Content</ControlGroupLabel>
+                <Checkbox label="Tooltip" selected={showTooltip} onChange={setShowTooltip} />
+                <Checkbox label="Hint" selected={showHint} onChange={setShowHint} />
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 <ControlGroupLabel>State</ControlGroupLabel>
-                <Checkbox label="Dropdown" selected={dropdown} onChange={setDropdown} />
                 <Checkbox label="Force focus" selected={forceFocus} onChange={setForceFocus} />
-                <Checkbox label="Tooltip" selected={showTooltip} onChange={setShowTooltip} />
-                <Checkbox label="Hint" selected={showHint} onChange={setShowHint} />
                 <Checkbox label="Error" selected={showError} onChange={setShowError} />
                 <Checkbox label="Disabled" selected={disabled} onChange={setDisabled} />
               </div>
@@ -810,8 +818,12 @@ function TooltipDemo() {
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                <ControlGroupLabel>State</ControlGroupLabel>
+                <ControlGroupLabel>Content</ControlGroupLabel>
                 <Checkbox label="Description" selected={showDescription} onChange={setShowDescription} />
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>State</ControlGroupLabel>
                 <Checkbox label="Inverse (dark bubble)" selected={inverse} onChange={setInverse} />
               </div>
             </div>
@@ -878,14 +890,14 @@ function BannerDemo() {
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 <ControlGroupLabel>Layout</ControlGroupLabel>
                 <DemoRadioGroup label="Color" options={BANNER_COLORS} value={color} onChange={setColor} />
+                <Checkbox label="Full width (page-level bar)" selected={fullWidth} onChange={setFullWidth} />
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                <ControlGroupLabel>State</ControlGroupLabel>
+                <ControlGroupLabel>Content</ControlGroupLabel>
                 <Checkbox label="Title" selected={showTitle} onChange={setShowTitle} />
                 <Checkbox label="Link" selected={showLink} onChange={setShowLink} />
                 <Checkbox label="Dismiss" selected={showDismiss} onChange={setShowDismiss} />
-                <Checkbox label="Full width (page-level bar)" selected={fullWidth} onChange={setFullWidth} />
               </div>
             </div>
           </div>
@@ -976,7 +988,7 @@ function ToastMessageDemo() {
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                <ControlGroupLabel>State</ControlGroupLabel>
+                <ControlGroupLabel>Content</ControlGroupLabel>
                 <Checkbox label="Subtitle" selected={showSubtitle} onChange={setShowSubtitle} />
                 <Checkbox label="Action link" selected={showAction} onChange={setShowAction} />
               </div>
@@ -1193,11 +1205,15 @@ function ModalDemo() {
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                <ControlGroupLabel>State</ControlGroupLabel>
+                <ControlGroupLabel>Layout</ControlGroupLabel>
+                <Checkbox label="Filled footer" selected={filled} onChange={setFilled} />
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>Content</ControlGroupLabel>
                 <Checkbox label="Description" selected={description} onChange={setDescription} />
                 <Checkbox label="Content body" selected={content} onChange={setContent} />
                 <Checkbox label="Secondary button" selected={secondaryButton} onChange={setSecondaryButton} />
-                <Checkbox label="Filled footer" selected={filled} onChange={setFilled} />
                 <Checkbox label="Close (×) button" selected={closable} onChange={setClosable} />
               </div>
             </div>
