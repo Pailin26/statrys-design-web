@@ -36,7 +36,12 @@ export function Checkbox({
             .filter(Boolean)
             .join(" ")}
         >
-          {selected && (indeterminate ? <Minus className={styles.icon} /> : <Check className={styles.icon} />)}
+          {selected &&
+            (indeterminate ? (
+              <Minus className={styles.icon} strokeWidth={1} />
+            ) : (
+              <Check className={styles.icon} strokeWidth={1} />
+            ))}
         </span>
       </span>
       <span className={styles.text}>
