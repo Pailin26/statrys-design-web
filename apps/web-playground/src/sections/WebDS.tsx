@@ -189,6 +189,10 @@ function ButtonDemo() {
                 <DemoRadioGroup label="Variant" options={VARIANTS} value={variant} onChange={setVariant} />
                 <DemoRadioGroup label="Size" options={SIZES} value={size} onChange={setSize} />
                 <DemoRadioGroup label="Shape" options={["rec", "rounded"] as const} value={shape} onChange={setShape} />
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>State</ControlGroupLabel>
                 <Checkbox label="Disabled" selected={disabled} onChange={setDisabled} />
                 <Checkbox label="Inverse (dark surface)" selected={inverse} onChange={setInverse} />
               </div>
@@ -281,6 +285,10 @@ function ButtonHighlightDemo() {
                 <ControlGroupLabel>Layout</ControlGroupLabel>
                 <DemoRadioGroup label="Variant" options={HIGHLIGHT_VARIANTS} value={variant} onChange={setVariant} />
                 <DemoRadioGroup label="Size" options={SIZES} value={size} onChange={setSize} />
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>State</ControlGroupLabel>
                 <Checkbox label="Disabled" selected={disabled} onChange={setDisabled} />
               </div>
             </div>
@@ -362,6 +370,10 @@ function LinkDemo() {
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 <ControlGroupLabel>Layout</ControlGroupLabel>
                 <DemoRadioGroup label="Size" options={SIZES} value={size} onChange={setSize} />
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>State</ControlGroupLabel>
                 <Checkbox label="Disabled" selected={disabled} onChange={setDisabled} />
                 <Checkbox label="Inverse (dark surface)" selected={inverse} onChange={setInverse} />
               </div>
@@ -429,6 +441,10 @@ function HorizontalTabsDemo() {
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 <ControlGroupLabel>Layout</ControlGroupLabel>
                 <DemoRadioGroup label="Size" options={HORIZONTAL_TABS_SIZES} value={size} onChange={setSize} />
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>State</ControlGroupLabel>
                 <Checkbox label="Icon + badge on first tab" selected={withIconBadge} onChange={setWithIconBadge} />
               </div>
             </div>
@@ -469,7 +485,7 @@ function ToggleDemo() {
 
             <div style={{ display: "flex", flexDirection: "column", gap: 24, minWidth: 220, flexShrink: 0 }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                <ControlGroupLabel>Layout</ControlGroupLabel>
+                <ControlGroupLabel>State</ControlGroupLabel>
                 <Checkbox label="Selected" selected={selected} onChange={setSelected} />
                 <Checkbox label="Disabled" selected={disabled} onChange={setDisabled} />
               </div>
@@ -525,6 +541,10 @@ function CheckboxDemo() {
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 <ControlGroupLabel>Layout</ControlGroupLabel>
                 <DemoRadioGroup label="Size" options={CHECKBOX_SIZES} value={size} onChange={setSize} />
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>State</ControlGroupLabel>
                 <Checkbox label="Description" selected={showDescription} onChange={setShowDescription} />
                 <Checkbox label="Selected" selected={selected} onChange={setSelected} />
                 <Checkbox label="Indeterminate" selected={indeterminate} onChange={setIndeterminate} />
@@ -574,6 +594,10 @@ function RadioDemo() {
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 <ControlGroupLabel>Layout</ControlGroupLabel>
                 <DemoRadioGroup label="Size" options={RADIO_SIZES} value={size} onChange={setSize} />
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>State</ControlGroupLabel>
                 <Checkbox label="Selected" selected={selected} onChange={setSelected} />
                 <Checkbox label="Disabled" selected={disabled} onChange={setDisabled} />
               </div>
@@ -639,6 +663,10 @@ function SearchInputDemo() {
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 <ControlGroupLabel>Layout</ControlGroupLabel>
                 <DemoRadioGroup label="Size" options={SEARCH_INPUT_SIZES} value={size} onChange={setSize} />
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>State</ControlGroupLabel>
                 <Checkbox label="Disabled" selected={disabled} onChange={setDisabled} />
               </div>
             </div>
@@ -718,6 +746,10 @@ function TextInputFluidDemo() {
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 <ControlGroupLabel>Layout</ControlGroupLabel>
                 <DemoRadioGroup label="Size" options={TEXT_INPUT_SIZES} value={size} onChange={setSize} />
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>State</ControlGroupLabel>
                 <Checkbox label="Dropdown" selected={dropdown} onChange={setDropdown} />
                 <Checkbox label="Force focus" selected={forceFocus} onChange={setForceFocus} />
                 <Checkbox label="Tooltip" selected={showTooltip} onChange={setShowTooltip} />
@@ -775,6 +807,10 @@ function TooltipDemo() {
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 <ControlGroupLabel>Layout</ControlGroupLabel>
                 <DemoRadioGroup label="Arrow" options={TOOLTIP_ARROWS} value={arrow} onChange={setArrow} />
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>State</ControlGroupLabel>
                 <Checkbox label="Description" selected={showDescription} onChange={setShowDescription} />
                 <Checkbox label="Inverse (dark bubble)" selected={inverse} onChange={setInverse} />
               </div>
@@ -842,6 +878,10 @@ function BannerDemo() {
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 <ControlGroupLabel>Layout</ControlGroupLabel>
                 <DemoRadioGroup label="Color" options={BANNER_COLORS} value={color} onChange={setColor} />
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>State</ControlGroupLabel>
                 <Checkbox label="Title" selected={showTitle} onChange={setShowTitle} />
                 <Checkbox label="Link" selected={showLink} onChange={setShowLink} />
                 <Checkbox label="Dismiss" selected={showDismiss} onChange={setShowDismiss} />
@@ -933,6 +973,10 @@ function ToastMessageDemo() {
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 <ControlGroupLabel>Layout</ControlGroupLabel>
                 <DemoRadioGroup label="Variant" options={TOAST_VARIANTS} value={variant} onChange={setVariant} />
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>State</ControlGroupLabel>
                 <Checkbox label="Subtitle" selected={showSubtitle} onChange={setShowSubtitle} />
                 <Checkbox label="Action link" selected={showAction} onChange={setShowAction} />
               </div>
@@ -1007,6 +1051,10 @@ function XCloseDemo() {
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 <ControlGroupLabel>Layout</ControlGroupLabel>
                 <DemoRadioGroup label="Size" options={XCLOSE_SIZES} value={size} onChange={setSize} />
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>State</ControlGroupLabel>
                 <Checkbox label="Inverse (dark surface)" selected={inverse} onChange={setInverse} />
               </div>
             </div>
@@ -1145,7 +1193,7 @@ function ModalDemo() {
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                <ControlGroupLabel>Layout</ControlGroupLabel>
+                <ControlGroupLabel>State</ControlGroupLabel>
                 <Checkbox label="Description" selected={description} onChange={setDescription} />
                 <Checkbox label="Content body" selected={content} onChange={setContent} />
                 <Checkbox label="Secondary button" selected={secondaryButton} onChange={setSecondaryButton} />
