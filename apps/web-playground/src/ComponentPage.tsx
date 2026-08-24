@@ -8,14 +8,39 @@ const CHANGELOGS: Record<string, ChangelogEntry[]> = changelogs;
 const SECTIONS = ["Examples", "Code", "Usage", "Changelog"] as const;
 type Section = (typeof SECTIONS)[number];
 
+export type UseInstead = { label: string; because: string };
+
 export type ComponentPageProps = {
   id: string;
   title: string;
-  usage: string;
+  /** One plain-language sentence: what this component is, no jargon. */
+  whatItIs: string;
+  /** Plain-language scenarios where this is the right choice — short, concrete, no prop names. */
+  whenToUse: string[];
+  /** "Reach for X instead when..." — the other component + the plain-language reason. */
+  useInstead?: UseInstead[];
+  /** Extra tips worth knowing, still in plain language — accessibility notes, common mistakes, etc. */
+  goodToKnow?: string[];
   code: string;
   figmaUrl?: string;
   children: React.ReactNode;
 };
+
+function UsageHeading({ children }: { children: React.ReactNode }) {
+  return <h3 style={{ fontSize: 15, margin: 0, color: "var(--text-primary)" }}>{children}</h3>;
+}
+
+function UsageList({ items }: { items: string[] }) {
+  return (
+    <ul style={{ margin: 0, paddingLeft: 20, display: "flex", flexDirection: "column", gap: 8 }}>
+      {items.map((item, i) => (
+        <li key={i} style={{ color: "var(--text-secondary)", lineHeight: 1.6, fontSize: 15 }}>
+          {item}
+        </li>
+      ))}
+    </ul>
+  );
+}
 
 function CodeBlock({ code }: { code: string }) {
   const [copied, setCopied] = useState(false);
@@ -39,7 +64,17 @@ function CodeBlock({ code }: { code: string }) {
   );
 }
 
-export function ComponentPage({ id, title, usage, code, figmaUrl, children }: ComponentPageProps) {
+export function ComponentPage({
+  id,
+  title,
+  whatItIs,
+  whenToUse,
+  useInstead,
+  goodToKnow,
+  code,
+  figmaUrl,
+  children,
+}: ComponentPageProps) {
   const [section, setSection] = useState<Section>("Examples");
   const entries = CHANGELOGS[id] ?? [];
 
@@ -53,8 +88,32 @@ export function ComponentPage({ id, title, usage, code, figmaUrl, children }: Co
       {section === "Code" && <CodeBlock code={code} />}
 
       {section === "Usage" && (
-        <div style={{ maxWidth: 640, display: "flex", flexDirection: "column", gap: 16 }}>
-          <p style={{ color: "var(--text-secondary)", lineHeight: 1.6, fontSize: 15, margin: 0 }}>{usage}</p>
+        <div style={{ maxWidth: 640, display: "flex", flexDirection: "column", gap: 28 }}>
+          <p style={{ color: "var(--text-primary)", lineHeight: 1.6, fontSize: 17, margin: 0, fontWeight: 500 }}>
+            {whatItIs}
+          </p>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <UsageHeading>When to use it</UsageHeading>
+            <UsageList items={whenToUse} />
+          </div>
+
+          {useInstead && useInstead.length > 0 && (
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              <UsageHeading>Use something else when...</UsageHeading>
+              <UsageList
+                items={useInstead.map((item) => `Reach for ${item.label} instead — ${item.because}`)}
+              />
+            </div>
+          )}
+
+          {goodToKnow && goodToKnow.length > 0 && (
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              <UsageHeading>Good to know</UsageHeading>
+              <UsageList items={goodToKnow} />
+            </div>
+          )}
+
           {figmaUrl && (
             <p style={{ margin: 0 }}>
               <a href={figmaUrl} target="_blank" rel="noreferrer">
