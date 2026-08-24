@@ -38,9 +38,9 @@ export function Checkbox({
         >
           {selected &&
             (indeterminate ? (
-              <Minus className={styles.icon} strokeWidth={1} />
+              <Minus className={styles.icon} strokeWidth={1.5} />
             ) : (
-              <Check className={styles.icon} strokeWidth={1} />
+              <Check className={styles.icon} strokeWidth={1.5} />
             ))}
         </span>
       </span>
