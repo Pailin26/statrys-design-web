@@ -161,11 +161,6 @@ function ButtonDemo() {
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
         <div>
-          <h3 style={{ margin: "0 0 12px" }}>Interactive — every combination</h3>
-          <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
-            One live <code>Button</code> re-rendering as you flip these — not a static grid of
-            pre-baked screenshots.
-          </p>
           <div style={{ display: "flex", gap: 32, flexWrap: "wrap", alignItems: "stretch" }}>
             <div
               style={{
@@ -269,7 +264,6 @@ function ButtonHighlightDemo() {
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
         <div>
-          <h3 style={{ margin: "0 0 12px" }}>Interactive — every combination</h3>
           <div style={{ display: "flex", gap: 32, flexWrap: "wrap", alignItems: "stretch" }}>
             <div style={{ flex: "1 1 400px", minHeight: 160, display: "flex", alignItems: "center", justifyContent: "center", background: "#f2f2f2", borderRadius: 8 }}>
               <ButtonHighlight variant={variant} size={size} disabled={disabled}>
@@ -342,7 +336,6 @@ function LinkDemo() {
         </p>
 
         <div>
-          <h3 style={{ margin: "0 0 12px" }}>Interactive — every combination</h3>
           <div style={{ display: "flex", gap: 32, flexWrap: "wrap", alignItems: "stretch" }}>
             <div
               style={{
@@ -420,7 +413,6 @@ function HorizontalTabsDemo() {
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
         <div>
-          <h3 style={{ margin: "0 0 12px" }}>Interactive — every combination</h3>
           <div style={{ display: "flex", gap: 32, flexWrap: "wrap", alignItems: "stretch" }}>
             <div style={{ flex: "1 1 400px", minHeight: 120, display: "flex", alignItems: "center", background: "#f2f2f2", borderRadius: 8, padding: "0 24px" }}>
               <HorizontalTabs items={items} activeId={activeId} onChange={setActiveId} size={size} />
@@ -461,7 +453,6 @@ function ToggleDemo() {
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
         <div>
-          <h3 style={{ margin: "0 0 12px" }}>Interactive — every combination</h3>
           <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
             No text prop on Toggle — click it directly (when not disabled), or drive it from the
             "Selected" control below to see the disabled+on / disabled+off states.
@@ -511,7 +502,6 @@ function CheckboxDemo() {
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
         <div>
-          <h3 style={{ margin: "0 0 12px" }}>Interactive — every combination</h3>
           <div style={{ display: "flex", gap: 32, flexWrap: "wrap", alignItems: "stretch" }}>
             <div style={{ flex: "1 1 400px", minHeight: 120, display: "flex", alignItems: "center", justifyContent: "center", background: "#f2f2f2", borderRadius: 8, padding: 24 }}>
               <Checkbox
@@ -566,7 +556,6 @@ function RadioDemo() {
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
         <div>
-          <h3 style={{ margin: "0 0 12px" }}>Interactive — every combination</h3>
           <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
             No labeled wrapper, so no text to edit here — just the bare indicator's Layout props.
           </p>
@@ -633,7 +622,6 @@ function SearchInputDemo() {
         </p>
 
         <div>
-          <h3 style={{ margin: "0 0 12px" }}>Interactive — every combination</h3>
           <div style={{ display: "flex", gap: 32, flexWrap: "wrap", alignItems: "stretch" }}>
             <div style={{ flex: "1 1 400px", minHeight: 120, display: "flex", alignItems: "center", justifyContent: "center", background: "#f2f2f2", borderRadius: 8, padding: 24 }}>
               <div style={{ width: "100%", maxWidth: 343 }}>
@@ -694,7 +682,6 @@ function TextInputFluidDemo() {
         </p>
 
         <div>
-          <h3 style={{ margin: "0 0 12px" }}>Interactive — every combination</h3>
           <div style={{ display: "flex", gap: 32, flexWrap: "wrap", alignItems: "stretch" }}>
             <div style={{ flex: "1 1 400px", minHeight: 160, display: "flex", alignItems: "center", justifyContent: "center", background: "#f2f2f2", borderRadius: 8, padding: 24 }}>
               <div style={{ width: "100%", maxWidth: 343 }}>
@@ -773,7 +760,6 @@ function TooltipDemo() {
         </p>
 
         <div>
-          <h3 style={{ margin: "0 0 12px" }}>Interactive — every combination</h3>
           <div style={{ display: "flex", gap: 32, flexWrap: "wrap", alignItems: "stretch" }}>
             <div style={{ flex: "1 1 400px", minHeight: 200, display: "flex", alignItems: "center", justifyContent: "center", background: "#f2f2f2", borderRadius: 8 }}>
               <Tooltip title={title} description={showDescription ? description : undefined} arrow={arrow} inverse={inverse} />
@@ -830,7 +816,6 @@ function BannerDemo() {
         </p>
 
         <div>
-          <h3 style={{ margin: "0 0 12px" }}>Interactive — every combination</h3>
           <div style={{ display: "flex", gap: 32, flexWrap: "wrap", alignItems: "stretch" }}>
             <div style={{ flex: "1 1 400px", display: "flex", alignItems: "center", justifyContent: "center", background: "#f2f2f2", borderRadius: 8, padding: fullWidth ? 0 : 24 }}>
               <div style={{ width: "100%" }}>
@@ -924,7 +909,6 @@ function ToastMessageDemo() {
         </p>
 
         <div>
-          <h3 style={{ margin: "0 0 12px" }}>Interactive — every combination</h3>
           <div style={{ display: "flex", gap: 32, flexWrap: "wrap", alignItems: "stretch" }}>
             <div style={{ flex: "1 1 400px", minHeight: 160, display: "flex", alignItems: "center", justifyContent: "center", background: "#f2f2f2", borderRadius: 8, padding: 24 }}>
               <div style={{ width: "100%", maxWidth: 356 }}>
@@ -1003,7 +987,6 @@ function XCloseDemo() {
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
         <div>
-          <h3 style={{ margin: "0 0 12px" }}>Interactive — every combination</h3>
           <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>No text prop — just size and surface. Hover it to see the real background tint.</p>
           <div style={{ display: "flex", gap: 32, flexWrap: "wrap", alignItems: "stretch" }}>
             <div
@@ -1123,11 +1106,6 @@ function ModalDemo() {
         </p>
 
         <div>
-          <h3 style={{ margin: "0 0 12px" }}>Interactive — every combination</h3>
-          <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
-            One live <code>Modal</code> re-rendering as you flip these — not a static grid of
-            pre-baked screenshots.
-          </p>
           <div style={{ display: "flex", gap: 32, flexWrap: "wrap", alignItems: "stretch" }}>
             <div
               style={{
