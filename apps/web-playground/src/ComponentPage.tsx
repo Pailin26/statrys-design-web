@@ -22,7 +22,6 @@ export type ComponentPageProps = {
   /** Extra tips worth knowing, still in plain language — accessibility notes, common mistakes, etc. */
   goodToKnow?: string[];
   code: string;
-  figmaUrl?: string;
   children: React.ReactNode;
 };
 
@@ -72,7 +71,6 @@ export function ComponentPage({
   useInstead,
   goodToKnow,
   code,
-  figmaUrl,
   children,
 }: ComponentPageProps) {
   const [section, setSection] = useState<Section>("Examples");
@@ -112,14 +110,6 @@ export function ComponentPage({
               <UsageHeading>Good to know</UsageHeading>
               <UsageList items={goodToKnow} />
             </div>
-          )}
-
-          {figmaUrl && (
-            <p style={{ margin: 0 }}>
-              <a href={figmaUrl} target="_blank" rel="noreferrer">
-                View in Figma ↗
-              </a>
-            </p>
           )}
         </div>
       )}

@@ -3,8 +3,6 @@ import { ArrowUpRight, ChevronDown } from "lucide-react";
 import { Button, ButtonHighlight, Link, HorizontalTabs, Toggle, Checkbox, Radio, SearchInput, TextInputFluid, Tooltip, Banner, ToastMessage, XClose, Overlay, Modal } from "@statrys/web-ds";
 import { ComponentPage } from "../ComponentPage";
 
-const FIGMA_FILE = "https://www.figma.com/design/abElBYcwuc5skfPX1c7FlP/-WEB--Design-System?node-id=";
-
 // One state per row, one axis value (usually size) per column — every
 // meaningful visual variant in one table instead of scattered one-off
 // examples. Shared by every component demo below.
@@ -168,7 +166,6 @@ function ButtonDemo() {
       goodToKnow={[
         "The square and circle shapes are for icon-only buttons with no visible label — only use them when the icon alone is clear.",
       ]}
-      figmaUrl={`${FIGMA_FILE}537-1561`}
       code={`import { Button } from "@statrys/web-ds";\n\n<Button variant="primary" size="md" onClick={handleClick}>\n  Continue\n</Button>\n\n// Icon-only (Shape=Square/Circle) — icon is a consumer-supplied ReactNode\nimport { ArrowUpRight } from "lucide-react";\n\n<Button\n  variant="primary"\n  shape="circle"\n  icon={<ArrowUpRight size={20} />}\n  aria-label="Open"\n/>`}
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
@@ -281,7 +278,6 @@ function ButtonHighlightDemo() {
       useInstead={[
         { label: "Button", because: "you're inside a product screen or a form — its primary style is already the right amount of emphasis there." },
       ]}
-      figmaUrl={`${FIGMA_FILE}1847-8095`}
       code={`import { ButtonHighlight } from "@statrys/web-ds";\n\n<ButtonHighlight variant="primary" size="md" onClick={handleClick}>\n  Get started\n</ButtonHighlight>`}
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
@@ -357,7 +353,6 @@ function LinkDemo() {
       useInstead={[
         { label: "Button", because: "the action needs to stand out on its own, like submitting a form." },
       ]}
-      figmaUrl={`${FIGMA_FILE}2153-6347`}
       code={`import { Link } from "@statrys/web-ds";\nimport { ArrowUpRight } from "lucide-react";\n\n<Link href="/docs" size="md" iconRight={<ArrowUpRight size={16} />}>\n  Learn more\n</Link>`}
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
@@ -454,7 +449,6 @@ function HorizontalTabsDemo() {
       goodToKnow={[
         "Only the underlined style exists today — there's no pill or segmented look yet.",
       ]}
-      figmaUrl={`${FIGMA_FILE}2725-16713`}
       code={`import { HorizontalTabs } from "@statrys/web-ds";\n\nconst items = [\n  { id: "one", label: "Tab one", badge: 2 },\n  { id: "two", label: "Tab two" },\n];\n\n<HorizontalTabs items={items} activeId={activeId} onChange={setActiveId} />`}
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
@@ -504,7 +498,6 @@ function ToggleDemo() {
       useInstead={[
         { label: "Checkbox", because: "the choice is part of a form and won't take effect until the whole form is submitted." },
       ]}
-      figmaUrl={`${FIGMA_FILE}3784-2555`}
       code={`import { Toggle } from "@statrys/web-ds";\n\n<Toggle selected={enabled} onChange={setEnabled} aria-label="Enable notifications" />`}
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
@@ -561,7 +554,6 @@ function CheckboxDemo() {
         { label: "Toggle", because: "the choice should take effect immediately, with no submit step." },
         { label: "Radio", because: "only one option out of the set is allowed." },
       ]}
-      figmaUrl={`${FIGMA_FILE}3417-179`}
       code={`import { Checkbox } from "@statrys/web-ds";\n\n<Checkbox label="Remember me" selected={checked} onChange={setChecked} />\n\n<Checkbox\n  label="Remember me"\n  description="Save my login details for next time"\n  selected={checked}\n  onChange={setChecked}\n/>`}
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
@@ -634,7 +626,6 @@ function RadioDemo() {
       goodToKnow={[
         "This is just the round indicator by itself — there's no built-in text label, so pair it with your own.",
       ]}
-      figmaUrl={`${FIGMA_FILE}3081-4828`}
       code={`import { Radio } from "@statrys/web-ds";\n\n<Radio name="plan" value="monthly" selected={plan === "monthly"} onChange={() => setPlan("monthly")} />\n<Radio name="plan" value="yearly" selected={plan === "yearly"} onChange={() => setPlan("yearly")} />`}
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
@@ -703,7 +694,6 @@ function SearchInputDemo() {
       useInstead={[
         { label: "Text Input Fluid", because: "it's a regular form field like name or email, not a search box." },
       ]}
-      figmaUrl={`${FIGMA_FILE}818-2874`}
       code={`import { SearchInput } from "@statrys/web-ds";\n\n<SearchInput value={query} onChange={setQuery} placeholder="Search" />`}
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
@@ -778,7 +768,6 @@ function TextInputFluidDemo() {
       goodToKnow={[
         "Always pair a field with a hint or error message — don't rely on color alone to show something's wrong.",
       ]}
-      figmaUrl={`${FIGMA_FILE}1085-5372`}
       code={`import { TextInputFluid } from "@statrys/web-ds";\n\n<TextInputFluid\n  label="Email"\n  value={email}\n  onChange={setEmail}\n  placeholder="you@example.com"\n  hint="We'll never share your email"\n/>`}
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
@@ -871,7 +860,6 @@ function TooltipDemo() {
       goodToKnow={[
         "Never put information someone needs to finish a task inside a tooltip — it's easy to miss, especially on phones and tablets.",
       ]}
-      figmaUrl={`${FIGMA_FILE}2432-14400`}
       code={`import { Tooltip } from "@statrys/web-ds";\n\n<Tooltip title="This is a tooltip" arrow="bottom" />\n\n<Tooltip\n  title="This is a tooltip"\n  description="Tooltips are used to describe or identify an element."\n  arrow="top"\n  inverse\n/>`}
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
@@ -945,7 +933,6 @@ function BannerDemo() {
         "Match the color to how serious the notice is — green for success, red for errors, and so on.",
         "Only make it dismissable when it's fine for someone to lose it for good.",
       ]}
-      figmaUrl={`${FIGMA_FILE}3443-2895`}
       code={`import { Banner } from "@statrys/web-ds";\n\n<Banner\n  color="success"\n  text="Your information is secure and encrypted"\n  onLinkClick={() => {}}\n  onDismiss={() => setShow(false)}\n/>\n\n<Banner color="warning" title="Title" text="..." fullWidth />`}
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
@@ -1053,7 +1040,6 @@ function ToastMessageDemo() {
         "Keep the title short enough to read at a glance.",
         "Only add the trailing link when there's a genuinely useful next step to take.",
       ]}
-      figmaUrl={`${FIGMA_FILE}215-4052`}
       code={`import { ToastMessage } from "@statrys/web-ds";\n\n<ToastMessage\n  variant="success"\n  title="Invoice sent"\n  subtitle="Marked as sent"\n  action={{ label: "View Details", onClick: openInvoice }}\n  onClose={() => setShow(false)}\n/>`}
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
@@ -1146,7 +1132,6 @@ function XCloseDemo() {
       goodToKnow={[
         "Always give it a label describing what it closes, so it's clear to people using a screen reader.",
       ]}
-      figmaUrl={`${FIGMA_FILE}1646-164`}
       code={`import { XClose } from "@statrys/web-ds";\n\n<XClose size="sm" onClick={() => setOpen(false)} aria-label="Dismiss" />\n\n// On a dark surface (e.g. inside ToastMessage)\n<XClose size="sm" inverse onClick={() => setOpen(false)} />`}
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
@@ -1200,7 +1185,6 @@ function OverlayDemo() {
         "It's just the dimmed backdrop, mounted alongside the modal rather than wrapped around it — never put content inside it.",
         "The modal itself always appears on top automatically, no extra setup needed.",
       ]}
-      figmaUrl={`${FIGMA_FILE}1510-8634`}
       code={`import { Overlay, Modal } from "@statrys/web-ds";\n\n// Siblings, not nested — Overlay (z-index 300) is the dimmed backdrop,\n// Modal (z-index 400) always renders on top of it.\n{open && (\n  <>\n    <Overlay onClick={() => setOpen(false)} />\n    <Modal>\n      <Modal.Header title="Title" onClose={() => setOpen(false)} />\n      <Modal.Footer primaryLabel="Confirm" onPrimary={() => setOpen(false)} />\n    </Modal>\n  </>\n)}`}
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
@@ -1280,7 +1264,6 @@ function ModalDemo() {
       goodToKnow={[
         "Pair it with Overlay for the dimmed background — see Overlay's own Usage tab for the two shown together.",
       ]}
-      figmaUrl={`${FIGMA_FILE}2734-18960`}
       code={`import { Modal, Overlay } from "@statrys/web-ds";\n\n// Siblings, not nested — Overlay (z-index 300) dims the page,\n// Modal (z-index 400) always renders on top of it.\n{open && (\n  <>\n    <Overlay onClick={() => setOpen(false)} />\n    <Modal>\n      <Modal.Header title="Title" description="Description" onClose={() => setOpen(false)} />\n      <Modal.Content paddingBottom>Body copy…</Modal.Content>\n      <Modal.Footer\n        primaryLabel="Confirm"\n        onPrimary={() => setOpen(false)}\n        secondaryLabel="Cancel"\n        onSecondary={() => setOpen(false)}\n      />\n    </Modal>\n  </>\n)}`}
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
