@@ -941,11 +941,13 @@ function OverlayDemo() {
   );
 }
 
-const MODAL_FOOTER_COLUMNS = ["Default", "Filled"] as const;
-
 function ModalDemo() {
+  const [description, setDescription] = useState(true);
+  const [content, setContent] = useState(true);
+  const [secondaryButton, setSecondaryButton] = useState(true);
+  const [filled, setFilled] = useState(false);
+  const [closable, setClosable] = useState(true);
   const [open, setOpen] = useState(false);
-  const [filledOpen, setFilledOpen] = useState(false);
 
   return (
     <ComponentPage
@@ -963,7 +965,62 @@ function ModalDemo() {
         </p>
 
         <div>
-          <h3 style={{ margin: "0 0 12px" }}>Interactive — default footer (primary + secondary)</h3>
+          <h3 style={{ margin: "0 0 12px" }}>Interactive — every combination</h3>
+          <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
+            One live <code>Modal</code> re-rendering as you flip these — not a static grid of
+            pre-baked screenshots.
+          </p>
+          <div style={{ display: "flex", gap: 32, flexWrap: "wrap", alignItems: "flex-start" }}>
+            <div
+              style={{
+                flex: "1 1 480px",
+                position: "relative",
+                minHeight: 460,
+                background: "#f2f2f2",
+                borderRadius: 8,
+                overflow: "hidden",
+                contain: "layout paint",
+              }}
+            >
+              <Overlay onClick={() => {}} />
+              <Modal>
+                <Modal.Header
+                  title="Title"
+                  description={description ? "Description" : undefined}
+                  onClose={closable ? () => {} : undefined}
+                />
+                {content && (
+                  <Modal.Content paddingBottom>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque enim ac
+                    odio tincidunt, ac tincidunt ipsum ullamcorper.
+                  </Modal.Content>
+                )}
+                <Modal.Footer
+                  primaryLabel="Confirm"
+                  onPrimary={() => {}}
+                  secondaryLabel={secondaryButton ? "Cancel" : undefined}
+                  onSecondary={() => {}}
+                  filled={filled}
+                />
+              </Modal>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 16, minWidth: 200, flexShrink: 0 }}>
+              <Checkbox label="Description" selected={description} onChange={setDescription} />
+              <Checkbox label="Content body" selected={content} onChange={setContent} />
+              <Checkbox label="Secondary button" selected={secondaryButton} onChange={setSecondaryButton} />
+              <Checkbox label="Filled footer" selected={filled} onChange={setFilled} />
+              <Checkbox label="Close (×) button" selected={closable} onChange={setClosable} />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3 style={{ margin: "0 0 12px" }}>Real trigger flow</h3>
+          <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
+            The combination above, mounted for real — full-screen, opened/closed by a trigger,
+            instead of pinned open inside a contained preview box.
+          </p>
           <Button variant="primary" size="md" onClick={() => setOpen(true)}>
             Open modal
           </Button>
@@ -971,42 +1028,23 @@ function ModalDemo() {
             <>
               <Overlay onClick={() => setOpen(false)} />
               <Modal>
-                <Modal.Header title="Title" description="Description" onClose={() => setOpen(false)} />
-                <Modal.Content paddingBottom>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque enim ac odio
-                  tincidunt, ac tincidunt ipsum ullamcorper.
-                </Modal.Content>
+                <Modal.Header
+                  title="Title"
+                  description={description ? "Description" : undefined}
+                  onClose={closable ? () => setOpen(false) : undefined}
+                />
+                {content && (
+                  <Modal.Content paddingBottom>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque enim ac
+                    odio tincidunt, ac tincidunt ipsum ullamcorper.
+                  </Modal.Content>
+                )}
                 <Modal.Footer
                   primaryLabel="Confirm"
                   onPrimary={() => setOpen(false)}
-                  secondaryLabel="Cancel"
+                  secondaryLabel={secondaryButton ? "Cancel" : undefined}
                   onSecondary={() => setOpen(false)}
-                />
-              </Modal>
-            </>
-          )}
-        </div>
-
-        <div>
-          <h3 style={{ margin: "0 0 12px" }}>Interactive — filled footer (destructive confirm)</h3>
-          <Button variant="primary" size="md" onClick={() => setFilledOpen(true)}>
-            Open modal
-          </Button>
-          {filledOpen && (
-            <>
-              <Overlay onClick={() => setFilledOpen(false)} />
-              <Modal>
-                <Modal.Header
-                  title="Delete this item?"
-                  description="This action cannot be undone."
-                  onClose={() => setFilledOpen(false)}
-                />
-                <Modal.Footer
-                  primaryLabel="Delete"
-                  onPrimary={() => setFilledOpen(false)}
-                  secondaryLabel="Keep"
-                  onSecondary={() => setFilledOpen(false)}
-                  filled
+                  filled={filled}
                 />
               </Modal>
             </>
@@ -1035,38 +1073,6 @@ function ModalDemo() {
             </Modal.Content>
             <Modal.Footer primaryLabel="Button" secondaryLabel="Button" onPrimary={() => {}} onSecondary={() => {}} />
           </div>
-        </div>
-
-        <div>
-          <h3 style={{ margin: "0 0 12px" }}>Footer variants</h3>
-          <VariantGrid
-            columns={MODAL_FOOTER_COLUMNS}
-            columnLabelWidth={160}
-            rows={[
-              {
-                label: "Primary only",
-                render: (column) => (
-                  <div style={{ width: 320, background: "var(--bg-neutral-primary)", border: "1px solid #eee", borderRadius: 8 }}>
-                    <Modal.Footer primaryLabel="Button" onPrimary={() => {}} filled={column === "Filled"} />
-                  </div>
-                ),
-              },
-              {
-                label: "Primary + secondary",
-                render: (column) => (
-                  <div style={{ width: 320, background: "var(--bg-neutral-primary)", border: "1px solid #eee", borderRadius: 8 }}>
-                    <Modal.Footer
-                      primaryLabel="Button"
-                      secondaryLabel="Button"
-                      onPrimary={() => {}}
-                      onSecondary={() => {}}
-                      filled={column === "Filled"}
-                    />
-                  </div>
-                ),
-              },
-            ]}
-          />
         </div>
       </div>
     </ComponentPage>
