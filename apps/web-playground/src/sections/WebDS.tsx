@@ -1,4 +1,4 @@
-import { useState, Fragment, type ComponentProps } from "react";
+import { useState, Fragment } from "react";
 import { ArrowUpRight, ChevronDown } from "lucide-react";
 import { Button, ButtonHighlight, Link, HorizontalTabs, Toggle, Checkbox, Radio, SearchInput, TextInputFluid, Tooltip, Banner, ToastMessage, XClose, Overlay, Modal } from "@statrys/web-ds";
 import { ComponentPage } from "../ComponentPage";
@@ -52,11 +52,105 @@ function VariantGrid<Col extends string>({
   );
 }
 
+// Shared by every "Interactive" demo section below: a small-caps label over
+// a group of controls (so a panel mixing free text with layout toggles reads
+// as two groups, not one flat list), a plain editable text field/textarea,
+// and a labeled Radio group (dogfoods the DS's own Radio for a real
+// multi-choice control instead of a raw <select>).
+function ControlGroupLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <div
+      style={{
+        fontSize: 11,
+        fontWeight: 700,
+        textTransform: "uppercase",
+        letterSpacing: "0.04em",
+        color: "#999",
+        borderBottom: "1px solid #eee",
+        paddingBottom: 6,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function DemoField({
+  label,
+  value,
+  onChange,
+  multiline = false,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  multiline?: boolean;
+}) {
+  const fieldStyle: React.CSSProperties = {
+    width: "100%",
+    fontFamily: "inherit",
+    fontSize: 13,
+    fontWeight: 400,
+    color: "#1b1b1b",
+    padding: "8px 10px",
+    borderRadius: 6,
+    border: "1px solid #ddd",
+    boxSizing: "border-box",
+  };
+
+  return (
+    <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: 12, fontWeight: 600, color: "#444" }}>
+      {label}
+      {multiline ? (
+        <textarea rows={3} value={value} onChange={(e) => onChange(e.target.value)} style={{ ...fieldStyle, resize: "vertical" }} />
+      ) : (
+        <input type="text" value={value} onChange={(e) => onChange(e.target.value)} style={fieldStyle} />
+      )}
+    </label>
+  );
+}
+
+function DemoRadioGroup<T extends string>({
+  label,
+  options,
+  value,
+  onChange,
+}: {
+  label: string;
+  options: readonly T[];
+  value: T;
+  onChange: (value: T) => void;
+}) {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+      <div style={{ fontSize: 12, fontWeight: 600, color: "#444" }}>{label}</div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+        {options.map((option) => (
+          <label
+            key={option}
+            style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "#1b1b1b", cursor: "pointer", textTransform: "capitalize" }}
+          >
+            <Radio name={label} value={option} selected={value === option} onChange={() => onChange(option)} />
+            {option}
+          </label>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 const VARIANTS = ["primary", "secondary", "tertiary"] as const;
 const HIGHLIGHT_VARIANTS = ["primary", "secondary"] as const;
 const SIZES = ["sm", "md", "lg"] as const;
 
 function ButtonDemo() {
+  const [label, setLabel] = useState("Continue");
+  const [variant, setVariant] = useState<(typeof VARIANTS)[number]>("primary");
+  const [size, setSize] = useState<(typeof SIZES)[number]>("md");
+  const [shape, setShape] = useState<"rec" | "rounded">("rec");
+  const [disabled, setDisabled] = useState(false);
+  const [inverse, setInverse] = useState(false);
+
   return (
     <ComponentPage
       id="button"
@@ -66,48 +160,44 @@ function ButtonDemo() {
       code={`import { Button } from "@statrys/web-ds";\n\n<Button variant="primary" size="md" onClick={handleClick}>\n  Continue\n</Button>\n\n// Icon-only (Shape=Square/Circle) — icon is a consumer-supplied ReactNode\nimport { ArrowUpRight } from "lucide-react";\n\n<Button\n  variant="primary"\n  shape="circle"\n  icon={<ArrowUpRight size={20} />}\n  aria-label="Open"\n/>`}
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
-        {VARIANTS.map((variant) => (
-          <div key={variant}>
-            <h3 style={{ margin: "0 0 12px", textTransform: "capitalize" }}>{variant}</h3>
-            <VariantGrid
-              columns={SIZES}
-              rows={[
-                { label: "Default", render: (size) => <Button variant={variant} size={size}>{variant} / {size}</Button> },
-                { label: "Disabled", render: (size) => <Button variant={variant} size={size} disabled>{variant} / {size}</Button> },
-              ]}
-            />
-          </div>
-        ))}
-
         <div>
-          <h2 style={{ fontSize: 16, margin: "0 0 12px" }}>Inverse (dark surface)</h2>
-          <div style={{ background: "var(--neutral-8)", padding: 24, borderRadius: "var(--radius-lg)", display: "flex", flexDirection: "column", gap: 24 }}>
-            {VARIANTS.map((variant) => (
-              <VariantGrid
-                key={variant}
-                columns={SIZES}
-                rows={[
-                  { label: "Default", render: (size) => <Button variant={variant} size={size} inverse>{variant} / {size}</Button> },
-                  { label: "Disabled", render: (size) => <Button variant={variant} size={size} inverse disabled>{variant} / {size}</Button> },
-                ]}
-              />
-            ))}
-          </div>
-        </div>
+          <h3 style={{ margin: "0 0 12px" }}>Interactive — every combination</h3>
+          <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
+            One live <code>Button</code> re-rendering as you flip these — not a static grid of
+            pre-baked screenshots.
+          </p>
+          <div style={{ display: "flex", gap: 32, flexWrap: "wrap", alignItems: "flex-start" }}>
+            <div
+              style={{
+                flex: "1 1 400px",
+                minHeight: 160,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                background: inverse ? "var(--neutral-8)" : "#f2f2f2",
+                borderRadius: 8,
+              }}
+            >
+              <Button variant={variant} size={size} shape={shape} disabled={disabled} inverse={inverse}>
+                {label}
+              </Button>
+            </div>
 
-        <div>
-          <h2 style={{ fontSize: 16, margin: "0 0 12px" }}>Shape=Rounded</h2>
-          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-            {VARIANTS.map((variant) => (
-              <VariantGrid
-                key={variant}
-                columns={SIZES}
-                rows={[
-                  { label: "Default", render: (size) => <Button variant={variant} size={size} shape="rounded">{variant} / {size}</Button> },
-                  { label: "Disabled", render: (size) => <Button variant={variant} size={size} shape="rounded" disabled>{variant} / {size}</Button> },
-                ]}
-              />
-            ))}
+            <div style={{ display: "flex", flexDirection: "column", gap: 24, minWidth: 220, flexShrink: 0 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>Text</ControlGroupLabel>
+                <DemoField label="Label" value={label} onChange={setLabel} />
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>Layout</ControlGroupLabel>
+                <DemoRadioGroup label="Variant" options={VARIANTS} value={variant} onChange={setVariant} />
+                <DemoRadioGroup label="Size" options={SIZES} value={size} onChange={setSize} />
+                <DemoRadioGroup label="Shape" options={["rec", "rounded"] as const} value={shape} onChange={setShape} />
+                <Checkbox label="Disabled" selected={disabled} onChange={setDisabled} />
+                <Checkbox label="Inverse (dark surface)" selected={inverse} onChange={setInverse} />
+              </div>
+            </div>
           </div>
         </div>
 
@@ -164,6 +254,11 @@ function ButtonDemo() {
 }
 
 function ButtonHighlightDemo() {
+  const [label, setLabel] = useState("Get started");
+  const [variant, setVariant] = useState<(typeof HIGHLIGHT_VARIANTS)[number]>("primary");
+  const [size, setSize] = useState<(typeof SIZES)[number]>("md");
+  const [disabled, setDisabled] = useState(false);
+
   return (
     <ComponentPage
       id="button-highlight"
@@ -173,18 +268,30 @@ function ButtonHighlightDemo() {
       code={`import { ButtonHighlight } from "@statrys/web-ds";\n\n<ButtonHighlight variant="primary" size="md" onClick={handleClick}>\n  Get started\n</ButtonHighlight>`}
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
-        {HIGHLIGHT_VARIANTS.map((variant) => (
-          <div key={variant}>
-            <h3 style={{ margin: "0 0 12px", textTransform: "capitalize" }}>{variant}</h3>
-            <VariantGrid
-              columns={SIZES}
-              rows={[
-                { label: "Default", render: (size) => <ButtonHighlight variant={variant} size={size}>{variant} / {size}</ButtonHighlight> },
-                { label: "Disabled", render: (size) => <ButtonHighlight variant={variant} size={size} disabled>{variant} / {size}</ButtonHighlight> },
-              ]}
-            />
+        <div>
+          <h3 style={{ margin: "0 0 12px" }}>Interactive — every combination</h3>
+          <div style={{ display: "flex", gap: 32, flexWrap: "wrap", alignItems: "flex-start" }}>
+            <div style={{ flex: "1 1 400px", minHeight: 160, display: "flex", alignItems: "center", justifyContent: "center", background: "#f2f2f2", borderRadius: 8 }}>
+              <ButtonHighlight variant={variant} size={size} disabled={disabled}>
+                {label}
+              </ButtonHighlight>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 24, minWidth: 220, flexShrink: 0 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>Text</ControlGroupLabel>
+                <DemoField label="Label" value={label} onChange={setLabel} />
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>Layout</ControlGroupLabel>
+                <DemoRadioGroup label="Variant" options={HIGHLIGHT_VARIANTS} value={variant} onChange={setVariant} />
+                <DemoRadioGroup label="Size" options={SIZES} value={size} onChange={setSize} />
+                <Checkbox label="Disabled" selected={disabled} onChange={setDisabled} />
+              </div>
+            </div>
           </div>
-        ))}
+        </div>
 
         <div>
           <h2 style={{ fontSize: 16, margin: "0 0 12px" }}>Icon slots</h2>
@@ -213,6 +320,11 @@ function ButtonHighlightDemo() {
 }
 
 function LinkDemo() {
+  const [label, setLabel] = useState("Learn more");
+  const [size, setSize] = useState<(typeof SIZES)[number]>("md");
+  const [disabled, setDisabled] = useState(false);
+  const [inverse, setInverse] = useState(false);
+
   return (
     <ComponentPage
       id="link"
@@ -230,14 +342,38 @@ function LinkDemo() {
         </p>
 
         <div>
-          <h3 style={{ margin: "0 0 12px" }}>All states × sizes</h3>
-          <VariantGrid
-            columns={SIZES}
-            rows={[
-              { label: "Default", render: (size) => <Link size={size} href="#" iconRight={<ArrowUpRight size={16} />}>Link / {size}</Link> },
-              { label: "Disabled", render: (size) => <Link size={size} href="#" disabled iconRight={<ArrowUpRight size={16} />}>Link / {size}</Link> },
-            ]}
-          />
+          <h3 style={{ margin: "0 0 12px" }}>Interactive — every combination</h3>
+          <div style={{ display: "flex", gap: 32, flexWrap: "wrap", alignItems: "flex-start" }}>
+            <div
+              style={{
+                flex: "1 1 400px",
+                minHeight: 120,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                background: inverse ? "var(--neutral-8)" : "#f2f2f2",
+                borderRadius: 8,
+              }}
+            >
+              <Link size={size} href="#" disabled={disabled} inverse={inverse} iconRight={<ArrowUpRight size={16} />}>
+                {label}
+              </Link>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 24, minWidth: 220, flexShrink: 0 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>Text</ControlGroupLabel>
+                <DemoField label="Label" value={label} onChange={setLabel} />
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>Layout</ControlGroupLabel>
+                <DemoRadioGroup label="Size" options={SIZES} value={size} onChange={setSize} />
+                <Checkbox label="Disabled" selected={disabled} onChange={setDisabled} />
+                <Checkbox label="Inverse (dark surface)" selected={inverse} onChange={setInverse} />
+              </div>
+            </div>
+          </div>
         </div>
 
         <div>
@@ -253,43 +389,26 @@ function LinkDemo() {
             ]}
           />
         </div>
-
-        <div>
-          <h2 style={{ fontSize: 16, margin: "0 0 12px" }}>Inverse (dark surface)</h2>
-          <div style={{ background: "var(--neutral-8)", padding: 24, borderRadius: "var(--radius-lg)" }}>
-            <VariantGrid
-              columns={SIZES}
-              rows={[
-                { label: "Default", render: (size) => <Link size={size} inverse href="#" iconRight={<ArrowUpRight size={16} />}>Link / {size}</Link> },
-                { label: "Disabled", render: (size) => <Link size={size} inverse href="#" disabled iconRight={<ArrowUpRight size={16} />}>Link / {size}</Link> },
-              ]}
-            />
-          </div>
-        </div>
       </div>
     </ComponentPage>
   );
 }
 
-const TAB_ITEMS = [
-  { id: "one", label: "Tab one", badge: 2, icon: <ChevronDown size={16} /> },
-  { id: "two", label: "Tab two" },
-  { id: "three", label: "Tab three" },
-];
-
-const TAB_ITEMS_PLAIN = [
-  { id: "one", label: "Tab one" },
-  { id: "two", label: "Tab two" },
-  { id: "three", label: "Tab three" },
-];
-
 const HORIZONTAL_TABS_SIZES = ["md", "lg"] as const;
 
 function HorizontalTabsDemo() {
-  const [mdIconActive, setMdIconActive] = useState("one");
-  const [lgIconActive, setLgIconActive] = useState("three");
-  const [mdPlainActive, setMdPlainActive] = useState("two");
-  const [lgPlainActive, setLgPlainActive] = useState("one");
+  const [label1, setLabel1] = useState("Tab one");
+  const [label2, setLabel2] = useState("Tab two");
+  const [label3, setLabel3] = useState("Tab three");
+  const [withIconBadge, setWithIconBadge] = useState(true);
+  const [size, setSize] = useState<(typeof HORIZONTAL_TABS_SIZES)[number]>("md");
+  const [activeId, setActiveId] = useState("one");
+
+  const items = [
+    { id: "one", label: label1, ...(withIconBadge ? { badge: 2, icon: <ChevronDown size={16} /> } : {}) },
+    { id: "two", label: label2 },
+    { id: "three", label: label3 },
+  ];
 
   return (
     <ComponentPage
@@ -299,38 +418,38 @@ function HorizontalTabsDemo() {
       figmaUrl={`${FIGMA_FILE}2725-16713`}
       code={`import { HorizontalTabs } from "@statrys/web-ds";\n\nconst items = [\n  { id: "one", label: "Tab one", badge: 2 },\n  { id: "two", label: "Tab two" },\n];\n\n<HorizontalTabs items={items} activeId={activeId} onChange={setActiveId} />`}
     >
-      <VariantGrid
-        columns={HORIZONTAL_TABS_SIZES}
-        rows={[
-          {
-            label: "With icon + badge",
-            render: (size) =>
-              size === "md" ? (
-                <HorizontalTabs items={TAB_ITEMS} activeId={mdIconActive} onChange={setMdIconActive} />
-              ) : (
-                <HorizontalTabs items={TAB_ITEMS} activeId={lgIconActive} onChange={setLgIconActive} size="lg" />
-              ),
-          },
-          {
-            label: "Plain (no icon/badge)",
-            render: (size) =>
-              size === "md" ? (
-                <HorizontalTabs items={TAB_ITEMS_PLAIN} activeId={mdPlainActive} onChange={setMdPlainActive} />
-              ) : (
-                <HorizontalTabs items={TAB_ITEMS_PLAIN} activeId={lgPlainActive} onChange={setLgPlainActive} size="lg" />
-              ),
-          },
-        ]}
-      />
+      <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+        <div>
+          <h3 style={{ margin: "0 0 12px" }}>Interactive — every combination</h3>
+          <div style={{ display: "flex", gap: 32, flexWrap: "wrap", alignItems: "flex-start" }}>
+            <div style={{ flex: "1 1 400px", minHeight: 120, display: "flex", alignItems: "center", background: "#f2f2f2", borderRadius: 8, padding: "0 24px" }}>
+              <HorizontalTabs items={items} activeId={activeId} onChange={setActiveId} size={size} />
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 24, minWidth: 220, flexShrink: 0 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>Text</ControlGroupLabel>
+                <DemoField label="Tab one" value={label1} onChange={setLabel1} />
+                <DemoField label="Tab two" value={label2} onChange={setLabel2} />
+                <DemoField label="Tab three" value={label3} onChange={setLabel3} />
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>Layout</ControlGroupLabel>
+                <DemoRadioGroup label="Size" options={HORIZONTAL_TABS_SIZES} value={size} onChange={setSize} />
+                <Checkbox label="Icon + badge on first tab" selected={withIconBadge} onChange={setWithIconBadge} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </ComponentPage>
   );
 }
 
-const TOGGLE_COLUMNS = ["Enabled", "Disabled"] as const;
-
 function ToggleDemo() {
-  const [off, setOff] = useState(false);
-  const [on, setOn] = useState(true);
+  const [selected, setSelected] = useState(true);
+  const [disabled, setDisabled] = useState(false);
 
   return (
     <ComponentPage
@@ -340,44 +459,47 @@ function ToggleDemo() {
       figmaUrl={`${FIGMA_FILE}3784-2555`}
       code={`import { Toggle } from "@statrys/web-ds";\n\n<Toggle selected={enabled} onChange={setEnabled} aria-label="Enable notifications" />`}
     >
-      <VariantGrid
-        columns={TOGGLE_COLUMNS}
-        rows={[
-          {
-            label: "Off",
-            render: (column) =>
-              column === "Enabled" ? (
-                <Toggle selected={off} onChange={setOff} aria-label="off, enabled" />
-              ) : (
-                <Toggle selected={false} disabled aria-label="off, disabled" />
-              ),
-          },
-          {
-            label: "On",
-            render: (column) =>
-              column === "Enabled" ? (
-                <Toggle selected={on} onChange={setOn} aria-label="on, enabled" />
-              ) : (
-                <Toggle selected={true} disabled aria-label="on, disabled" />
-              ),
-          },
-        ]}
-      />
+      <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+        <div>
+          <h3 style={{ margin: "0 0 12px" }}>Interactive — every combination</h3>
+          <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
+            No text prop on Toggle — click it directly (when not disabled), or drive it from the
+            "Selected" control below to see the disabled+on / disabled+off states.
+          </p>
+          <div style={{ display: "flex", gap: 32, flexWrap: "wrap", alignItems: "flex-start" }}>
+            <div style={{ flex: "1 1 400px", minHeight: 120, display: "flex", alignItems: "center", justifyContent: "center", background: "#f2f2f2", borderRadius: 8 }}>
+              <Toggle
+                selected={selected}
+                onChange={disabled ? () => {} : setSelected}
+                disabled={disabled}
+                aria-label="Toggle demo"
+              />
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 24, minWidth: 220, flexShrink: 0 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>Layout</ControlGroupLabel>
+                <Checkbox label="Selected" selected={selected} onChange={setSelected} />
+                <Checkbox label="Disabled" selected={disabled} onChange={setDisabled} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </ComponentPage>
   );
 }
 
 const CHECKBOX_SIZES = ["sm", "md"] as const;
-const CHECKBOX_VARIANT_ROWS: { label: string; props: Partial<ComponentProps<typeof Checkbox>> }[] = [
-  { label: "Unselected", props: { selected: false } },
-  { label: "Selected", props: { selected: true } },
-  { label: "Indeterminate", props: { selected: true, indeterminate: true } },
-  { label: "Disabled, unselected", props: { selected: false, disabled: true } },
-  { label: "Disabled, selected", props: { selected: true, disabled: true } },
-];
 
 function CheckboxDemo() {
-  const [withDesc, setWithDesc] = useState(false);
+  const [label, setLabel] = useState("Remember me");
+  const [description, setDescription] = useState("Save my login details for next time");
+  const [showDescription, setShowDescription] = useState(false);
+  const [size, setSize] = useState<(typeof CHECKBOX_SIZES)[number]>("md");
+  const [selected, setSelected] = useState(true);
+  const [indeterminate, setIndeterminate] = useState(false);
+  const [disabled, setDisabled] = useState(false);
 
   return (
     <ComponentPage
@@ -389,24 +511,37 @@ function CheckboxDemo() {
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
         <div>
-          <h3 style={{ margin: "0 0 12px" }}>All states × sizes</h3>
-          <VariantGrid
-            columns={CHECKBOX_SIZES}
-            rows={CHECKBOX_VARIANT_ROWS.map((row) => ({
-              label: row.label,
-              render: (size: (typeof CHECKBOX_SIZES)[number]) => <Checkbox label="Label" size={size} onChange={() => {}} {...row.props} />,
-            }))}
-          />
-        </div>
+          <h3 style={{ margin: "0 0 12px" }}>Interactive — every combination</h3>
+          <div style={{ display: "flex", gap: 32, flexWrap: "wrap", alignItems: "flex-start" }}>
+            <div style={{ flex: "1 1 400px", minHeight: 120, display: "flex", alignItems: "center", justifyContent: "center", background: "#f2f2f2", borderRadius: 8, padding: 24 }}>
+              <Checkbox
+                label={label}
+                description={showDescription ? description : undefined}
+                size={size}
+                selected={selected}
+                indeterminate={indeterminate}
+                disabled={disabled}
+                onChange={setSelected}
+              />
+            </div>
 
-        <div>
-          <h3 style={{ margin: "0 0 12px" }}>With description</h3>
-          <Checkbox
-            label="Remember me"
-            description="Save my login details for next time"
-            selected={withDesc}
-            onChange={setWithDesc}
-          />
+            <div style={{ display: "flex", flexDirection: "column", gap: 24, minWidth: 220, flexShrink: 0 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>Text</ControlGroupLabel>
+                <DemoField label="Label" value={label} onChange={setLabel} />
+                {showDescription && <DemoField label="Description" value={description} onChange={setDescription} />}
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>Layout</ControlGroupLabel>
+                <DemoRadioGroup label="Size" options={CHECKBOX_SIZES} value={size} onChange={setSize} />
+                <Checkbox label="Description" selected={showDescription} onChange={setShowDescription} />
+                <Checkbox label="Selected" selected={selected} onChange={setSelected} />
+                <Checkbox label="Indeterminate" selected={indeterminate} onChange={setIndeterminate} />
+                <Checkbox label="Disabled" selected={disabled} onChange={setDisabled} />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </ComponentPage>
@@ -414,15 +549,12 @@ function CheckboxDemo() {
 }
 
 const RADIO_SIZES = ["sm", "md"] as const;
-const RADIO_VARIANT_ROWS: { label: string; props: Partial<ComponentProps<typeof Radio>> }[] = [
-  { label: "Unselected", props: { selected: false } },
-  { label: "Selected", props: { selected: true } },
-  { label: "Disabled, unselected", props: { selected: false, disabled: true } },
-  { label: "Disabled, selected", props: { selected: true, disabled: true } },
-];
 
 function RadioDemo() {
   const [choice, setChoice] = useState("a");
+  const [size, setSize] = useState<(typeof RADIO_SIZES)[number]>("md");
+  const [selected, setSelected] = useState(true);
+  const [disabled, setDisabled] = useState(false);
 
   return (
     <ComponentPage
@@ -434,14 +566,30 @@ function RadioDemo() {
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
         <div>
-          <h3 style={{ margin: "0 0 12px" }}>All states × sizes</h3>
-          <VariantGrid
-            columns={RADIO_SIZES}
-            rows={RADIO_VARIANT_ROWS.map((row) => ({
-              label: row.label,
-              render: (size: (typeof RADIO_SIZES)[number]) => <Radio size={size} aria-label={`${row.label} ${size}`} {...row.props} />,
-            }))}
-          />
+          <h3 style={{ margin: "0 0 12px" }}>Interactive — every combination</h3>
+          <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
+            No labeled wrapper, so no text to edit here — just the bare indicator's Layout props.
+          </p>
+          <div style={{ display: "flex", gap: 32, flexWrap: "wrap", alignItems: "flex-start" }}>
+            <div style={{ flex: "1 1 400px", minHeight: 120, display: "flex", alignItems: "center", justifyContent: "center", background: "#f2f2f2", borderRadius: 8 }}>
+              <Radio
+                size={size}
+                selected={selected}
+                disabled={disabled}
+                onChange={disabled ? () => {} : () => setSelected(true)}
+                aria-label="Radio demo"
+              />
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 24, minWidth: 220, flexShrink: 0 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>Layout</ControlGroupLabel>
+                <DemoRadioGroup label="Size" options={RADIO_SIZES} value={size} onChange={setSize} />
+                <Checkbox label="Selected" selected={selected} onChange={setSelected} />
+                <Checkbox label="Disabled" selected={disabled} onChange={setDisabled} />
+              </div>
+            </div>
+          </div>
         </div>
 
         <div>
@@ -461,15 +609,12 @@ function RadioDemo() {
 }
 
 const SEARCH_INPUT_SIZES = ["sm", "md", "lg"] as const;
-const SEARCH_INPUT_VARIANT_ROWS: { label: string; props: Partial<ComponentProps<typeof SearchInput>> }[] = [
-  { label: "Empty", props: { value: "" } },
-  { label: "Filled", props: { value: "Statrys" } },
-  { label: "Disabled, empty", props: { value: "", disabled: true } },
-  { label: "Disabled, filled", props: { value: "Statrys", disabled: true } },
-];
 
 function SearchInputDemo() {
-  const [values, setValues] = useState<Record<string, string>>({ sm: "", md: "Statrys", lg: "" });
+  const [value, setValue] = useState("Statrys");
+  const [placeholder, setPlaceholder] = useState("Search");
+  const [size, setSize] = useState<(typeof SEARCH_INPUT_SIZES)[number]>("md");
+  const [disabled, setDisabled] = useState(false);
 
   return (
     <ComponentPage
@@ -484,31 +629,31 @@ function SearchInputDemo() {
           "Filled" isn't a discrete prop — it's derived from whether <code>value</code> is non-empty, since a
           real input can be both focused and filled at once, a combination Figma's flat state enum can't
           represent. Hover/focus are real CSS pseudo-classes on the container (by design, matching
-          Button/Link/Tab) — try it live in the section below rather than in the static grid.
+          Button/Link/Tab) — try it live below, including typing into the field itself.
         </p>
 
         <div>
-          <h3 style={{ margin: "0 0 12px" }}>All states × sizes</h3>
-          <VariantGrid
-            columns={SEARCH_INPUT_SIZES}
-            rows={SEARCH_INPUT_VARIANT_ROWS.map((row) => ({
-              label: row.label,
-              render: (size: (typeof SEARCH_INPUT_SIZES)[number]) => <SearchInput size={size} onChange={() => {}} {...row.props} />,
-            }))}
-          />
-        </div>
+          <h3 style={{ margin: "0 0 12px" }}>Interactive — every combination</h3>
+          <div style={{ display: "flex", gap: 32, flexWrap: "wrap", alignItems: "flex-start" }}>
+            <div style={{ flex: "1 1 400px", minHeight: 120, display: "flex", alignItems: "center", justifyContent: "center", background: "#f2f2f2", borderRadius: 8, padding: 24 }}>
+              <div style={{ width: "100%", maxWidth: 343 }}>
+                <SearchInput size={size} value={value} placeholder={placeholder} disabled={disabled} onChange={setValue} />
+              </div>
+            </div>
 
-        <div>
-          <h3 style={{ margin: "0 0 12px" }}>Interactive (controlled)</h3>
-          <div style={{ display: "flex", flexDirection: "column", gap: 16, maxWidth: 343 }}>
-            {SEARCH_INPUT_SIZES.map((size) => (
-              <SearchInput
-                key={size}
-                size={size}
-                value={values[size]}
-                onChange={(v) => setValues((prev) => ({ ...prev, [size]: v }))}
-              />
-            ))}
+            <div style={{ display: "flex", flexDirection: "column", gap: 24, minWidth: 220, flexShrink: 0 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>Text</ControlGroupLabel>
+                <DemoField label="Value" value={value} onChange={setValue} />
+                <DemoField label="Placeholder" value={placeholder} onChange={setPlaceholder} />
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>Layout</ControlGroupLabel>
+                <DemoRadioGroup label="Size" options={SEARCH_INPUT_SIZES} value={size} onChange={setSize} />
+                <Checkbox label="Disabled" selected={disabled} onChange={setDisabled} />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -518,30 +663,20 @@ function SearchInputDemo() {
 
 const TEXT_INPUT_SIZES = ["sm", "md", "lg"] as const;
 
-// One state per row, one size per column — every meaningful visual variant
-// in one grid instead of scattered one-off examples. "Focused" uses
-// forceFocus (Showcase-only prop) since real focus can't be shown
-// statically; "Filled" and "Focused + filled" show the label already
-// floated with/without live focus, since a real input can be both floating
-// states from either cause.
-type TextInputVariantRow = {
-  label: string;
-  props: Partial<ComponentProps<typeof TextInputFluid>>;
-};
-
-const TEXT_INPUT_VARIANT_ROWS: TextInputVariantRow[] = [
-  { label: "Default (empty)", props: {} },
-  { label: "Filled", props: { value: "Olivia Rhye" } },
-  { label: "Focused (empty)", props: { forceFocus: true } },
-  { label: "Focused + filled", props: { forceFocus: true, value: "Olivia Rhye" } },
-  { label: "Error", props: { value: "not-an-email", error: "Enter a valid email address" } },
-  { label: "Disabled (empty)", props: { disabled: true } },
-  { label: "Disabled + filled", props: { disabled: true, value: "Olivia Rhye" } },
-];
-
 function TextInputFluidDemo() {
-  const [values, setValues] = useState<Record<string, string>>({ sm: "", md: "", lg: "" });
-  const [errorValue, setErrorValue] = useState("bad-input");
+  const [label, setLabel] = useState("Label");
+  const [placeholder, setPlaceholder] = useState("Placeholder");
+  const [value, setValue] = useState("");
+  const [hint, setHint] = useState("This is a help text to hint user");
+  const [error, setError] = useState("Enter a valid email address");
+  const [tooltipText, setTooltipText] = useState("Helpful context");
+  const [size, setSize] = useState<(typeof TEXT_INPUT_SIZES)[number]>("md");
+  const [disabled, setDisabled] = useState(false);
+  const [dropdown, setDropdown] = useState(false);
+  const [forceFocus, setForceFocus] = useState(false);
+  const [showHint, setShowHint] = useState(true);
+  const [showError, setShowError] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
 
   return (
     <ComponentPage
@@ -554,63 +689,56 @@ function TextInputFluidDemo() {
       <div style={{ display: "flex", flexDirection: "column", gap: 32, maxWidth: 900 }}>
         <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
           The label floats to a caption above once focused or filled — computed from focus state and
-          whether <code>value</code> is non-empty, not a discrete prop.
+          whether <code>value</code> is non-empty, not a discrete prop. "Force focus" below stands in
+          for real focus, since a static page can't otherwise show that state without clicking in.
         </p>
 
         <div>
-          <h3 style={{ margin: "0 0 12px" }}>All states × sizes</h3>
-          <VariantGrid
-            columns={TEXT_INPUT_SIZES}
-            columnLabelWidth={140}
-            rows={TEXT_INPUT_VARIANT_ROWS.map((row) => ({
-              label: row.label,
-              render: (size: (typeof TEXT_INPUT_SIZES)[number]) => (
-                <TextInputFluid label="Label" placeholder="Placeholder" value="" onChange={() => {}} size={size} {...row.props} />
-              ),
-            }))}
-          />
-        </div>
+          <h3 style={{ margin: "0 0 12px" }}>Interactive — every combination</h3>
+          <div style={{ display: "flex", gap: 32, flexWrap: "wrap", alignItems: "flex-start" }}>
+            <div style={{ flex: "1 1 400px", minHeight: 160, display: "flex", alignItems: "center", justifyContent: "center", background: "#f2f2f2", borderRadius: 8, padding: 24 }}>
+              <div style={{ width: "100%", maxWidth: 343 }}>
+                <TextInputFluid
+                  label={label}
+                  placeholder={placeholder}
+                  value={value}
+                  onChange={setValue}
+                  size={size}
+                  disabled={disabled}
+                  dropdown={dropdown}
+                  forceFocus={forceFocus}
+                  tooltip={showTooltip ? tooltipText : undefined}
+                  hint={showError ? undefined : showHint ? hint : undefined}
+                  error={showError ? error : undefined}
+                />
+              </div>
+            </div>
 
-        <div>
-          <h3 style={{ margin: "0 0 12px" }}>Interactive (controlled)</h3>
-          <div style={{ display: "flex", flexDirection: "column", gap: 20, maxWidth: 343 }}>
-            {TEXT_INPUT_SIZES.map((size) => (
-              <TextInputFluid
-                key={size}
-                label="Label"
-                placeholder="Placeholder"
-                hint="This is a help text to hint user"
-                tooltip="Helpful context"
-                size={size}
-                value={values[size]}
-                onChange={(v) => setValues((prev) => ({ ...prev, [size]: v }))}
-              />
-            ))}
-            <TextInputFluid
-              label="Email"
-              placeholder="you@example.com"
-              error="Enter a valid email address"
-              value={errorValue}
-              onChange={setErrorValue}
-            />
-          </div>
-        </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 24, minWidth: 220, flexShrink: 0 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>Text</ControlGroupLabel>
+                <DemoField label="Label" value={label} onChange={setLabel} />
+                <DemoField label="Placeholder" value={placeholder} onChange={setPlaceholder} />
+                <DemoField label="Value" value={value} onChange={setValue} />
+                {showTooltip && <DemoField label="Tooltip" value={tooltipText} onChange={setTooltipText} />}
+                {showError ? (
+                  <DemoField label="Error" value={error} onChange={setError} />
+                ) : (
+                  showHint && <DemoField label="Hint" value={hint} onChange={setHint} />
+                )}
+              </div>
 
-        <div>
-          <h3 style={{ margin: "0 0 12px" }}>Dropdown</h3>
-          <div style={{ display: "flex", flexDirection: "column", gap: 20, maxWidth: 343 }}>
-            <TextInputFluid label="Country" placeholder="Select a country" dropdown value="" onChange={() => {}} />
-            <TextInputFluid label="Country" dropdown value="Hong Kong" onChange={() => {}} />
-            <TextInputFluid label="Country" dropdown value="" onChange={() => {}} error="Required" />
-            <TextInputFluid label="Country" dropdown value="Hong Kong" onChange={() => {}} disabled />
-          </div>
-        </div>
-
-        <div>
-          <h3 style={{ margin: "0 0 12px" }}>With tooltip</h3>
-          <div style={{ display: "flex", flexDirection: "column", gap: 20, maxWidth: 343 }}>
-            <TextInputFluid label="API key" placeholder="sk-..." tooltip="Found in Settings → Developer" value="" onChange={() => {}} />
-            <TextInputFluid label="API key" tooltip="Found in Settings → Developer" value="sk-live-abc123" onChange={() => {}} />
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>Layout</ControlGroupLabel>
+                <DemoRadioGroup label="Size" options={TEXT_INPUT_SIZES} value={size} onChange={setSize} />
+                <Checkbox label="Dropdown" selected={dropdown} onChange={setDropdown} />
+                <Checkbox label="Force focus" selected={forceFocus} onChange={setForceFocus} />
+                <Checkbox label="Tooltip" selected={showTooltip} onChange={setShowTooltip} />
+                <Checkbox label="Hint" selected={showHint} onChange={setShowHint} />
+                <Checkbox label="Error" selected={showError} onChange={setShowError} />
+                <Checkbox label="Disabled" selected={disabled} onChange={setDisabled} />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -619,11 +747,16 @@ function TextInputFluidDemo() {
 }
 
 const TOOLTIP_ARROWS = ["none", "top", "bottom", "bottom-left", "bottom-right", "left", "right"] as const;
-const TOOLTIP_COLUMNS = ["Title only", "With description"] as const;
-const TOOLTIP_DESCRIPTION =
-  "Tooltips are used to describe or identify an element. In most scenarios, tooltips help the user understand the meaning, function or alt-text of an element.";
 
 function TooltipDemo() {
+  const [title, setTitle] = useState("This is a tooltip");
+  const [description, setDescription] = useState(
+    "Tooltips are used to describe or identify an element. In most scenarios, tooltips help the user understand the meaning, function or alt-text of an element."
+  );
+  const [showDescription, setShowDescription] = useState(false);
+  const [arrow, setArrow] = useState<(typeof TOOLTIP_ARROWS)[number]>("bottom");
+  const [inverse, setInverse] = useState(false);
+
   return (
     <ComponentPage
       id="tooltip"
@@ -640,36 +773,26 @@ function TooltipDemo() {
         </p>
 
         <div>
-          <h3 style={{ margin: "0 0 12px" }}>Default</h3>
-          <VariantGrid
-            columns={TOOLTIP_COLUMNS}
-            rows={TOOLTIP_ARROWS.map((arrow) => ({
-              label: arrow,
-              render: (column) =>
-                column === "Title only" ? (
-                  <Tooltip title="This is a tooltip" arrow={arrow} />
-                ) : (
-                  <Tooltip title="This is a tooltip" description={TOOLTIP_DESCRIPTION} arrow={arrow} />
-                ),
-            }))}
-          />
-        </div>
+          <h3 style={{ margin: "0 0 12px" }}>Interactive — every combination</h3>
+          <div style={{ display: "flex", gap: 32, flexWrap: "wrap", alignItems: "flex-start" }}>
+            <div style={{ flex: "1 1 400px", minHeight: 200, display: "flex", alignItems: "center", justifyContent: "center", background: "#f2f2f2", borderRadius: 8 }}>
+              <Tooltip title={title} description={showDescription ? description : undefined} arrow={arrow} inverse={inverse} />
+            </div>
 
-        <div>
-          <h3 style={{ margin: "0 0 12px" }}>Inverse (dark bubble, for light surfaces)</h3>
-          <div style={{ background: "var(--bg-beige-primary)", padding: 24, borderRadius: "var(--radius-lg)" }}>
-            <VariantGrid
-              columns={TOOLTIP_COLUMNS}
-              rows={TOOLTIP_ARROWS.map((arrow) => ({
-                label: arrow,
-                render: (column) =>
-                  column === "Title only" ? (
-                    <Tooltip title="This is a tooltip" arrow={arrow} inverse />
-                  ) : (
-                    <Tooltip title="This is a tooltip" description={TOOLTIP_DESCRIPTION} arrow={arrow} inverse />
-                  ),
-              }))}
-            />
+            <div style={{ display: "flex", flexDirection: "column", gap: 24, minWidth: 220, flexShrink: 0 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>Text</ControlGroupLabel>
+                <DemoField label="Title" value={title} onChange={setTitle} />
+                {showDescription && <DemoField label="Description" value={description} onChange={setDescription} multiline />}
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>Layout</ControlGroupLabel>
+                <DemoRadioGroup label="Arrow" options={TOOLTIP_ARROWS} value={arrow} onChange={setArrow} />
+                <Checkbox label="Description" selected={showDescription} onChange={setShowDescription} />
+                <Checkbox label="Inverse (dark bubble)" selected={inverse} onChange={setInverse} />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -678,11 +801,18 @@ function TooltipDemo() {
 }
 
 const BANNER_COLORS = ["success", "warning", "error", "info"] as const;
-const BANNER_COLUMNS = ["Text only", "Title + Text"] as const;
 const BANNER_TEXT = "Your information is secure and encrypted";
 
 function BannerDemo() {
   const [dismissed, setDismissed] = useState<Record<string, boolean>>({});
+  const [title, setTitle] = useState("Title");
+  const [text, setText] = useState(BANNER_TEXT);
+  const [linkLabel, setLinkLabel] = useState("View Details");
+  const [showTitle, setShowTitle] = useState(false);
+  const [showLink, setShowLink] = useState(true);
+  const [showDismiss, setShowDismiss] = useState(true);
+  const [color, setColor] = useState<(typeof BANNER_COLORS)[number]>("success");
+  const [fullWidth, setFullWidth] = useState(false);
 
   return (
     <ComponentPage
@@ -700,38 +830,39 @@ function BannerDemo() {
         </p>
 
         <div>
-          <h3 style={{ margin: "0 0 12px" }}>Card (default)</h3>
-          <VariantGrid
-            columns={BANNER_COLUMNS}
-            columnLabelWidth={100}
-            rows={BANNER_COLORS.map((color) => ({
-              label: color,
-              render: (column) => (
+          <h3 style={{ margin: "0 0 12px" }}>Interactive — every combination</h3>
+          <div style={{ display: "flex", gap: 32, flexWrap: "wrap", alignItems: "flex-start" }}>
+            <div style={{ flex: "1 1 400px", display: "flex", alignItems: "center", justifyContent: "center", background: "#f2f2f2", borderRadius: 8, padding: fullWidth ? 0 : 24 }}>
+              <div style={{ width: "100%" }}>
                 <Banner
                   color={color}
-                  title={column === "Title + Text" ? "Title" : undefined}
-                  text={BANNER_TEXT}
-                  onLinkClick={() => {}}
-                  onDismiss={() => {}}
+                  title={showTitle ? title : undefined}
+                  text={text}
+                  fullWidth={fullWidth}
+                  linkLabel={linkLabel}
+                  onLinkClick={showLink ? () => {} : undefined}
+                  onDismiss={showDismiss ? () => {} : undefined}
                 />
-              ),
-            }))}
-          />
-        </div>
+              </div>
+            </div>
 
-        <div>
-          <h3 style={{ margin: "0 0 12px" }}>Full width (page-level bar)</h3>
-          <div style={{ display: "flex", flexDirection: "column", gap: 1 }}>
-            {BANNER_COLORS.map((color) => (
-              <Banner
-                key={color}
-                color={color}
-                text={BANNER_TEXT}
-                fullWidth
-                onLinkClick={() => {}}
-                onDismiss={() => {}}
-              />
-            ))}
+            <div style={{ display: "flex", flexDirection: "column", gap: 24, minWidth: 220, flexShrink: 0 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>Text</ControlGroupLabel>
+                {showTitle && <DemoField label="Title" value={title} onChange={setTitle} />}
+                <DemoField label="Text" value={text} onChange={setText} multiline />
+                {showLink && <DemoField label="Link label" value={linkLabel} onChange={setLinkLabel} />}
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>Layout</ControlGroupLabel>
+                <DemoRadioGroup label="Color" options={BANNER_COLORS} value={color} onChange={setColor} />
+                <Checkbox label="Title" selected={showTitle} onChange={setShowTitle} />
+                <Checkbox label="Link" selected={showLink} onChange={setShowLink} />
+                <Checkbox label="Dismiss" selected={showDismiss} onChange={setShowDismiss} />
+                <Checkbox label="Full width (page-level bar)" selected={fullWidth} onChange={setFullWidth} />
+              </div>
+            </div>
           </div>
         </div>
 
@@ -760,23 +891,23 @@ function BannerDemo() {
             )}
           </div>
         </div>
-
-        <div>
-          <h3 style={{ margin: "0 0 12px" }}>No link, no dismiss</h3>
-          <Banner color="info" title="Title" text={BANNER_TEXT} />
-        </div>
       </div>
     </ComponentPage>
   );
 }
 
 const TOAST_VARIANTS = ["default", "success", "error", "warning"] as const;
-const TOAST_COLUMNS = ["No subtitle", "With subtitle"] as const;
 
 function ToastMessageDemo() {
   const [visible, setVisible] = useState<Record<string, boolean>>(
     Object.fromEntries(TOAST_VARIANTS.map((v) => [v, true]))
   );
+  const [title, setTitle] = useState("Invoice sent");
+  const [subtitle, setSubtitle] = useState("Marked as sent");
+  const [actionLabel, setActionLabel] = useState("View Details");
+  const [showSubtitle, setShowSubtitle] = useState(true);
+  const [showAction, setShowAction] = useState(true);
+  const [variant, setVariant] = useState<(typeof TOAST_VARIANTS)[number]>("success");
 
   return (
     <ComponentPage
@@ -793,23 +924,36 @@ function ToastMessageDemo() {
         </p>
 
         <div>
-          <h3 style={{ margin: "0 0 12px" }}>All variants</h3>
-          <VariantGrid
-            columns={TOAST_COLUMNS}
-            columnLabelWidth={100}
-            rows={TOAST_VARIANTS.map((variant) => ({
-              label: variant,
-              render: (column) => (
+          <h3 style={{ margin: "0 0 12px" }}>Interactive — every combination</h3>
+          <div style={{ display: "flex", gap: 32, flexWrap: "wrap", alignItems: "flex-start" }}>
+            <div style={{ flex: "1 1 400px", minHeight: 160, display: "flex", alignItems: "center", justifyContent: "center", background: "#f2f2f2", borderRadius: 8, padding: 24 }}>
+              <div style={{ width: "100%", maxWidth: 356 }}>
                 <ToastMessage
                   variant={variant}
-                  title="Title"
-                  subtitle={column === "With subtitle" ? "Subtitle" : undefined}
-                  action={{ label: "View Details", onClick: () => {} }}
+                  title={title}
+                  subtitle={showSubtitle ? subtitle : undefined}
+                  action={showAction ? { label: actionLabel, onClick: () => {} } : undefined}
                   onClose={() => {}}
                 />
-              ),
-            }))}
-          />
+              </div>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 24, minWidth: 220, flexShrink: 0 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>Text</ControlGroupLabel>
+                <DemoField label="Title" value={title} onChange={setTitle} />
+                {showSubtitle && <DemoField label="Subtitle" value={subtitle} onChange={setSubtitle} />}
+                {showAction && <DemoField label="Action label" value={actionLabel} onChange={setActionLabel} />}
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>Layout</ControlGroupLabel>
+                <DemoRadioGroup label="Variant" options={TOAST_VARIANTS} value={variant} onChange={setVariant} />
+                <Checkbox label="Subtitle" selected={showSubtitle} onChange={setShowSubtitle} />
+                <Checkbox label="Action link" selected={showAction} onChange={setShowAction} />
+              </div>
+            </div>
+          </div>
         </div>
 
         <div>
@@ -838,11 +982,6 @@ function ToastMessageDemo() {
             )}
           </div>
         </div>
-
-        <div>
-          <h3 style={{ margin: "0 0 12px" }}>No action, no title-only subtitle</h3>
-          <ToastMessage variant="default" title="Changes saved" onClose={() => {}} />
-        </div>
       </div>
     </ComponentPage>
   );
@@ -851,30 +990,43 @@ function ToastMessageDemo() {
 const XCLOSE_SIZES = ["sm", "md"] as const;
 
 function XCloseDemo() {
+  const [size, setSize] = useState<(typeof XCLOSE_SIZES)[number]>("md");
+  const [inverse, setInverse] = useState(false);
+
   return (
     <ComponentPage
       id="x-close"
       title="X Close"
-      usage="Small square icon-only close/dismiss button. Hover is a real CSS background tint, not a discrete prop — try it live below rather than in a static grid."
+      usage="Small square icon-only close/dismiss button. Hover is a real CSS background tint, not a discrete prop — try it live below."
       figmaUrl={`${FIGMA_FILE}1646-164`}
       code={`import { XClose } from "@statrys/web-ds";\n\n<XClose size="sm" onClick={() => setOpen(false)} aria-label="Dismiss" />\n\n// On a dark surface (e.g. inside ToastMessage)\n<XClose size="sm" inverse onClick={() => setOpen(false)} />`}
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
         <div>
-          <h3 style={{ margin: "0 0 12px" }}>Default (light surface)</h3>
-          <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
-            {XCLOSE_SIZES.map((size) => (
-              <XClose key={size} size={size} onClick={() => {}} />
-            ))}
-          </div>
-        </div>
+          <h3 style={{ margin: "0 0 12px" }}>Interactive — every combination</h3>
+          <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>No text prop — just size and surface. Hover it to see the real background tint.</p>
+          <div style={{ display: "flex", gap: 32, flexWrap: "wrap", alignItems: "flex-start" }}>
+            <div
+              style={{
+                flex: "1 1 400px",
+                minHeight: 120,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                background: inverse ? "var(--bg-neutral-inverse-primary)" : "#f2f2f2",
+                borderRadius: 8,
+              }}
+            >
+              <XClose size={size} inverse={inverse} onClick={() => {}} />
+            </div>
 
-        <div>
-          <h3 style={{ margin: "0 0 12px" }}>Inverse (dark surface)</h3>
-          <div style={{ background: "var(--bg-neutral-inverse-primary)", padding: 24, borderRadius: "var(--radius-lg)", display: "flex", gap: 24, alignItems: "center" }}>
-            {XCLOSE_SIZES.map((size) => (
-              <XClose key={size} size={size} inverse onClick={() => {}} />
-            ))}
+            <div style={{ display: "flex", flexDirection: "column", gap: 24, minWidth: 220, flexShrink: 0 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>Layout</ControlGroupLabel>
+                <DemoRadioGroup label="Size" options={XCLOSE_SIZES} value={size} onChange={setSize} />
+                <Checkbox label="Inverse (dark surface)" selected={inverse} onChange={setInverse} />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -938,59 +1090,6 @@ function OverlayDemo() {
         </div>
       </div>
     </ComponentPage>
-  );
-}
-
-function ControlGroupLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <div
-      style={{
-        fontSize: 11,
-        fontWeight: 700,
-        textTransform: "uppercase",
-        letterSpacing: "0.04em",
-        color: "#999",
-        borderBottom: "1px solid #eee",
-        paddingBottom: 6,
-      }}
-    >
-      {children}
-    </div>
-  );
-}
-
-function DemoField({
-  label,
-  value,
-  onChange,
-  multiline = false,
-}: {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  multiline?: boolean;
-}) {
-  const fieldStyle: React.CSSProperties = {
-    width: "100%",
-    fontFamily: "inherit",
-    fontSize: 13,
-    fontWeight: 400,
-    color: "#1b1b1b",
-    padding: "8px 10px",
-    borderRadius: 6,
-    border: "1px solid #ddd",
-    boxSizing: "border-box",
-  };
-
-  return (
-    <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: 12, fontWeight: 600, color: "#444" }}>
-      {label}
-      {multiline ? (
-        <textarea rows={3} value={value} onChange={(e) => onChange(e.target.value)} style={{ ...fieldStyle, resize: "vertical" }} />
-      ) : (
-        <input type="text" value={value} onChange={(e) => onChange(e.target.value)} style={fieldStyle} />
-      )}
-    </label>
   );
 }
 
