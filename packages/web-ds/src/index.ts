@@ -20,3 +20,5 @@ export { TextInputFluid } from "./text-input/TextInputFluid";
 export type { TextInputFluidProps } from "./text-input/TextInputFluid";
 export { Tooltip } from "./tooltip/Tooltip";
 export type { TooltipProps, TooltipArrow } from "./tooltip/Tooltip";
+export { Banner } from "./banner/Banner";
+export type { BannerProps, BannerColor } from "./banner/Banner";

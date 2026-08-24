@@ -1,6 +1,6 @@
 import { useState, Fragment, type ComponentProps } from "react";
 import { ArrowUpRight, ChevronDown } from "lucide-react";
-import { Button, ButtonHighlight, Link, HorizontalTabs, Toggle, Checkbox, Radio, SearchInput, TextInputFluid, Tooltip } from "@statrys/web-ds";
+import { Button, ButtonHighlight, Link, HorizontalTabs, Toggle, Checkbox, Radio, SearchInput, TextInputFluid, Tooltip, Banner } from "@statrys/web-ds";
 import { ComponentPage } from "../ComponentPage";
 
 const FIGMA_FILE = "https://www.figma.com/design/abElBYcwuc5skfPX1c7FlP/-WEB--Design-System?node-id=";
@@ -677,6 +677,99 @@ function TooltipDemo() {
   );
 }
 
+const BANNER_COLORS = ["success", "warning", "error", "info"] as const;
+const BANNER_COLUMNS = ["Text only", "Title + Text"] as const;
+const BANNER_TEXT = "Your information is secure and encrypted";
+
+function BannerDemo() {
+  const [dismissed, setDismissed] = useState<Record<string, boolean>>({});
+
+  return (
+    <ComponentPage
+      id="banner"
+      title="Banner"
+      usage="Inline notification bar — icon + text (optional title) + optional link + optional dismiss, in 4 semantic colors. No auto-dismiss timer or positioning of its own; the caller owns whether/where it's mounted."
+      figmaUrl={`${FIGMA_FILE}3443-2895`}
+      code={`import { Banner } from "@statrys/web-ds";\n\n<Banner\n  color="success"\n  text="Your information is secure and encrypted"\n  onLinkClick={() => {}}\n  onDismiss={() => setShow(false)}\n/>\n\n<Banner color="warning" title="Title" text="..." fullWidth />`}
+    >
+      <div style={{ display: "flex", flexDirection: "column", gap: 32, maxWidth: 900 }}>
+        <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
+          <code>title</code> is what switches between Figma's "Text only" and "Title + Text" — not a
+          separate discrete prop. <code>onLinkClick</code>/<code>onDismiss</code> each show their own
+          element only when provided, so an unused affordance is never rendered disabled.
+        </p>
+
+        <div>
+          <h3 style={{ margin: "0 0 12px" }}>Card (default)</h3>
+          <VariantGrid
+            columns={BANNER_COLUMNS}
+            columnLabelWidth={100}
+            rows={BANNER_COLORS.map((color) => ({
+              label: color,
+              render: (column) => (
+                <Banner
+                  color={color}
+                  title={column === "Title + Text" ? "Title" : undefined}
+                  text={BANNER_TEXT}
+                  onLinkClick={() => {}}
+                  onDismiss={() => {}}
+                />
+              ),
+            }))}
+          />
+        </div>
+
+        <div>
+          <h3 style={{ margin: "0 0 12px" }}>Full width (page-level bar)</h3>
+          <div style={{ display: "flex", flexDirection: "column", gap: 1 }}>
+            {BANNER_COLORS.map((color) => (
+              <Banner
+                key={color}
+                color={color}
+                text={BANNER_TEXT}
+                fullWidth
+                onLinkClick={() => {}}
+                onDismiss={() => {}}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <h3 style={{ margin: "0 0 12px" }}>Interactive dismiss</h3>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12, maxWidth: 343 }}>
+            {BANNER_COLORS.filter((color) => !dismissed[color]).map((color) => (
+              <Banner
+                key={color}
+                color={color}
+                text={BANNER_TEXT}
+                onDismiss={() => setDismissed((prev) => ({ ...prev, [color]: true }))}
+              />
+            ))}
+            {BANNER_COLORS.every((color) => dismissed[color]) && (
+              <p style={{ color: "#666" }}>
+                All dismissed —{" "}
+                <button
+                  type="button"
+                  style={{ border: "none", background: "none", color: "#1b1b1b", textDecoration: "underline", cursor: "pointer", padding: 0 }}
+                  onClick={() => setDismissed({})}
+                >
+                  reset
+                </button>
+              </p>
+            )}
+          </div>
+        </div>
+
+        <div>
+          <h3 style={{ margin: "0 0 12px" }}>No link, no dismiss</h3>
+          <Banner color="info" title="Title" text={BANNER_TEXT} />
+        </div>
+      </div>
+    </ComponentPage>
+  );
+}
+
 export function WebDS({ item }: { item: string }) {
   if (item === "button") return <ButtonDemo />;
   if (item === "button-highlight") return <ButtonHighlightDemo />;
@@ -688,5 +781,6 @@ export function WebDS({ item }: { item: string }) {
   if (item === "search-input") return <SearchInputDemo />;
   if (item === "text-input-fluid") return <TextInputFluidDemo />;
   if (item === "tooltip") return <TooltipDemo />;
+  if (item === "banner") return <BannerDemo />;
   return <div>Unknown component: {item}</div>;
 }

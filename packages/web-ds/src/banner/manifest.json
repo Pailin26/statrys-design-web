@@ -1,0 +1,25 @@
+{
+  "name": "Banner",
+  "platform": "web",
+  "description": "Inline notification bar — icon + text (optional title) + optional link + optional dismiss, in 4 semantic colors. Renders as a rounded card (border on all sides) or, with fullWidth, a square-cornered page-width bar (bottom border only). No auto-dismiss timer or positioning of its own.",
+  "figmaFileKey": "abElBYcwuc5skfPX1c7FlP",
+  "figmaNodeId": "3443:2895",
+  "consumesTokens": [
+    "bg.successSubtle", "bg.warningSubtle", "bg.errorSubtle", "bg.infoSubtle",
+    "border.successSubtle", "border.warningSubtle", "border.errorSubtle", "border.infoSubtle",
+    "icon.successPrimary", "icon.warningPrimary", "icon.errorPrimary", "icon.infoPrimary", "icon.secondary",
+    "text.primary", "radius.2xl", "radius.none", "space.1", "space.2", "space.4", "space.5", "space.6", "space.10",
+    "borderWidth.base", "font.primary", "font.weightRegular", "font.weightMedium", "font.sizeXs", "font.sizeSm"
+  ],
+  "props": {
+    "color": ["success", "warning", "error", "info"],
+    "text": "string",
+    "title": "string",
+    "linkLabel": "string",
+    "onLinkClick": "() => void",
+    "onDismiss": "() => void",
+    "fullWidth": "boolean"
+  },
+  "status": "stable",
+  "usedBy": []
+}

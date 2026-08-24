@@ -1,0 +1,121 @@
+/* Every value here is an existing shared token — no component/banner.json,
+   same as @statrys/app-ds's Banner. Figma's dev-mode padding for the card
+   variant is exactly space-6/space-5 plus border-width-base — the border
+   eats into the box, so padding adds border-width-base back to keep the
+   visual inset at the space-token value.
+
+   Figma: https://www.figma.com/design/abElBYcwuc5skfPX1c7FlP/-WEB--Design-System?node-id=3443-2895 */
+
+.banner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  box-sizing: border-box;
+  border: var(--border-width-base) solid transparent;
+}
+
+.card {
+  border-radius: var(--radius-2xl);
+  padding: calc(var(--space-5) + var(--border-width-base)) calc(var(--space-6) + var(--border-width-base));
+}
+.fullWidth {
+  width: 100%;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-radius: var(--radius-none);
+  padding: var(--space-5) var(--space-6) calc(var(--space-5) + var(--border-width-base));
+}
+
+.success {
+  background: var(--bg-success-subtle);
+  border-color: var(--border-success-subtle);
+}
+.success .icon {
+  color: var(--icon-success-primary);
+}
+.warning {
+  background: var(--bg-warning-subtle);
+  border-color: var(--border-warning-subtle);
+}
+.warning .icon {
+  color: var(--icon-warning-primary);
+}
+.error {
+  background: var(--bg-error-subtle);
+  border-color: var(--border-error-subtle);
+}
+.error .icon {
+  color: var(--icon-error-primary);
+}
+.info {
+  background: var(--bg-info-subtle);
+  border-color: var(--border-info-subtle);
+}
+.info .icon {
+  color: var(--icon-info-primary);
+}
+
+.icon {
+  flex-shrink: 0;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  flex: 1 0 0;
+  min-width: 0;
+}
+.textGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-1);
+  width: 100%;
+}
+
+.title {
+  margin: 0;
+  width: 100%;
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-sm);
+  line-height: 1.3;
+  color: var(--text-primary);
+}
+.text {
+  margin: 0;
+  width: 100%;
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-sm);
+  line-height: 1.3;
+  color: var(--text-primary);
+}
+/* A detail line under a title shrinks to caption size — only "Text only"
+   (no title) stays body-sm, via .text above. */
+.textCaption {
+  margin: 0;
+  width: 100%;
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-xs);
+  line-height: 1.3;
+  color: var(--text-primary);
+}
+
+.close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--space-10);
+  height: var(--space-10);
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--icon-secondary);
+}

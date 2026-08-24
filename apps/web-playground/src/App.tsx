@@ -66,7 +66,10 @@ const NAV: Record<Tab, NavGroup[]> = {
     },
     {
       group: "Feedback",
-      items: [{ id: "tooltip", label: "Tooltip" }],
+      items: [
+        { id: "tooltip", label: "Tooltip" },
+        { id: "banner", label: "Banner" },
+      ],
     },
   ],
 };
