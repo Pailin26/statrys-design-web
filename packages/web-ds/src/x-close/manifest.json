@@ -6,7 +6,7 @@
   "figmaNodeId": "1646:164",
   "consumesTokens": [
     "icon.secondary", "icon.neutralInversePrimary",
-    "button.tertiaryHover", "bg.neutralInversePrimaryHover", "alpha.black10",
+    "button.tertiaryHover", "bg.neutralInversePrimaryHover",
     "radius.md", "radius.lg", "space.10"
   ],
   "props": {

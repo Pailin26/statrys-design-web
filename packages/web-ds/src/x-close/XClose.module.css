@@ -23,21 +23,16 @@
   color: var(--icon-neutral-inverse-primary);
 }
 
-/* Hover fill is an inheritable custom property, not a hardcoded token, so a
-   host sitting on a non-neutral surface (e.g. Banner's per-color tinted
-   background) can override it to something that doesn't fight that color —
-   see Banner.module.css. Falls back to XClose's own Figma-specified tokens
-   when no ancestor overrides it. */
 .sm {
   width: var(--space-10);
   height: var(--space-10);
   border-radius: var(--radius-md);
 }
 .sm:hover {
-  background: var(--x-close-hover-bg, var(--button-tertiary-hover));
+  background: var(--button-tertiary-hover);
 }
 .sm.inverse:hover {
-  background: var(--x-close-hover-bg-inverse, var(--bg-neutral-inverse-primary-hover));
+  background: var(--bg-neutral-inverse-primary-hover);
 }
 
 .md {
@@ -46,8 +41,8 @@
   border-radius: var(--radius-lg);
 }
 .md:hover {
-  background: var(--x-close-hover-bg, var(--button-tertiary-hover));
+  background: var(--button-tertiary-hover);
 }
 .md.inverse:hover {
-  background: var(--x-close-hover-bg-inverse, var(--bg-neutral-inverse-primary-hover));
+  background: var(--bg-neutral-inverse-primary-hover);
 }
