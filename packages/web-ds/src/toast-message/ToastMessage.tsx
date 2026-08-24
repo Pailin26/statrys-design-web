@@ -79,7 +79,7 @@ export function ToastMessage({ variant = "default", title, subtitle, action, onC
           </Link>
         )}
       </div>
-      <XClose size="sm" inverse onClick={onClose} aria-label="Dismiss" />
+      <XClose size="md" inverse onClick={onClose} aria-label="Dismiss" />
     </div>
   );
 }

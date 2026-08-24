@@ -59,7 +59,7 @@ export function Banner({
           </Link>
         )}
       </div>
-      {onDismiss && <XClose size="sm" onClick={onDismiss} aria-label="Dismiss" />}
+      {onDismiss && <XClose size="md" onClick={onDismiss} aria-label="Dismiss" />}
     </div>
   );
 }
