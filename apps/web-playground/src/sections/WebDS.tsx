@@ -864,9 +864,9 @@ function TooltipDemo() {
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
         <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
-          <code>arrow</code> picks both which side the arrow renders on and which way it points — the
-          bubble reflows around it (row layout for left/right, column for top/bottom). <code>bottom-left</code>/
-          <code>bottom-right</code> additionally shift the arrow toward that corner instead of centering it.
+          The arrow points toward whatever the tooltip is explaining, and can sit on any side — top,
+          bottom, left, or right. The two bottom-corner options shift the arrow toward that corner
+          instead of centering it.
         </p>
 
         <div>
@@ -1136,7 +1136,7 @@ function XCloseDemo() {
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
         <div>
-          <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>No text prop — just size and surface. Hover it to see the real background tint.</p>
+          <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>There's no label here — just its size and which surface it sits on. Hover over it below to see the background tint appear.</p>
           <div style={{ display: "flex", gap: 32, flexWrap: "wrap", alignItems: "stretch" }}>
             <div
               style={{
@@ -1191,10 +1191,8 @@ function OverlayDemo() {
         <div>
           <h3 style={{ margin: "0 0 12px" }}>On its own</h3>
           <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
-            Renders <code>position: fixed; inset: 0</code> at <code>z-index: var(--overlay-z-index)</code>{" "}
-            (300) — contained to the box below via a CSS containing-block trick (<code>contain</code> on
-            the box) for this preview only; real usage mounts it at the app root, covering the whole
-            viewport.
+            Normally this covers the entire screen. It's boxed into the preview below just so you can
+            see it here — in real use it sits behind whatever it's dimming, covering the whole page.
           </p>
           <div style={{ position: "relative", height: 280, borderRadius: 8, overflow: "hidden", contain: "layout paint" }}>
             <div style={{ position: "absolute", inset: 0, background: "#f2f2f2" }} />
@@ -1205,10 +1203,9 @@ function OverlayDemo() {
         <div>
           <h3 style={{ margin: "0 0 12px" }}>Paired with Modal — Modal renders on top</h3>
           <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
-            Same contained box, this time with a <code>Modal</code> mounted alongside it. Modal's{" "}
-            <code>z-index: var(--modal-z-index)</code> (400) beats Overlay's 300, so it always sits above
-            the scrim — clicking the scrim itself (via Overlay's <code>onClick</code>) is the usual way to
-            dismiss both together.
+            Same preview box, now with a Modal mounted next to it. The modal always appears on top of
+            the dimmed background automatically, with no extra setup — clicking the dimmed area is the
+            usual way to close both at once.
           </p>
           <div style={{ position: "relative", height: 280, borderRadius: 8, overflow: "hidden", contain: "layout paint" }}>
             <div style={{ position: "absolute", inset: 0, background: "#f2f2f2" }} />
@@ -1362,8 +1359,9 @@ function ModalDemo() {
         <div>
           <h3 style={{ margin: "0 0 12px" }}>Parts, in isolation</h3>
           <p style={{ color: "#666", maxWidth: 560 }}>
-            Only the assembled <code>Modal</code> root is fixed/centered — Header/Content/Footer are
-            plain flex rows on their own, shown here inline in a bordered box instead of full-screen.
+            Only the full Modal centers itself on the page — the header, content, and footer are just
+            simple building blocks on their own, shown here side by side in a plain box instead of
+            full-screen.
           </p>
           <div
             style={{
