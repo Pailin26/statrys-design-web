@@ -38,7 +38,7 @@ export function TextInputFluid({
   const floating = !disabled && (focused || hasValue || hasError);
 
   return (
-    <div className={[styles.root, styles[size]].join(" ")}>
+    <div className={styles.root}>
       <div
         className={[
           styles.field,
