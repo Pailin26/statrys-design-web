@@ -7,6 +7,8 @@ import path from "node:path";
 // source until packages/web-ds gets a real build — swap this for plain
 // workspace resolution once it does.
 export default defineConfig({
+  // GitHub Pages serves this from /statrys-design-web/, not the domain root.
+  base: process.env.GITHUB_PAGES_BASE || "/",
   plugins: [react()],
   resolve: {
     alias: {
