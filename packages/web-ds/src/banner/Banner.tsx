@@ -1,6 +1,7 @@
 import React from "react";
-import { CircleCheck, TriangleAlert, OctagonAlert, Info, X } from "lucide-react";
+import { CircleCheck, TriangleAlert, OctagonAlert, Info } from "lucide-react";
 import { Link } from "../link/Link";
+import { XClose } from "../x-close/XClose";
 import styles from "./Banner.module.css";
 
 export type BannerColor = "success" | "warning" | "error" | "info";
@@ -58,11 +59,7 @@ export function Banner({
           </Link>
         )}
       </div>
-      {onDismiss && (
-        <button type="button" className={styles.close} onClick={onDismiss} aria-label="Dismiss">
-          <X size={20} strokeWidth={1.67} />
-        </button>
-      )}
+      {onDismiss && <XClose size="sm" onClick={onDismiss} aria-label="Dismiss" />}
     </div>
   );
 }
