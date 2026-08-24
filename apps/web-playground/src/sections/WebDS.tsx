@@ -883,23 +883,58 @@ function XCloseDemo() {
 }
 
 function OverlayDemo() {
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <ComponentPage
       id="overlay"
       title="Overlay"
-      usage="Full-bleed dark scrim mounted behind a Modal (or any other floating surface). Fades itself in on mount; no portal, positioning relative to a target, or exit animation of its own — mount/unmount it as a sibling of whatever it's dimming."
+      usage="Full-bleed dark scrim mounted behind a Modal (or any other floating surface). Fades itself in on mount; no portal, positioning relative to a target, or exit animation of its own — mount/unmount it as a sibling of whatever it's dimming. Layering with Modal is automatic: Overlay sits at z-index 300, Modal at 400, so a Modal mounted alongside it always renders on top regardless of DOM order — mount Overlay first anyway, since it reads as the backdrop semantically."
       figmaUrl={`${FIGMA_FILE}1510-8634`}
-      code={`import { Overlay, Modal } from "@statrys/web-ds";\n\n{open && (\n  <>\n    <Overlay onClick={() => setOpen(false)} />\n    <Modal>...</Modal>\n  </>\n)}`}
+      code={`import { Overlay, Modal } from "@statrys/web-ds";\n\n// Siblings, not nested — Overlay (z-index 300) is the dimmed backdrop,\n// Modal (z-index 400) always renders on top of it.\n{open && (\n  <>\n    <Overlay onClick={() => setOpen(false)} />\n    <Modal>\n      <Modal.Header title="Title" onClose={() => setOpen(false)} />\n      <Modal.Footer primaryLabel="Confirm" onPrimary={() => setOpen(false)} />\n    </Modal>\n  </>\n)}`}
     >
-      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-        <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
-          Renders <code>position: fixed; inset: 0</code> at <code>z-index: var(--overlay-z-index)</code> —
-          contained to the box below via a CSS containing-block trick (<code>contain</code> on the box)
-          for this preview only; real usage mounts it at the app root, covering the whole viewport.
-        </p>
-        <div style={{ position: "relative", height: 280, borderRadius: 8, overflow: "hidden", contain: "layout paint" }}>
-          <div style={{ position: "absolute", inset: 0, background: "#f2f2f2" }} />
-          <Overlay onClick={() => {}} />
+      <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+        <div>
+          <h3 style={{ margin: "0 0 12px" }}>On its own</h3>
+          <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
+            Renders <code>position: fixed; inset: 0</code> at <code>z-index: var(--overlay-z-index)</code>{" "}
+            (300) — contained to the box below via a CSS containing-block trick (<code>contain</code> on
+            the box) for this preview only; real usage mounts it at the app root, covering the whole
+            viewport.
+          </p>
+          <div style={{ position: "relative", height: 280, borderRadius: 8, overflow: "hidden", contain: "layout paint" }}>
+            <div style={{ position: "absolute", inset: 0, background: "#f2f2f2" }} />
+            <Overlay onClick={() => {}} />
+          </div>
+        </div>
+
+        <div>
+          <h3 style={{ margin: "0 0 12px" }}>Paired with Modal — Modal renders on top</h3>
+          <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
+            Same contained box, this time with a <code>Modal</code> mounted alongside it. Modal's{" "}
+            <code>z-index: var(--modal-z-index)</code> (400) beats Overlay's 300, so it always sits above
+            the scrim — clicking the scrim itself (via Overlay's <code>onClick</code>) is the usual way to
+            dismiss both together.
+          </p>
+          <div style={{ position: "relative", height: 280, borderRadius: 8, overflow: "hidden", contain: "layout paint" }}>
+            <div style={{ position: "absolute", inset: 0, background: "#f2f2f2" }} />
+            {!showModal && (
+              <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <Button variant="primary" size="md" onClick={() => setShowModal(true)}>
+                  Show modal on top
+                </Button>
+              </div>
+            )}
+            {showModal && (
+              <>
+                <Overlay onClick={() => setShowModal(false)} />
+                <Modal>
+                  <Modal.Header title="Title" description="Description" onClose={() => setShowModal(false)} />
+                  <Modal.Footer primaryLabel="Confirm" onPrimary={() => setShowModal(false)} />
+                </Modal>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </ComponentPage>
@@ -916,9 +951,9 @@ function ModalDemo() {
     <ComponentPage
       id="modal"
       title="Modal"
-      usage="Fixed, viewport-centered dialog card composed from Modal.Header, Modal.Content, and Modal.Footer. Pair with Overlay for the dimmed backdrop — Modal only renders the card itself, no portal or backdrop of its own."
+      usage="Fixed, viewport-centered dialog card composed from Modal.Header, Modal.Content, and Modal.Footer. Pair with Overlay for the dimmed backdrop — Modal only renders the card itself, no portal or backdrop of its own. Mount them as siblings (not nested): Modal's z-index (400) is always above Overlay's (300), so Modal renders on top with no extra work — see Overlay's own Usage tab for the paired example."
       figmaUrl={`${FIGMA_FILE}2734-18960`}
-      code={`import { Modal, Overlay } from "@statrys/web-ds";\n\n{open && (\n  <>\n    <Overlay onClick={() => setOpen(false)} />\n    <Modal>\n      <Modal.Header title="Title" description="Description" onClose={() => setOpen(false)} />\n      <Modal.Content paddingBottom>Body copy…</Modal.Content>\n      <Modal.Footer\n        primaryLabel="Confirm"\n        onPrimary={() => setOpen(false)}\n        secondaryLabel="Cancel"\n        onSecondary={() => setOpen(false)}\n      />\n    </Modal>\n  </>\n)}`}
+      code={`import { Modal, Overlay } from "@statrys/web-ds";\n\n// Siblings, not nested — Overlay (z-index 300) dims the page,\n// Modal (z-index 400) always renders on top of it.\n{open && (\n  <>\n    <Overlay onClick={() => setOpen(false)} />\n    <Modal>\n      <Modal.Header title="Title" description="Description" onClose={() => setOpen(false)} />\n      <Modal.Content paddingBottom>Body copy…</Modal.Content>\n      <Modal.Footer\n        primaryLabel="Confirm"\n        onPrimary={() => setOpen(false)}\n        secondaryLabel="Cancel"\n        onSecondary={() => setOpen(false)}\n      />\n    </Modal>\n  </>\n)}`}
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
         <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>

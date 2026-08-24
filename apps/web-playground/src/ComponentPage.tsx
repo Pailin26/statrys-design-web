@@ -49,15 +49,16 @@ export function ComponentPage({ id, title, usage, code, figmaUrl, children }: Co
       <TabBar variant="inline" tabs={SECTIONS} active={section} onChange={setSection} />
 
       {section === "Usage" && (
-        <div style={{ maxWidth: 640 }}>
-          <p style={{ color: "var(--text-secondary)", lineHeight: 1.6, fontSize: 15 }}>{usage}</p>
+        <div style={{ maxWidth: 640, display: "flex", flexDirection: "column", gap: 16 }}>
+          <p style={{ color: "var(--text-secondary)", lineHeight: 1.6, fontSize: 15, margin: 0 }}>{usage}</p>
           {figmaUrl && (
-            <p style={{ marginTop: 12 }}>
+            <p style={{ margin: 0 }}>
               <a href={figmaUrl} target="_blank" rel="noreferrer">
                 View in Figma ↗
               </a>
             </p>
           )}
+          <CodeBlock code={code} />
         </div>
       )}
 
