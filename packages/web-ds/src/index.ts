@@ -22,3 +22,7 @@ export { Tooltip } from "./tooltip/Tooltip";
 export type { TooltipProps, TooltipArrow } from "./tooltip/Tooltip";
 export { Banner } from "./banner/Banner";
 export type { BannerProps, BannerColor } from "./banner/Banner";
+export { XClose } from "./x-close/XClose";
+export type { XCloseProps, XCloseSize } from "./x-close/XClose";
+export { ToastMessage } from "./toast-message/ToastMessage";
+export type { ToastMessageProps, ToastVariant } from "./toast-message/ToastMessage";

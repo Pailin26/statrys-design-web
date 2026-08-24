@@ -1,0 +1,22 @@
+{
+  "name": "ToastMessage",
+  "platform": "web",
+  "description": "Dark-surface notification card — optional filled status icon, title + optional subtitle, an optional trailing link, and a close button. Purely presentational: no positioning, auto-hide timer, or enter/exit animation of its own — the caller mounts and places it.",
+  "figmaFileKey": "abElBYcwuc5skfPX1c7FlP",
+  "figmaNodeId": "215:4052",
+  "consumesTokens": [
+    "bg.neutralInversePrimary", "text.neutralInversePrimary",
+    "icon.successPrimary", "icon.errorPrimary", "icon.warningPrimary",
+    "radius.xl", "shadow.lg", "space.1", "space.4", "space.6", "space.8",
+    "font.primary", "font.weightRegular", "font.weightMedium", "font.sizeSm", "font.sizeBase"
+  ],
+  "props": {
+    "variant": ["default", "success", "error", "warning"],
+    "title": "string",
+    "subtitle": "string",
+    "action": "{ label: string; onClick: () => void }",
+    "onClose": "() => void"
+  },
+  "status": "stable",
+  "usedBy": []
+}

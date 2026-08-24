@@ -1,6 +1,6 @@
 import { useState, Fragment, type ComponentProps } from "react";
 import { ArrowUpRight, ChevronDown } from "lucide-react";
-import { Button, ButtonHighlight, Link, HorizontalTabs, Toggle, Checkbox, Radio, SearchInput, TextInputFluid, Tooltip, Banner } from "@statrys/web-ds";
+import { Button, ButtonHighlight, Link, HorizontalTabs, Toggle, Checkbox, Radio, SearchInput, TextInputFluid, Tooltip, Banner, ToastMessage, XClose } from "@statrys/web-ds";
 import { ComponentPage } from "../ComponentPage";
 
 const FIGMA_FILE = "https://www.figma.com/design/abElBYcwuc5skfPX1c7FlP/-WEB--Design-System?node-id=";
@@ -770,6 +770,118 @@ function BannerDemo() {
   );
 }
 
+const TOAST_VARIANTS = ["default", "success", "error", "warning"] as const;
+const TOAST_COLUMNS = ["No subtitle", "With subtitle"] as const;
+
+function ToastMessageDemo() {
+  const [visible, setVisible] = useState<Record<string, boolean>>(
+    Object.fromEntries(TOAST_VARIANTS.map((v) => [v, true]))
+  );
+
+  return (
+    <ComponentPage
+      id="toast-message"
+      title="Toast Message"
+      usage="Dark-surface notification card — optional filled status icon, title + optional subtitle, an optional trailing link, and a close button. Purely presentational; no positioning, auto-hide timer, or animation of its own — mount it inside whatever timed/positioned wrapper the app uses."
+      figmaUrl={`${FIGMA_FILE}215-4052`}
+      code={`import { ToastMessage } from "@statrys/web-ds";\n\n<ToastMessage\n  variant="success"\n  title="Invoice sent"\n  subtitle="Marked as sent"\n  action={{ label: "View Details", onClick: openInvoice }}\n  onClose={() => setShow(false)}\n/>`}
+    >
+      <div style={{ display: "flex", flexDirection: "column", gap: 32, maxWidth: 900 }}>
+        <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
+          <code>subtitle</code> and <code>action</code> each render only when passed — Figma's
+          "showSubtitle" toggle and the link row aren't separate discrete flags here.
+        </p>
+
+        <div>
+          <h3 style={{ margin: "0 0 12px" }}>All variants</h3>
+          <VariantGrid
+            columns={TOAST_COLUMNS}
+            columnLabelWidth={100}
+            rows={TOAST_VARIANTS.map((variant) => ({
+              label: variant,
+              render: (column) => (
+                <ToastMessage
+                  variant={variant}
+                  title="Title"
+                  subtitle={column === "With subtitle" ? "Subtitle" : undefined}
+                  action={{ label: "View Details", onClick: () => {} }}
+                  onClose={() => {}}
+                />
+              ),
+            }))}
+          />
+        </div>
+
+        <div>
+          <h3 style={{ margin: "0 0 12px" }}>Interactive dismiss</h3>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12, maxWidth: 356 }}>
+            {TOAST_VARIANTS.filter((v) => visible[v]).map((variant) => (
+              <ToastMessage
+                key={variant}
+                variant={variant}
+                title="Title"
+                subtitle="Subtitle"
+                onClose={() => setVisible((prev) => ({ ...prev, [variant]: false }))}
+              />
+            ))}
+            {TOAST_VARIANTS.every((v) => !visible[v]) && (
+              <p style={{ color: "#666" }}>
+                All dismissed —{" "}
+                <button
+                  type="button"
+                  style={{ border: "none", background: "none", color: "#1b1b1b", textDecoration: "underline", cursor: "pointer", padding: 0 }}
+                  onClick={() => setVisible(Object.fromEntries(TOAST_VARIANTS.map((v) => [v, true])))}
+                >
+                  reset
+                </button>
+              </p>
+            )}
+          </div>
+        </div>
+
+        <div>
+          <h3 style={{ margin: "0 0 12px" }}>No action, no title-only subtitle</h3>
+          <ToastMessage variant="default" title="Changes saved" onClose={() => {}} />
+        </div>
+      </div>
+    </ComponentPage>
+  );
+}
+
+const XCLOSE_SIZES = ["sm", "md"] as const;
+
+function XCloseDemo() {
+  return (
+    <ComponentPage
+      id="x-close"
+      title="X Close"
+      usage="Small square icon-only close/dismiss button. Hover is a real CSS background tint, not a discrete prop — try it live below rather than in a static grid."
+      figmaUrl={`${FIGMA_FILE}1646-164`}
+      code={`import { XClose } from "@statrys/web-ds";\n\n<XClose size="sm" onClick={() => setOpen(false)} aria-label="Dismiss" />\n\n// On a dark surface (e.g. inside ToastMessage)\n<XClose size="sm" inverse onClick={() => setOpen(false)} />`}
+    >
+      <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+        <div>
+          <h3 style={{ margin: "0 0 12px" }}>Default (light surface)</h3>
+          <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
+            {XCLOSE_SIZES.map((size) => (
+              <XClose key={size} size={size} onClick={() => {}} />
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <h3 style={{ margin: "0 0 12px" }}>Inverse (dark surface)</h3>
+          <div style={{ background: "var(--bg-neutral-inverse-primary)", padding: 24, borderRadius: "var(--radius-lg)", display: "flex", gap: 24, alignItems: "center" }}>
+            {XCLOSE_SIZES.map((size) => (
+              <XClose key={size} size={size} inverse onClick={() => {}} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </ComponentPage>
+  );
+}
+
 export function WebDS({ item }: { item: string }) {
   if (item === "button") return <ButtonDemo />;
   if (item === "button-highlight") return <ButtonHighlightDemo />;
@@ -782,5 +894,7 @@ export function WebDS({ item }: { item: string }) {
   if (item === "text-input-fluid") return <TextInputFluidDemo />;
   if (item === "tooltip") return <TooltipDemo />;
   if (item === "banner") return <BannerDemo />;
+  if (item === "toast-message") return <ToastMessageDemo />;
+  if (item === "x-close") return <XCloseDemo />;
   return <div>Unknown component: {item}</div>;
 }

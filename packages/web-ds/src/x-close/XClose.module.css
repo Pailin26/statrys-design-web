@@ -1,0 +1,48 @@
+/* Every value here is an existing shared token — no component/xClose.json
+   (the same four components — Badge/NotiBadge/XClose/ListCard — stayed on
+   direct token imports when @statrys/app-ds ported this design; XClose is
+   one of them). md's hit-size has no matching space token on its own, so
+   it's derived from space-10 via calc() instead of a plain literal, to
+   keep this repo's zero-hardcoded-value lint clean.
+
+   Figma: https://www.figma.com/design/abElBYcwuc5skfPX1c7FlP/-WEB--Design-System?node-id=1646-164 */
+
+.base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--icon-primary);
+  transition: background-color 0.1s;
+}
+.base.inverse {
+  color: var(--icon-neutral-inverse-primary);
+}
+
+.sm {
+  width: var(--space-10);
+  height: var(--space-10);
+  border-radius: var(--radius-md);
+}
+.sm:hover {
+  background: var(--button-tertiary-hover);
+}
+.sm.inverse:hover {
+  background: var(--bg-neutral-inverse-primary-hover);
+}
+
+.md {
+  width: calc(var(--space-10) * 1.5);
+  height: calc(var(--space-10) * 1.5);
+  border-radius: var(--radius-lg);
+}
+.md:hover {
+  background: var(--button-tertiary-hover);
+}
+.md.inverse:hover {
+  background: var(--bg-neutral-inverse-primary-hover);
+}

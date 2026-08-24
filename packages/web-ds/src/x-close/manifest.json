@@ -1,0 +1,19 @@
+{
+  "name": "XClose",
+  "platform": "web",
+  "description": "Small square icon-only close/dismiss button — two sizes, an inverse palette for dark surfaces (e.g. inside ToastMessage), and a real CSS hover background tint.",
+  "figmaFileKey": "abElBYcwuc5skfPX1c7FlP",
+  "figmaNodeId": "1646:164",
+  "consumesTokens": [
+    "icon.primary", "icon.neutralInversePrimary",
+    "button.tertiaryHover", "bg.neutralInversePrimaryHover",
+    "radius.md", "radius.lg", "space.10"
+  ],
+  "props": {
+    "size": ["sm", "md"],
+    "inverse": "boolean",
+    "onClick": "() => void"
+  },
+  "status": "stable",
+  "usedBy": ["ToastMessage"]
+}
