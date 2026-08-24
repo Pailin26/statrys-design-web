@@ -5,6 +5,53 @@ import { ComponentPage } from "../ComponentPage";
 
 const FIGMA_FILE = "https://www.figma.com/design/abElBYcwuc5skfPX1c7FlP/-WEB--Design-System?node-id=";
 
+// One state per row, one axis value (usually size) per column — every
+// meaningful visual variant in one table instead of scattered one-off
+// examples. Shared by every component demo below.
+function VariantGrid<Col extends string>({
+  columns,
+  rows,
+  columnLabelWidth = 160,
+  showColumnHeaders = true,
+}: {
+  columns: readonly Col[];
+  rows: { label: string; render: (column: Col) => React.ReactNode }[];
+  columnLabelWidth?: number;
+  /** Off for a single-column table where the column value isn't a real axis
+   *  (e.g. an icon-slots list) — a header would just repeat the row labels' meaning. */
+  showColumnHeaders?: boolean;
+}) {
+  return (
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: `${columnLabelWidth}px repeat(${columns.length}, 1fr)`,
+        gap: 16,
+        alignItems: "center",
+      }}
+    >
+      {showColumnHeaders && (
+        <>
+          <div />
+          {columns.map((column) => (
+            <div key={column} style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", color: "#808080" }}>
+              {column}
+            </div>
+          ))}
+        </>
+      )}
+      {rows.map((row) => (
+        <Fragment key={row.label}>
+          <div style={{ fontSize: 13, color: "#666" }}>{row.label}</div>
+          {columns.map((column) => (
+            <div key={column}>{row.render(column)}</div>
+          ))}
+        </Fragment>
+      ))}
+    </div>
+  );
+}
+
 const VARIANTS = ["primary", "secondary", "tertiary"] as const;
 const HIGHLIGHT_VARIANTS = ["primary", "secondary"] as const;
 const SIZES = ["sm", "md", "lg"] as const;
@@ -18,81 +65,99 @@ function ButtonDemo() {
       figmaUrl={`${FIGMA_FILE}537-1561`}
       code={`import { Button } from "@statrys/web-ds";\n\n<Button variant="primary" size="md" onClick={handleClick}>\n  Continue\n</Button>\n\n// Icon-only (Shape=Square/Circle) — icon is a consumer-supplied ReactNode\nimport { ArrowUpRight } from "lucide-react";\n\n<Button\n  variant="primary"\n  shape="circle"\n  icon={<ArrowUpRight size={20} />}\n  aria-label="Open"\n/>`}
     >
-      <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
         {VARIANTS.map((variant) => (
-          <div key={variant} style={{ display: "flex", gap: 12, alignItems: "center" }}>
-            {SIZES.map((size) => (
-              <Button key={size} variant={variant} size={size}>
-                {variant} / {size}
-              </Button>
-            ))}
-            <Button variant={variant} disabled>
-              disabled
-            </Button>
+          <div key={variant}>
+            <h3 style={{ margin: "0 0 12px", textTransform: "capitalize" }}>{variant}</h3>
+            <VariantGrid
+              columns={SIZES}
+              rows={[
+                { label: "Default", render: (size) => <Button variant={variant} size={size}>{variant} / {size}</Button> },
+                { label: "Disabled", render: (size) => <Button variant={variant} size={size} disabled>{variant} / {size}</Button> },
+              ]}
+            />
           </div>
         ))}
 
-        <h2 style={{ fontSize: 16, marginTop: 8 }}>Inverse (dark surface)</h2>
-        <div style={{ background: "var(--neutral-8)", padding: 24, borderRadius: "var(--radius-lg)", display: "flex", flexDirection: "column", gap: 24 }}>
-          {VARIANTS.map((variant) => (
-            <div key={variant} style={{ display: "flex", gap: 12, alignItems: "center" }}>
-              {SIZES.map((size) => (
-                <Button key={size} variant={variant} size={size} inverse>
-                  {variant} / {size}
-                </Button>
-              ))}
-              <Button variant={variant} inverse disabled>
-                disabled
-              </Button>
+        <div>
+          <h2 style={{ fontSize: 16, margin: "0 0 12px" }}>Inverse (dark surface)</h2>
+          <div style={{ background: "var(--neutral-8)", padding: 24, borderRadius: "var(--radius-lg)", display: "flex", flexDirection: "column", gap: 24 }}>
+            {VARIANTS.map((variant) => (
+              <VariantGrid
+                key={variant}
+                columns={SIZES}
+                rows={[
+                  { label: "Default", render: (size) => <Button variant={variant} size={size} inverse>{variant} / {size}</Button> },
+                  { label: "Disabled", render: (size) => <Button variant={variant} size={size} inverse disabled>{variant} / {size}</Button> },
+                ]}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <h2 style={{ fontSize: 16, margin: "0 0 12px" }}>Shape=Rounded</h2>
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {VARIANTS.map((variant) => (
+              <VariantGrid
+                key={variant}
+                columns={SIZES}
+                rows={[
+                  { label: "Default", render: (size) => <Button variant={variant} size={size} shape="rounded">{variant} / {size}</Button> },
+                  { label: "Disabled", render: (size) => <Button variant={variant} size={size} shape="rounded" disabled>{variant} / {size}</Button> },
+                ]}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <h2 style={{ fontSize: 16, margin: "0 0 12px" }}>Shape=Square / Circle (icon-only)</h2>
+          <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
+            <code>icon</code> is a consumer-supplied <code>ReactNode</code> — no re-export layer in
+            <code> @statrys/web-ds</code>. Here it's Lucide's <code>ArrowUpRight</code>, matching Figma's own icon.
+          </p>
+          {(["square", "circle"] as const).map((shape) => (
+            <div key={shape} style={{ marginBottom: 24 }}>
+              <h3 style={{ fontSize: 14, margin: "0 0 12px", textTransform: "capitalize" }}>{shape}</h3>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {VARIANTS.map((variant) => (
+                  <VariantGrid
+                    key={variant}
+                    columns={SIZES}
+                    rows={[
+                      {
+                        label: "Default",
+                        render: (size) => (
+                          <Button
+                            variant={variant}
+                            size={size}
+                            shape={shape}
+                            icon={<ArrowUpRight size={size === "sm" ? 16 : size === "md" ? 20 : 24} />}
+                            aria-label={`${variant} ${shape} ${size}`}
+                          />
+                        ),
+                      },
+                      {
+                        label: "Disabled",
+                        render: (size) => (
+                          <Button
+                            variant={variant}
+                            size={size}
+                            shape={shape}
+                            icon={<ArrowUpRight size={size === "sm" ? 16 : size === "md" ? 20 : 24} />}
+                            aria-label={`${variant} ${shape} ${size} disabled`}
+                            disabled
+                          />
+                        ),
+                      },
+                    ]}
+                  />
+                ))}
+              </div>
             </div>
           ))}
         </div>
-
-        <h2 style={{ fontSize: 16, marginTop: 8 }}>Shape=Rounded</h2>
-        {VARIANTS.map((variant) => (
-          <div key={variant} style={{ display: "flex", gap: 12, alignItems: "center" }}>
-            {SIZES.map((size) => (
-              <Button key={size} variant={variant} size={size} shape="rounded">
-                {variant} / {size}
-              </Button>
-            ))}
-            <Button variant={variant} shape="rounded" disabled>
-              disabled
-            </Button>
-          </div>
-        ))}
-
-        <h2 style={{ fontSize: 16, marginTop: 8 }}>Shape=Square / Circle (icon-only)</h2>
-        <p style={{ color: "#666", maxWidth: 560 }}>
-          <code>icon</code> is a consumer-supplied <code>ReactNode</code> — no re-export layer in
-          <code> @statrys/web-ds</code>. Here it's Lucide's <code>ArrowUpRight</code>, matching Figma's own icon.
-        </p>
-        {(["square", "circle"] as const).map((shape) => (
-          <div key={shape} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            <h3 style={{ fontSize: 14, margin: 0, textTransform: "capitalize" }}>{shape}</h3>
-            {VARIANTS.map((variant) => (
-              <div key={variant} style={{ display: "flex", gap: 12, alignItems: "center" }}>
-                {SIZES.map((size) => (
-                  <Button
-                    key={size}
-                    variant={variant}
-                    size={size}
-                    shape={shape}
-                    icon={<ArrowUpRight size={size === "sm" ? 16 : size === "md" ? 20 : 24} />}
-                    aria-label={`${variant} ${shape} ${size}`}
-                  />
-                ))}
-                <Button
-                  variant={variant}
-                  shape={shape}
-                  icon={<ArrowUpRight size={20} />}
-                  aria-label={`${variant} ${shape} disabled`}
-                  disabled
-                />
-              </div>
-            ))}
-          </div>
-        ))}
       </div>
     </ComponentPage>
   );
@@ -107,37 +172,41 @@ function ButtonHighlightDemo() {
       figmaUrl={`${FIGMA_FILE}1847-8095`}
       code={`import { ButtonHighlight } from "@statrys/web-ds";\n\n<ButtonHighlight variant="primary" size="md" onClick={handleClick}>\n  Get started\n</ButtonHighlight>`}
     >
-      <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
         {HIGHLIGHT_VARIANTS.map((variant) => (
-          <div key={variant} style={{ display: "flex", gap: 12, alignItems: "center" }}>
-            {SIZES.map((size) => (
-              <ButtonHighlight key={size} variant={variant} size={size}>
-                {variant} / {size}
-              </ButtonHighlight>
-            ))}
-            <ButtonHighlight variant={variant} disabled>
-              disabled
-            </ButtonHighlight>
+          <div key={variant}>
+            <h3 style={{ margin: "0 0 12px", textTransform: "capitalize" }}>{variant}</h3>
+            <VariantGrid
+              columns={SIZES}
+              rows={[
+                { label: "Default", render: (size) => <ButtonHighlight variant={variant} size={size}>{variant} / {size}</ButtonHighlight> },
+                { label: "Disabled", render: (size) => <ButtonHighlight variant={variant} size={size} disabled>{variant} / {size}</ButtonHighlight> },
+              ]}
+            />
           </div>
         ))}
 
-        <h2 style={{ fontSize: 16, marginTop: 8 }}>Icon slots</h2>
-        <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
-          <code>iconLeft</code>/<code>iconRight</code> are consumer-supplied <code>ReactNode</code>s.
-        </p>
-        {HIGHLIGHT_VARIANTS.map((variant) => (
-          <div key={variant} style={{ display: "flex", gap: 12, alignItems: "center" }}>
-            <ButtonHighlight variant={variant} iconLeft={<ArrowUpRight size={16} />}>
-              iconLeft
-            </ButtonHighlight>
-            <ButtonHighlight variant={variant} iconRight={<ArrowUpRight size={16} />}>
-              iconRight
-            </ButtonHighlight>
-            <ButtonHighlight variant={variant} iconLeft={<ArrowUpRight size={16} />} iconRight={<ArrowUpRight size={16} />}>
-              both
-            </ButtonHighlight>
-          </div>
-        ))}
+        <div>
+          <h2 style={{ fontSize: 16, margin: "0 0 12px" }}>Icon slots</h2>
+          <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
+            <code>iconLeft</code>/<code>iconRight</code> are consumer-supplied <code>ReactNode</code>s.
+          </p>
+          <VariantGrid
+            columns={HIGHLIGHT_VARIANTS}
+            rows={[
+              { label: "iconLeft", render: (variant) => <ButtonHighlight variant={variant} iconLeft={<ArrowUpRight size={16} />}>Label</ButtonHighlight> },
+              { label: "iconRight", render: (variant) => <ButtonHighlight variant={variant} iconRight={<ArrowUpRight size={16} />}>Label</ButtonHighlight> },
+              {
+                label: "Both",
+                render: (variant) => (
+                  <ButtonHighlight variant={variant} iconLeft={<ArrowUpRight size={16} />} iconRight={<ArrowUpRight size={16} />}>
+                    Label
+                  </ButtonHighlight>
+                ),
+              },
+            ]}
+          />
+        </div>
       </div>
     </ComponentPage>
   );
@@ -152,51 +221,50 @@ function LinkDemo() {
       figmaUrl={`${FIGMA_FILE}2153-6347`}
       code={`import { Link } from "@statrys/web-ds";\nimport { ArrowUpRight } from "lucide-react";\n\n<Link href="/docs" size="md" iconRight={<ArrowUpRight size={16} />}>\n  Learn more\n</Link>`}
     >
-      <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-        <p style={{ color: "#666", maxWidth: 560 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+        <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
           <code>iconLeft</code>/<code>iconRight</code> are consumer-supplied <code>ReactNode</code> — no
           re-export layer in <code>@statrys/web-ds</code>. Here it's Lucide's <code>ArrowUpRight</code>,
           matching Figma's own icon. No <code>color</code> prop passed — it inherits the link's current text
           color (default/hover/active/disabled) via SVG's <code>currentColor</code>.
         </p>
-        <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
-          {SIZES.map((size) => (
-            <Link key={size} size={size} href="#" iconRight={<ArrowUpRight size={16} />}>
-              primary link / {size}
-            </Link>
-          ))}
-          <Link href="#" disabled iconRight={<ArrowUpRight size={16} />}>
-            disabled
-          </Link>
+
+        <div>
+          <h3 style={{ margin: "0 0 12px" }}>All states × sizes</h3>
+          <VariantGrid
+            columns={SIZES}
+            rows={[
+              { label: "Default", render: (size) => <Link size={size} href="#" iconRight={<ArrowUpRight size={16} />}>Link / {size}</Link> },
+              { label: "Disabled", render: (size) => <Link size={size} href="#" disabled iconRight={<ArrowUpRight size={16} />}>Link / {size}</Link> },
+            ]}
+          />
         </div>
 
-        <h2 style={{ fontSize: 16, marginTop: 8 }}>Icon slots</h2>
-        <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
-          <Link href="#" iconLeft={<ArrowUpRight size={16} />}>
-            iconLeft
-          </Link>
-          <Link href="#" iconRight={<ArrowUpRight size={16} />}>
-            iconRight
-          </Link>
-          <Link href="#" iconLeft={<ArrowUpRight size={16} />} iconRight={<ArrowUpRight size={16} />}>
-            both
-          </Link>
-          <Link href="#">no icon</Link>
+        <div>
+          <h2 style={{ fontSize: 16, margin: "0 0 12px" }}>Icon slots</h2>
+          <VariantGrid
+            columns={["value"] as const}
+            showColumnHeaders={false}
+            rows={[
+              { label: "iconLeft", render: () => <Link href="#" iconLeft={<ArrowUpRight size={16} />}>Label</Link> },
+              { label: "iconRight", render: () => <Link href="#" iconRight={<ArrowUpRight size={16} />}>Label</Link> },
+              { label: "Both", render: () => <Link href="#" iconLeft={<ArrowUpRight size={16} />} iconRight={<ArrowUpRight size={16} />}>Label</Link> },
+              { label: "No icon", render: () => <Link href="#">Label</Link> },
+            ]}
+          />
         </div>
 
-        <h2 style={{ fontSize: 16, marginTop: 8 }}>Inverse (dark surface)</h2>
-        <div style={{ background: "var(--neutral-8)", padding: 24, borderRadius: "var(--radius-lg)", display: "flex", gap: 24, alignItems: "center" }}>
-          {SIZES.map((size) => (
-            <Link key={size} size={size} inverse href="#" iconRight={<ArrowUpRight size={16} />}>
-              inverse link / {size}
-            </Link>
-          ))}
-          <Link inverse href="#" disabled iconRight={<ArrowUpRight size={16} />}>
-            disabled
-          </Link>
-          <Link inverse href="#" iconLeft={<ArrowUpRight size={16} />}>
-            iconLeft
-          </Link>
+        <div>
+          <h2 style={{ fontSize: 16, margin: "0 0 12px" }}>Inverse (dark surface)</h2>
+          <div style={{ background: "var(--neutral-8)", padding: 24, borderRadius: "var(--radius-lg)" }}>
+            <VariantGrid
+              columns={SIZES}
+              rows={[
+                { label: "Default", render: (size) => <Link size={size} inverse href="#" iconRight={<ArrowUpRight size={16} />}>Link / {size}</Link> },
+                { label: "Disabled", render: (size) => <Link size={size} inverse href="#" disabled iconRight={<ArrowUpRight size={16} />}>Link / {size}</Link> },
+              ]}
+            />
+          </div>
         </div>
       </div>
     </ComponentPage>
@@ -215,10 +283,13 @@ const TAB_ITEMS_PLAIN = [
   { id: "three", label: "Tab three" },
 ];
 
+const HORIZONTAL_TABS_SIZES = ["md", "lg"] as const;
+
 function HorizontalTabsDemo() {
-  const [mdActive, setMdActive] = useState("one");
-  const [lgActive, setLgActive] = useState("three");
+  const [mdIconActive, setMdIconActive] = useState("one");
+  const [lgIconActive, setLgIconActive] = useState("three");
   const [mdPlainActive, setMdPlainActive] = useState("two");
+  const [lgPlainActive, setLgPlainActive] = useState("one");
 
   return (
     <ComponentPage
@@ -228,29 +299,38 @@ function HorizontalTabsDemo() {
       figmaUrl={`${FIGMA_FILE}2725-16713`}
       code={`import { HorizontalTabs } from "@statrys/web-ds";\n\nconst items = [\n  { id: "one", label: "Tab one", badge: 2 },\n  { id: "two", label: "Tab two" },\n];\n\n<HorizontalTabs items={items} activeId={activeId} onChange={setActiveId} />`}
     >
-      <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
-        <div>
-          <h2 style={{ fontSize: 16, marginTop: 0 }}>size=md, with icon + badge</h2>
-          <HorizontalTabs items={TAB_ITEMS} activeId={mdActive} onChange={setMdActive} />
-        </div>
-
-        <div>
-          <h2 style={{ fontSize: 16, marginTop: 0 }}>size=lg, with icon + badge</h2>
-          <HorizontalTabs items={TAB_ITEMS} activeId={lgActive} onChange={setLgActive} size="lg" />
-        </div>
-
-        <div>
-          <h2 style={{ fontSize: 16, marginTop: 0 }}>size=md, plain (no icon/badge)</h2>
-          <HorizontalTabs items={TAB_ITEMS_PLAIN} activeId={mdPlainActive} onChange={setMdPlainActive} />
-        </div>
-      </div>
+      <VariantGrid
+        columns={HORIZONTAL_TABS_SIZES}
+        rows={[
+          {
+            label: "With icon + badge",
+            render: (size) =>
+              size === "md" ? (
+                <HorizontalTabs items={TAB_ITEMS} activeId={mdIconActive} onChange={setMdIconActive} />
+              ) : (
+                <HorizontalTabs items={TAB_ITEMS} activeId={lgIconActive} onChange={setLgIconActive} size="lg" />
+              ),
+          },
+          {
+            label: "Plain (no icon/badge)",
+            render: (size) =>
+              size === "md" ? (
+                <HorizontalTabs items={TAB_ITEMS_PLAIN} activeId={mdPlainActive} onChange={setMdPlainActive} />
+              ) : (
+                <HorizontalTabs items={TAB_ITEMS_PLAIN} activeId={lgPlainActive} onChange={setLgPlainActive} size="lg" />
+              ),
+          },
+        ]}
+      />
     </ComponentPage>
   );
 }
 
+const TOGGLE_COLUMNS = ["Enabled", "Disabled"] as const;
+
 function ToggleDemo() {
-  const [defaultOn, setDefaultOn] = useState(true);
-  const [defaultOff, setDefaultOff] = useState(false);
+  const [off, setOff] = useState(false);
+  const [on, setOn] = useState(true);
 
   return (
     <ComponentPage
@@ -260,12 +340,29 @@ function ToggleDemo() {
       figmaUrl={`${FIGMA_FILE}3784-2555`}
       code={`import { Toggle } from "@statrys/web-ds";\n\n<Toggle selected={enabled} onChange={setEnabled} aria-label="Enable notifications" />`}
     >
-      <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
-        <Toggle selected={defaultOff} onChange={setDefaultOff} aria-label="off by default" />
-        <Toggle selected={defaultOn} onChange={setDefaultOn} aria-label="on by default" />
-        <Toggle selected={false} disabled aria-label="off, disabled" />
-        <Toggle selected={true} disabled aria-label="on, disabled" />
-      </div>
+      <VariantGrid
+        columns={TOGGLE_COLUMNS}
+        rows={[
+          {
+            label: "Off",
+            render: (column) =>
+              column === "Enabled" ? (
+                <Toggle selected={off} onChange={setOff} aria-label="off, enabled" />
+              ) : (
+                <Toggle selected={false} disabled aria-label="off, disabled" />
+              ),
+          },
+          {
+            label: "On",
+            render: (column) =>
+              column === "Enabled" ? (
+                <Toggle selected={on} onChange={setOn} aria-label="on, enabled" />
+              ) : (
+                <Toggle selected={true} disabled aria-label="on, disabled" />
+              ),
+          },
+        ]}
+      />
     </ComponentPage>
   );
 }
@@ -293,29 +390,13 @@ function CheckboxDemo() {
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
         <div>
           <h3 style={{ margin: "0 0 12px" }}>All states × sizes</h3>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: `160px repeat(${CHECKBOX_SIZES.length}, auto)`,
-              gap: 16,
-              alignItems: "center",
-            }}
-          >
-            <div />
-            {CHECKBOX_SIZES.map((size) => (
-              <div key={size} style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", color: "#808080" }}>
-                {size}
-              </div>
-            ))}
-            {CHECKBOX_VARIANT_ROWS.map((row) => (
-              <Fragment key={row.label}>
-                <div style={{ fontSize: 13, color: "#666" }}>{row.label}</div>
-                {CHECKBOX_SIZES.map((size) => (
-                  <Checkbox key={size} label="Label" size={size} onChange={() => {}} {...row.props} />
-                ))}
-              </Fragment>
-            ))}
-          </div>
+          <VariantGrid
+            columns={CHECKBOX_SIZES}
+            rows={CHECKBOX_VARIANT_ROWS.map((row) => ({
+              label: row.label,
+              render: (size: (typeof CHECKBOX_SIZES)[number]) => <Checkbox label="Label" size={size} onChange={() => {}} {...row.props} />,
+            }))}
+          />
         </div>
 
         <div>
@@ -354,29 +435,13 @@ function RadioDemo() {
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
         <div>
           <h3 style={{ margin: "0 0 12px" }}>All states × sizes</h3>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: `160px repeat(${RADIO_SIZES.length}, auto)`,
-              gap: 16,
-              alignItems: "center",
-            }}
-          >
-            <div />
-            {RADIO_SIZES.map((size) => (
-              <div key={size} style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", color: "#808080" }}>
-                {size}
-              </div>
-            ))}
-            {RADIO_VARIANT_ROWS.map((row) => (
-              <Fragment key={row.label}>
-                <div style={{ fontSize: 13, color: "#666" }}>{row.label}</div>
-                {RADIO_SIZES.map((size) => (
-                  <Radio key={size} size={size} aria-label={`${row.label} ${size}`} {...row.props} />
-                ))}
-              </Fragment>
-            ))}
-          </div>
+          <VariantGrid
+            columns={RADIO_SIZES}
+            rows={RADIO_VARIANT_ROWS.map((row) => ({
+              label: row.label,
+              render: (size: (typeof RADIO_SIZES)[number]) => <Radio size={size} aria-label={`${row.label} ${size}`} {...row.props} />,
+            }))}
+          />
         </div>
 
         <div>
@@ -424,30 +489,13 @@ function SearchInputDemo() {
 
         <div>
           <h3 style={{ margin: "0 0 12px" }}>All states × sizes</h3>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: `160px repeat(${SEARCH_INPUT_SIZES.length}, 1fr)`,
-              gap: 16,
-              alignItems: "center",
-              maxWidth: 700,
-            }}
-          >
-            <div />
-            {SEARCH_INPUT_SIZES.map((size) => (
-              <div key={size} style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", color: "#808080" }}>
-                {size}
-              </div>
-            ))}
-            {SEARCH_INPUT_VARIANT_ROWS.map((row) => (
-              <Fragment key={row.label}>
-                <div style={{ fontSize: 13, color: "#666" }}>{row.label}</div>
-                {SEARCH_INPUT_SIZES.map((size) => (
-                  <SearchInput key={size} size={size} onChange={() => {}} {...row.props} />
-                ))}
-              </Fragment>
-            ))}
-          </div>
+          <VariantGrid
+            columns={SEARCH_INPUT_SIZES}
+            rows={SEARCH_INPUT_VARIANT_ROWS.map((row) => ({
+              label: row.label,
+              render: (size: (typeof SEARCH_INPUT_SIZES)[number]) => <SearchInput size={size} onChange={() => {}} {...row.props} />,
+            }))}
+          />
         </div>
 
         <div>
@@ -511,37 +559,16 @@ function TextInputFluidDemo() {
 
         <div>
           <h3 style={{ margin: "0 0 12px" }}>All states × sizes</h3>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: `140px repeat(${TEXT_INPUT_SIZES.length}, 1fr)`,
-              gap: 16,
-              alignItems: "start",
-            }}
-          >
-            <div />
-            {TEXT_INPUT_SIZES.map((size) => (
-              <div key={size} style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", color: "#808080" }}>
-                {size}
-              </div>
-            ))}
-            {TEXT_INPUT_VARIANT_ROWS.map((row) => (
-              <Fragment key={row.label}>
-                <div style={{ fontSize: 13, color: "#666", paddingTop: 12 }}>{row.label}</div>
-                {TEXT_INPUT_SIZES.map((size) => (
-                  <TextInputFluid
-                    key={size}
-                    label="Label"
-                    placeholder="Placeholder"
-                    value=""
-                    onChange={() => {}}
-                    size={size}
-                    {...row.props}
-                  />
-                ))}
-              </Fragment>
-            ))}
-          </div>
+          <VariantGrid
+            columns={TEXT_INPUT_SIZES}
+            columnLabelWidth={140}
+            rows={TEXT_INPUT_VARIANT_ROWS.map((row) => ({
+              label: row.label,
+              render: (size: (typeof TEXT_INPUT_SIZES)[number]) => (
+                <TextInputFluid label="Label" placeholder="Placeholder" value="" onChange={() => {}} size={size} {...row.props} />
+              ),
+            }))}
+          />
         </div>
 
         <div>
