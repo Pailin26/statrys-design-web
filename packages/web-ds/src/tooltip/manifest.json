@@ -1,0 +1,21 @@
+{
+  "name": "Tooltip",
+  "platform": "web",
+  "description": "Static tooltip bubble — title, optional supporting text, and an optional arrow pointing at the anchoring element. No open/close or positioning logic; placing it next to the target is the caller's job (e.g. a floating-ui/popper wrapper).",
+  "figmaFileKey": "abElBYcwuc5skfPX1c7FlP",
+  "figmaNodeId": "2432:14400",
+  "consumesTokens": [
+    "bg.beigeSecondary", "bg.neutralInversePrimary",
+    "text.primary", "text.secondary", "text.neutralInversePrimary", "text.neutralInverseSecondary",
+    "radius.xl", "space.2", "space.4", "space.6",
+    "font.primary", "font.weightMedium", "font.sizeXs", "shadow.tooltip"
+  ],
+  "props": {
+    "title": "string",
+    "description": "string",
+    "inverse": "boolean",
+    "arrow": ["none", "top", "bottom", "bottom-left", "bottom-right", "left", "right"]
+  },
+  "status": "stable",
+  "usedBy": []
+}

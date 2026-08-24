@@ -18,3 +18,5 @@ export { SearchInput } from "./search-input/SearchInput";
 export type { SearchInputProps } from "./search-input/SearchInput";
 export { TextInputFluid } from "./text-input/TextInputFluid";
 export type { TextInputFluidProps } from "./text-input/TextInputFluid";
+export { Tooltip } from "./tooltip/Tooltip";
+export type { TooltipProps, TooltipArrow } from "./tooltip/Tooltip";

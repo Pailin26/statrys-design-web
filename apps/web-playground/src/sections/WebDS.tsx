@@ -1,6 +1,6 @@
 import { useState, Fragment, type ComponentProps } from "react";
 import { ArrowUpRight, ChevronDown } from "lucide-react";
-import { Button, ButtonHighlight, Link, HorizontalTabs, Toggle, Checkbox, Radio, SearchInput, TextInputFluid } from "@statrys/web-ds";
+import { Button, ButtonHighlight, Link, HorizontalTabs, Toggle, Checkbox, Radio, SearchInput, TextInputFluid, Tooltip } from "@statrys/web-ds";
 import { ComponentPage } from "../ComponentPage";
 
 const FIGMA_FILE = "https://www.figma.com/design/abElBYcwuc5skfPX1c7FlP/-WEB--Design-System?node-id=";
@@ -618,6 +618,65 @@ function TextInputFluidDemo() {
   );
 }
 
+const TOOLTIP_ARROWS = ["none", "top", "bottom", "bottom-left", "bottom-right", "left", "right"] as const;
+const TOOLTIP_COLUMNS = ["Title only", "With description"] as const;
+const TOOLTIP_DESCRIPTION =
+  "Tooltips are used to describe or identify an element. In most scenarios, tooltips help the user understand the meaning, function or alt-text of an element.";
+
+function TooltipDemo() {
+  return (
+    <ComponentPage
+      id="tooltip"
+      title="Tooltip"
+      usage="Static tooltip bubble — title, optional supporting text, and an optional arrow pointing at the anchoring element. No open/close or positioning logic of its own; placing it next to the target (hover/focus trigger, floating-ui/popper, etc.) is the caller's job."
+      figmaUrl={`${FIGMA_FILE}2432-14400`}
+      code={`import { Tooltip } from "@statrys/web-ds";\n\n<Tooltip title="This is a tooltip" arrow="bottom" />\n\n<Tooltip\n  title="This is a tooltip"\n  description="Tooltips are used to describe or identify an element."\n  arrow="top"\n  inverse\n/>`}
+    >
+      <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+        <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
+          <code>arrow</code> picks both which side the arrow renders on and which way it points — the
+          bubble reflows around it (row layout for left/right, column for top/bottom). <code>bottom-left</code>/
+          <code>bottom-right</code> additionally shift the arrow toward that corner instead of centering it.
+        </p>
+
+        <div>
+          <h3 style={{ margin: "0 0 12px" }}>Default</h3>
+          <VariantGrid
+            columns={TOOLTIP_COLUMNS}
+            rows={TOOLTIP_ARROWS.map((arrow) => ({
+              label: arrow,
+              render: (column) =>
+                column === "Title only" ? (
+                  <Tooltip title="This is a tooltip" arrow={arrow} />
+                ) : (
+                  <Tooltip title="This is a tooltip" description={TOOLTIP_DESCRIPTION} arrow={arrow} />
+                ),
+            }))}
+          />
+        </div>
+
+        <div>
+          <h3 style={{ margin: "0 0 12px" }}>Inverse (dark bubble, for light surfaces)</h3>
+          <div style={{ background: "var(--bg-beige-primary)", padding: 24, borderRadius: "var(--radius-lg)" }}>
+            <VariantGrid
+              columns={TOOLTIP_COLUMNS}
+              rows={TOOLTIP_ARROWS.map((arrow) => ({
+                label: arrow,
+                render: (column) =>
+                  column === "Title only" ? (
+                    <Tooltip title="This is a tooltip" arrow={arrow} inverse />
+                  ) : (
+                    <Tooltip title="This is a tooltip" description={TOOLTIP_DESCRIPTION} arrow={arrow} inverse />
+                  ),
+              }))}
+            />
+          </div>
+        </div>
+      </div>
+    </ComponentPage>
+  );
+}
+
 export function WebDS({ item }: { item: string }) {
   if (item === "button") return <ButtonDemo />;
   if (item === "button-highlight") return <ButtonHighlightDemo />;
@@ -628,5 +687,6 @@ export function WebDS({ item }: { item: string }) {
   if (item === "radio") return <RadioDemo />;
   if (item === "search-input") return <SearchInputDemo />;
   if (item === "text-input-fluid") return <TextInputFluidDemo />;
+  if (item === "tooltip") return <TooltipDemo />;
   return <div>Unknown component: {item}</div>;
 }
