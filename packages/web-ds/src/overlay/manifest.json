@@ -1,0 +1,14 @@
+{
+  "name": "Overlay",
+  "platform": "web",
+  "description": "Full-bleed dark scrim mounted behind a Modal (or any other floating surface). Fades itself in on mount; purely presentational otherwise — no portal, positioning relative to a target, or exit animation of its own.",
+  "figmaFileKey": "abElBYcwuc5skfPX1c7FlP",
+  "figmaNodeId": "1510:8634",
+  "consumesTokens": ["overlay.background", "overlay.duration", "overlay.zIndex"],
+  "props": {
+    "onClick": "() => void",
+    "className": "string"
+  },
+  "status": "stable",
+  "usedBy": []
+}

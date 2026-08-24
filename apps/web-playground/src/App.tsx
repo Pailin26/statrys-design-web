@@ -73,6 +73,13 @@ const NAV: Record<Tab, NavGroup[]> = {
         { id: "x-close", label: "X Close" },
       ],
     },
+    {
+      group: "Overlay & Modal",
+      items: [
+        { id: "overlay", label: "Overlay" },
+        { id: "modal", label: "Modal" },
+      ],
+    },
   ],
 };
 

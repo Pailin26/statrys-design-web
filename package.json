@@ -17,5 +17,8 @@
     "generate:manifests": "node scripts/generate-manifest.js",
     "generate:changelogs": "node scripts/generate-changelogs.js"
   },
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@statrys/tokens": "github:Pailin26/statrys-tokens"
+  }
 }

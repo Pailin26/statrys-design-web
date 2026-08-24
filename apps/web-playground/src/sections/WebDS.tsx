@@ -1,6 +1,6 @@
 import { useState, Fragment, type ComponentProps } from "react";
 import { ArrowUpRight, ChevronDown } from "lucide-react";
-import { Button, ButtonHighlight, Link, HorizontalTabs, Toggle, Checkbox, Radio, SearchInput, TextInputFluid, Tooltip, Banner, ToastMessage, XClose } from "@statrys/web-ds";
+import { Button, ButtonHighlight, Link, HorizontalTabs, Toggle, Checkbox, Radio, SearchInput, TextInputFluid, Tooltip, Banner, ToastMessage, XClose, Overlay, Modal } from "@statrys/web-ds";
 import { ComponentPage } from "../ComponentPage";
 
 const FIGMA_FILE = "https://www.figma.com/design/abElBYcwuc5skfPX1c7FlP/-WEB--Design-System?node-id=";
@@ -882,6 +882,162 @@ function XCloseDemo() {
   );
 }
 
+function OverlayDemo() {
+  return (
+    <ComponentPage
+      id="overlay"
+      title="Overlay"
+      usage="Full-bleed dark scrim mounted behind a Modal (or any other floating surface). Fades itself in on mount; no portal, positioning relative to a target, or exit animation of its own — mount/unmount it as a sibling of whatever it's dimming."
+      figmaUrl={`${FIGMA_FILE}1510-8634`}
+      code={`import { Overlay, Modal } from "@statrys/web-ds";\n\n{open && (\n  <>\n    <Overlay onClick={() => setOpen(false)} />\n    <Modal>...</Modal>\n  </>\n)}`}
+    >
+      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+        <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
+          Renders <code>position: fixed; inset: 0</code> at <code>z-index: var(--overlay-z-index)</code> —
+          contained to the box below via a CSS containing-block trick (<code>contain</code> on the box)
+          for this preview only; real usage mounts it at the app root, covering the whole viewport.
+        </p>
+        <div style={{ position: "relative", height: 280, borderRadius: 8, overflow: "hidden", contain: "layout paint" }}>
+          <div style={{ position: "absolute", inset: 0, background: "#f2f2f2" }} />
+          <Overlay onClick={() => {}} />
+        </div>
+      </div>
+    </ComponentPage>
+  );
+}
+
+const MODAL_FOOTER_COLUMNS = ["Default", "Filled"] as const;
+
+function ModalDemo() {
+  const [open, setOpen] = useState(false);
+  const [filledOpen, setFilledOpen] = useState(false);
+
+  return (
+    <ComponentPage
+      id="modal"
+      title="Modal"
+      usage="Fixed, viewport-centered dialog card composed from Modal.Header, Modal.Content, and Modal.Footer. Pair with Overlay for the dimmed backdrop — Modal only renders the card itself, no portal or backdrop of its own."
+      figmaUrl={`${FIGMA_FILE}2734-18960`}
+      code={`import { Modal, Overlay } from "@statrys/web-ds";\n\n{open && (\n  <>\n    <Overlay onClick={() => setOpen(false)} />\n    <Modal>\n      <Modal.Header title="Title" description="Description" onClose={() => setOpen(false)} />\n      <Modal.Content paddingBottom>Body copy…</Modal.Content>\n      <Modal.Footer\n        primaryLabel="Confirm"\n        onPrimary={() => setOpen(false)}\n        secondaryLabel="Cancel"\n        onSecondary={() => setOpen(false)}\n      />\n    </Modal>\n  </>\n)}`}
+    >
+      <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+        <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
+          <code>onClose</code> (Header) and <code>secondaryLabel</code> (Footer) each render their
+          affordance only when provided — not separate discrete flags. Footer's <code>filled</code>
+          stretches both buttons to split the row evenly instead of sitting auto-width at the end.
+        </p>
+
+        <div>
+          <h3 style={{ margin: "0 0 12px" }}>Interactive — default footer (primary + secondary)</h3>
+          <Button variant="primary" size="md" onClick={() => setOpen(true)}>
+            Open modal
+          </Button>
+          {open && (
+            <>
+              <Overlay onClick={() => setOpen(false)} />
+              <Modal>
+                <Modal.Header title="Title" description="Description" onClose={() => setOpen(false)} />
+                <Modal.Content paddingBottom>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque enim ac odio
+                  tincidunt, ac tincidunt ipsum ullamcorper.
+                </Modal.Content>
+                <Modal.Footer
+                  primaryLabel="Confirm"
+                  onPrimary={() => setOpen(false)}
+                  secondaryLabel="Cancel"
+                  onSecondary={() => setOpen(false)}
+                />
+              </Modal>
+            </>
+          )}
+        </div>
+
+        <div>
+          <h3 style={{ margin: "0 0 12px" }}>Interactive — filled footer (destructive confirm)</h3>
+          <Button variant="primary" size="md" onClick={() => setFilledOpen(true)}>
+            Open modal
+          </Button>
+          {filledOpen && (
+            <>
+              <Overlay onClick={() => setFilledOpen(false)} />
+              <Modal>
+                <Modal.Header
+                  title="Delete this item?"
+                  description="This action cannot be undone."
+                  onClose={() => setFilledOpen(false)}
+                />
+                <Modal.Footer
+                  primaryLabel="Delete"
+                  onPrimary={() => setFilledOpen(false)}
+                  secondaryLabel="Keep"
+                  onSecondary={() => setFilledOpen(false)}
+                  filled
+                />
+              </Modal>
+            </>
+          )}
+        </div>
+
+        <div>
+          <h3 style={{ margin: "0 0 12px" }}>Parts, in isolation</h3>
+          <p style={{ color: "#666", maxWidth: 560 }}>
+            Only the assembled <code>Modal</code> root is fixed/centered — Header/Content/Footer are
+            plain flex rows on their own, shown here inline in a bordered box instead of full-screen.
+          </p>
+          <div
+            style={{
+              width: 520,
+              maxWidth: "100%",
+              background: "var(--bg-neutral-primary)",
+              border: "1px solid var(--border-primary, #eee)",
+              borderRadius: "var(--radius-3xl)",
+              overflow: "hidden",
+            }}
+          >
+            <Modal.Header title="Title" description="Description" onClose={() => {}} />
+            <Modal.Content paddingTop paddingBottom>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </Modal.Content>
+            <Modal.Footer primaryLabel="Button" secondaryLabel="Button" onPrimary={() => {}} onSecondary={() => {}} />
+          </div>
+        </div>
+
+        <div>
+          <h3 style={{ margin: "0 0 12px" }}>Footer variants</h3>
+          <VariantGrid
+            columns={MODAL_FOOTER_COLUMNS}
+            columnLabelWidth={160}
+            rows={[
+              {
+                label: "Primary only",
+                render: (column) => (
+                  <div style={{ width: 320, background: "var(--bg-neutral-primary)", border: "1px solid #eee", borderRadius: 8 }}>
+                    <Modal.Footer primaryLabel="Button" onPrimary={() => {}} filled={column === "Filled"} />
+                  </div>
+                ),
+              },
+              {
+                label: "Primary + secondary",
+                render: (column) => (
+                  <div style={{ width: 320, background: "var(--bg-neutral-primary)", border: "1px solid #eee", borderRadius: 8 }}>
+                    <Modal.Footer
+                      primaryLabel="Button"
+                      secondaryLabel="Button"
+                      onPrimary={() => {}}
+                      onSecondary={() => {}}
+                      filled={column === "Filled"}
+                    />
+                  </div>
+                ),
+              },
+            ]}
+          />
+        </div>
+      </div>
+    </ComponentPage>
+  );
+}
+
 export function WebDS({ item }: { item: string }) {
   if (item === "button") return <ButtonDemo />;
   if (item === "button-highlight") return <ButtonHighlightDemo />;
@@ -896,5 +1052,7 @@ export function WebDS({ item }: { item: string }) {
   if (item === "banner") return <BannerDemo />;
   if (item === "toast-message") return <ToastMessageDemo />;
   if (item === "x-close") return <XCloseDemo />;
+  if (item === "overlay") return <OverlayDemo />;
+  if (item === "modal") return <ModalDemo />;
   return <div>Unknown component: {item}</div>;
 }

@@ -1,5 +1,5 @@
-// TODO: this reads @statrys/tokens' {primitives,semantic} source JSON
-// directly since the build pipeline (tokens.css / tokens.js) isn't wired
+// TODO: this reads @statrys/tokens' {primitives,semantic,component} source
+// JSON directly since the build pipeline (tokens.css / tokens.js) isn't wired
 // into this display page yet — swap to importing the built output once it is.
 import neutralTokens from "@statrys/tokens/primitives/color/neutral.json";
 import brandTokens from "@statrys/tokens/primitives/color/brand.json";
@@ -18,11 +18,11 @@ import typographySemanticTokens from "@statrys/tokens/semantic/typography.json";
 import textTokens from "@statrys/tokens/semantic/text.json";
 import iconTokens from "@statrys/tokens/semantic/icon.json";
 import borderTokens from "@statrys/tokens/semantic/border.json";
-import buttonTokens from "@statrys/tokens/semantic/button.json";
-import linkTokens from "@statrys/tokens/semantic/link.json";
-import fieldTokens from "@statrys/tokens/semantic/field.json";
+import buttonTokens from "@statrys/tokens/component/button.json";
+import linkTokens from "@statrys/tokens/component/link.json";
+import fieldTokens from "@statrys/tokens/component/field.json";
 import focusTokens from "@statrys/tokens/semantic/focus.json";
-import scrollbarTokens from "@statrys/tokens/semantic/scrollbar.json";
+import scrollbarTokens from "@statrys/tokens/component/scrollbar.json";
 import gradientTokens from "@statrys/tokens/semantic/gradient.json";
 import miscTokens from "@statrys/tokens/semantic/misc.json";
 

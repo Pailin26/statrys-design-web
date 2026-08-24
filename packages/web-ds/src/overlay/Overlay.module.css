@@ -1,0 +1,23 @@
+/* Every value here comes from component/overlay.json (statrys-tokens) — never
+   a primitive or another semantic file directly, per docs/contributing.md.
+   Fixed (not absolute) since this scrim covers the viewport regardless of
+   what positioned ancestor happens to be around it.
+
+   Figma: https://www.figma.com/design/abElBYcwuc5skfPX1c7FlP/-WEB--Design-System?node-id=1510-8634 */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--overlay-background);
+  z-index: var(--overlay-z-index);
+  animation: fadeIn var(--overlay-duration) ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

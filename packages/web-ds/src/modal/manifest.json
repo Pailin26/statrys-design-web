@@ -1,0 +1,27 @@
+{
+  "name": "Modal",
+  "platform": "web",
+  "description": "Fixed, viewport-centered dialog card composed from Modal.Header (title + optional description + close), Modal.Content (body, with optional 24px top/bottom padding slots), and Modal.Footer (primary + optional secondary button, or both filled to split the row). Pair with Overlay for the dimmed backdrop — Modal only renders the card itself, no portal or backdrop of its own.",
+  "figmaFileKey": "abElBYcwuc5skfPX1c7FlP",
+  "figmaNodeId": "2734:18960",
+  "consumesTokens": [
+    "modal.background", "modal.radius", "modal.shadow", "modal.zIndex", "modal.width",
+    "modal.padding", "modal.gap", "modal.contentGap", "modal.textColor", "modal.fontFamily",
+    "modal.titleFontWeight", "modal.titleFontSize", "modal.titleLetterSpacing",
+    "modal.bodyFontWeight", "modal.bodyFontSize"
+  ],
+  "props": {
+    "Modal": { "children": "ReactNode (Modal.Header / Modal.Content / Modal.Footer)" },
+    "Modal.Header": { "title": "string", "description": "string", "onClose": "() => void" },
+    "Modal.Content": { "children": "ReactNode", "paddingTop": "boolean", "paddingBottom": "boolean" },
+    "Modal.Footer": {
+      "primaryLabel": "string",
+      "onPrimary": "() => void",
+      "secondaryLabel": "string",
+      "onSecondary": "() => void",
+      "filled": "boolean"
+    }
+  },
+  "status": "stable",
+  "usedBy": []
+}
