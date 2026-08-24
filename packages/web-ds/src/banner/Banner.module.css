@@ -12,6 +12,11 @@
   gap: var(--space-4);
   box-sizing: border-box;
   border: var(--border-width-base) solid transparent;
+  /* XClose's default hover fill (button-tertiary-hover, a warm beige) is
+     spec'd for a neutral surface — it fights every one of Banner's own
+     tinted backgrounds. alpha-black-10 darkens whichever color is
+     underneath instead of replacing it, so it reads right on all 4. */
+  --x-close-hover-bg: var(--alpha-black-10);
 }
 
 .card {

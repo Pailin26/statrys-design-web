@@ -5,8 +5,8 @@
   "figmaFileKey": "abElBYcwuc5skfPX1c7FlP",
   "figmaNodeId": "1646:164",
   "consumesTokens": [
-    "icon.primary", "icon.neutralInversePrimary",
-    "button.tertiaryHover", "bg.neutralInversePrimaryHover",
+    "icon.secondary", "icon.neutralInversePrimary",
+    "button.tertiaryHover", "bg.neutralInversePrimaryHover", "alpha.black10",
     "radius.md", "radius.lg", "space.10"
   ],
   "props": {
@@ -15,5 +15,5 @@
     "onClick": "() => void"
   },
   "status": "stable",
-  "usedBy": ["ToastMessage"]
+  "usedBy": ["ToastMessage", "Banner"]
 }
