@@ -5,7 +5,7 @@ import { TabBar } from "./TabBar";
 type ChangelogEntry = { hash: string; date: string; subject: string };
 const CHANGELOGS: Record<string, ChangelogEntry[]> = changelogs;
 
-const SECTIONS = ["Usage", "Examples", "Code", "Changelog"] as const;
+const SECTIONS = ["Examples", "Code", "Usage", "Changelog"] as const;
 type Section = (typeof SECTIONS)[number];
 
 export type ComponentPageProps = {
@@ -48,6 +48,10 @@ export function ComponentPage({ id, title, usage, code, figmaUrl, children }: Co
       <h1 style={{ margin: 0 }}>{title}</h1>
       <TabBar variant="inline" tabs={SECTIONS} active={section} onChange={setSection} />
 
+      {section === "Examples" && children}
+
+      {section === "Code" && <CodeBlock code={code} />}
+
       {section === "Usage" && (
         <div style={{ maxWidth: 640, display: "flex", flexDirection: "column", gap: 16 }}>
           <p style={{ color: "var(--text-secondary)", lineHeight: 1.6, fontSize: 15, margin: 0 }}>{usage}</p>
@@ -58,13 +62,8 @@ export function ComponentPage({ id, title, usage, code, figmaUrl, children }: Co
               </a>
             </p>
           )}
-          <CodeBlock code={code} />
         </div>
       )}
-
-      {section === "Examples" && children}
-
-      {section === "Code" && <CodeBlock code={code} />}
 
       {section === "Changelog" && (
         <div>

@@ -155,7 +155,7 @@ function ButtonDemo() {
     <ComponentPage
       id="button"
       title="Button"
-      usage="Primary interactive button for web product and marketing surfaces. Use variant to set hierarchy (primary/secondary/tertiary), shape for Rec/Rounded/Square/Circle, and inverse on dark surfaces."
+      usage="Use Button for the one action you want the user to take — form submits, confirmations, starting a flow. Pick variant to set hierarchy: primary for the single main action in a view, secondary for a supporting action next to it, tertiary for a low-emphasis action that shouldn't compete for attention. Reach for Link instead when the action reads as text inline with body copy rather than a standalone control, and use Shape=Square/Circle only when the icon alone is unambiguous with no label. Use inverse on dark surfaces so contrast holds."
       figmaUrl={`${FIGMA_FILE}537-1561`}
       code={`import { Button } from "@statrys/web-ds";\n\n<Button variant="primary" size="md" onClick={handleClick}>\n  Continue\n</Button>\n\n// Icon-only (Shape=Square/Circle) — icon is a consumer-supplied ReactNode\nimport { ArrowUpRight } from "lucide-react";\n\n<Button\n  variant="primary"\n  shape="circle"\n  icon={<ArrowUpRight size={20} />}\n  aria-label="Open"\n/>`}
     >
@@ -258,7 +258,7 @@ function ButtonHighlightDemo() {
     <ComponentPage
       id="button-highlight"
       title="Button Highlight"
-      usage="Gradient-filled CTA button for high-emphasis marketing surfaces — a distinct component from Button, not a variant of it."
+      usage="Use ButtonHighlight for a single, high-emphasis marketing call to action — a hero section, a landing page, an upsell banner — where the gradient fill should draw the eye above everything else on the page. It's a distinct component from Button, not a hierarchy variant of it: don't reach for it inside product UI or forms, where Button's primary variant is the right high-emphasis choice instead."
       figmaUrl={`${FIGMA_FILE}1847-8095`}
       code={`import { ButtonHighlight } from "@statrys/web-ds";\n\n<ButtonHighlight variant="primary" size="md" onClick={handleClick}>\n  Get started\n</ButtonHighlight>`}
     >
@@ -323,7 +323,7 @@ function LinkDemo() {
     <ComponentPage
       id="link"
       title="Link"
-      usage="Text-only navigational link with icon slots — inline anchor styling for body copy and lists, not a variant of Button."
+      usage="Use Link for navigation that reads as text inline with body copy, a list row, or a footer — 'Learn more', 'View Details'. Switch to Button once the action needs to stand out as its own control rather than flow with surrounding text (a form submit, a primary CTA) — Link is not a lower-emphasis variant of Button, it's for a different placement entirely."
       figmaUrl={`${FIGMA_FILE}2153-6347`}
       code={`import { Link } from "@statrys/web-ds";\nimport { ArrowUpRight } from "lucide-react";\n\n<Link href="/docs" size="md" iconRight={<ArrowUpRight size={16} />}>\n  Learn more\n</Link>`}
     >
@@ -407,7 +407,7 @@ function HorizontalTabsDemo() {
     <ComponentPage
       id="horizontal-tabs"
       title="Horizontal Tabs"
-      usage="Horizontal tab list, Style=Underline only — renders one internal Tab (Figma 'TabsBase') per item; Tab is not exported on its own."
+      usage="Use Horizontal Tabs to switch between a small number of peer views within the same page — settings sections, a list's filter categories. Keep the item count low enough to fit on one line without wrapping; once destinations are hierarchical or too numerous for a single row, use real navigation instead of tabs. Only the underline style is implemented (Figma's only published variant) — there's no pill/segmented alternative yet, and Tab (the internal per-item unit) isn't exported on its own."
       figmaUrl={`${FIGMA_FILE}2725-16713`}
       code={`import { HorizontalTabs } from "@statrys/web-ds";\n\nconst items = [\n  { id: "one", label: "Tab one", badge: 2 },\n  { id: "two", label: "Tab two" },\n];\n\n<HorizontalTabs items={items} activeId={activeId} onChange={setActiveId} />`}
     >
@@ -447,7 +447,7 @@ function ToggleDemo() {
     <ComponentPage
       id="toggle"
       title="Toggle"
-      usage="A switch to change between two states, on and off — an alternative for the checkbox (per Figma's usage note on this component). No Hover variant is defined in Figma, so none is implemented here."
+      usage="Use Toggle for a setting that takes effect immediately when flipped — notification preferences, feature flags, dark mode — where there's no separate Save step. Switch to Checkbox instead when the choice is part of a form submitted together with other fields (agreeing to terms, selecting rows for a batch action). No Hover variant is defined in Figma, so none is implemented here."
       figmaUrl={`${FIGMA_FILE}3784-2555`}
       code={`import { Toggle } from "@statrys/web-ds";\n\n<Toggle selected={enabled} onChange={setEnabled} aria-label="Enable notifications" />`}
     >
@@ -496,7 +496,7 @@ function CheckboxDemo() {
     <ComponentPage
       id="checkbox"
       title="Checkbox"
-      usage="Checkbox with a label and optional description, built on a native input[type=checkbox] for real form/keyboard/screen-reader semantics, visually replaced by a styled box."
+      usage="Use Checkbox for a choice that's part of a form or list and only takes effect once the surrounding action is submitted — agreeing to terms, selecting rows for a bulk action, opting into several independent options at once. Use Toggle instead when the change should apply immediately with no submit step, and Radio when only one of several options can be selected. Built on a native input[type=checkbox] for real form/keyboard/screen-reader semantics, visually replaced by a styled box."
       figmaUrl={`${FIGMA_FILE}3417-179`}
       code={`import { Checkbox } from "@statrys/web-ds";\n\n<Checkbox label="Remember me" selected={checked} onChange={setChecked} />\n\n<Checkbox\n  label="Remember me"\n  description="Save my login details for next time"\n  selected={checked}\n  onChange={setChecked}\n/>`}
     >
@@ -550,7 +550,7 @@ function RadioDemo() {
     <ComponentPage
       id="radio"
       title="Radio"
-      usage="Radio button built on a native input[type=radio] for real form/keyboard/screen-reader semantics (group via the name prop). No labeled wrapper was published in Figma for this component (unlike Checkbox) — just the bare indicator."
+      usage="Use Radio when exactly one option must be chosen from a small, visible set — a plan tier, a shipping method, a single-choice question. Group options with a shared name prop so selecting one clears the rest. Switch to Checkbox when more than one option can be true at the same time, and to a dropdown-style TextInputFluid when the option list is too long to show all at once. No labeled wrapper was published in Figma for this component (unlike Checkbox) — pair the bare indicator with your own label markup."
       figmaUrl={`${FIGMA_FILE}3081-4828`}
       code={`import { Radio } from "@statrys/web-ds";\n\n<Radio name="plan" value="monthly" selected={plan === "monthly"} onChange={() => setPlan("monthly")} />\n<Radio name="plan" value="yearly" selected={plan === "yearly"} onChange={() => setPlan("yearly")} />`}
     >
@@ -609,7 +609,7 @@ function SearchInputDemo() {
     <ComponentPage
       id="search-input"
       title="Search Input"
-      usage="Search field with a leading search icon and a clear button once filled. Hover/Active are real CSS states; 'Filled' is derived from value being non-empty, not a discrete prop."
+      usage="Use Search Input specifically for filtering or searching a list of results, a table, or a page of content — it's not a general-purpose text field. Reach for Text Input Fluid instead for form fields like name, email, or address. 'Filled' isn't a discrete prop — it's derived from whether value is non-empty, since a real input can be both focused and filled at once."
       figmaUrl={`${FIGMA_FILE}818-2874`}
       code={`import { SearchInput } from "@statrys/web-ds";\n\n<SearchInput value={query} onChange={setQuery} placeholder="Search" />`}
     >
@@ -670,7 +670,7 @@ function TextInputFluidDemo() {
     <ComponentPage
       id="text-input-fluid"
       title="Text Input Fluid"
-      usage="Text field with a floating label — the label sits as a placeholder-sized prompt until focused or filled, then shrinks to a caption above the real placeholder/value."
+      usage="Use Text Input Fluid for standard form fields — name, email, address — where the floating label keeps the field's purpose visible once it's filled in, without a separate static label taking up space above the input. Use dropdown when the field opens a picker instead of accepting free text. Always pair a field with a concrete hint or error message rather than relying on color alone to signal validity, and use Search Input instead of this component for list/table filtering."
       figmaUrl={`${FIGMA_FILE}1085-5372`}
       code={`import { TextInputFluid } from "@statrys/web-ds";\n\n<TextInputFluid\n  label="Email"\n  value={email}\n  onChange={setEmail}\n  placeholder="you@example.com"\n  hint="We'll never share your email"\n/>`}
     >
@@ -748,7 +748,7 @@ function TooltipDemo() {
     <ComponentPage
       id="tooltip"
       title="Tooltip"
-      usage="Static tooltip bubble — title, optional supporting text, and an optional arrow pointing at the anchoring element. No open/close or positioning logic of its own; placing it next to the target (hover/focus trigger, floating-ui/popper, etc.) is the caller's job."
+      usage="Use Tooltip for supplementary context on hover/focus — clarifying an icon-only button, explaining why a control is disabled, giving a short definition. Never put information the user needs to complete a task in a tooltip, since it isn't reliably discoverable on touch devices. Tooltip itself is static: no open/close or positioning logic of its own, so wire up the real hover/focus trigger and placement (floating-ui, popper, or your own) around it."
       figmaUrl={`${FIGMA_FILE}2432-14400`}
       code={`import { Tooltip } from "@statrys/web-ds";\n\n<Tooltip title="This is a tooltip" arrow="bottom" />\n\n<Tooltip\n  title="This is a tooltip"\n  description="Tooltips are used to describe or identify an element."\n  arrow="top"\n  inverse\n/>`}
     >
@@ -804,7 +804,7 @@ function BannerDemo() {
     <ComponentPage
       id="banner"
       title="Banner"
-      usage="Inline notification bar — icon + text (optional title) + optional link + optional dismiss, in 4 semantic colors. No auto-dismiss timer or positioning of its own; the caller owns whether/where it's mounted."
+      usage="Use Banner for a persistent, page- or section-level notice the user should see in context — a maintenance warning, an account status, a security notice — not for transient feedback about an action just taken (use Toast Message for that instead). Match color to semantic severity (success/warning/error/info), and only add onDismiss when the notice is safe to lose for good — Banner has no auto-dismiss timer or positioning of its own, so the caller owns whether and where it's mounted."
       figmaUrl={`${FIGMA_FILE}3443-2895`}
       code={`import { Banner } from "@statrys/web-ds";\n\n<Banner\n  color="success"\n  text="Your information is secure and encrypted"\n  onLinkClick={() => {}}\n  onDismiss={() => setShow(false)}\n/>\n\n<Banner color="warning" title="Title" text="..." fullWidth />`}
     >
@@ -898,7 +898,7 @@ function ToastMessageDemo() {
     <ComponentPage
       id="toast-message"
       title="Toast Message"
-      usage="Dark-surface notification card — optional filled status icon, title + optional subtitle, an optional trailing link, and a close button. Purely presentational; no positioning, auto-hide timer, or animation of its own — mount it inside whatever timed/positioned wrapper the app uses."
+      usage="Use Toast Message for brief, transient feedback right after a user action — 'Invoice sent', 'Changes saved', 'Draft deleted' — not for a notice that needs to stay visible (use Banner for that instead). Keep the title short enough to read at a glance, and only add the action link when there's a genuinely useful next step. Purely presentational — no positioning, auto-hide timer, or animation of its own, so mount it inside whatever timed/positioned wrapper the app uses."
       figmaUrl={`${FIGMA_FILE}215-4052`}
       code={`import { ToastMessage } from "@statrys/web-ds";\n\n<ToastMessage\n  variant="success"\n  title="Invoice sent"\n  subtitle="Marked as sent"\n  action={{ label: "View Details", onClick: openInvoice }}\n  onClose={() => setShow(false)}\n/>`}
     >
@@ -981,7 +981,7 @@ function XCloseDemo() {
     <ComponentPage
       id="x-close"
       title="X Close"
-      usage="Small square icon-only close/dismiss button. Hover is a real CSS background tint, not a discrete prop — try it live below."
+      usage="Use X Close for the dismiss affordance on modals, sheets, toasts, and banners — anywhere the user can close a surface without necessarily taking its primary action. Always pair it with a clear aria-label describing what it closes, since the icon alone isn't enough for screen readers. Hover is a real CSS background tint, not a discrete prop — try it live below."
       figmaUrl={`${FIGMA_FILE}1646-164`}
       code={`import { XClose } from "@statrys/web-ds";\n\n<XClose size="sm" onClick={() => setOpen(false)} aria-label="Dismiss" />\n\n// On a dark surface (e.g. inside ToastMessage)\n<XClose size="sm" inverse onClick={() => setOpen(false)} />`}
     >
@@ -1024,7 +1024,7 @@ function OverlayDemo() {
     <ComponentPage
       id="overlay"
       title="Overlay"
-      usage="Full-bleed dark scrim mounted behind a Modal (or any other floating surface). Fades itself in on mount; no portal, positioning relative to a target, or exit animation of its own — mount/unmount it as a sibling of whatever it's dimming. Layering with Modal is automatic: Overlay sits at z-index 300, Modal at 400, so a Modal mounted alongside it always renders on top regardless of DOM order — mount Overlay first anyway, since it reads as the backdrop semantically."
+      usage="Use Overlay any time Modal (or another floating surface) needs to visually separate itself from the page behind it — it's the dimmed backdrop, not the surface itself, so don't nest content inside it. Fades itself in on mount; no portal or exit animation of its own — mount/unmount it as a sibling of whatever it's dimming. Layering with Modal is automatic: Overlay sits at z-index 300, Modal at 400, so a Modal mounted alongside it always renders on top regardless of DOM order — mount Overlay first anyway, since it reads as the backdrop semantically."
       figmaUrl={`${FIGMA_FILE}1510-8634`}
       code={`import { Overlay, Modal } from "@statrys/web-ds";\n\n// Siblings, not nested — Overlay (z-index 300) is the dimmed backdrop,\n// Modal (z-index 400) always renders on top of it.\n{open && (\n  <>\n    <Overlay onClick={() => setOpen(false)} />\n    <Modal>\n      <Modal.Header title="Title" onClose={() => setOpen(false)} />\n      <Modal.Footer primaryLabel="Confirm" onPrimary={() => setOpen(false)} />\n    </Modal>\n  </>\n)}`}
     >
@@ -1094,7 +1094,7 @@ function ModalDemo() {
     <ComponentPage
       id="modal"
       title="Modal"
-      usage="Fixed, viewport-centered dialog card composed from Modal.Header, Modal.Content, and Modal.Footer. Pair with Overlay for the dimmed backdrop — Modal only renders the card itself, no portal or backdrop of its own. Mount them as siblings (not nested): Modal's z-index (400) is always above Overlay's (300), so Modal renders on top with no extra work — see Overlay's own Usage tab for the paired example."
+      usage="Use Modal for a focused task or confirmation that should block interaction with the rest of the page until it's resolved — deleting something, confirming a destructive action, a short focused form. For less disruptive supplementary info, use Tooltip or Banner instead. Composed from Modal.Header, Modal.Content, and Modal.Footer; pair with Overlay for the dimmed backdrop, mounted as siblings (not nested) — Modal's z-index (400) is always above Overlay's (300), so Modal renders on top with no extra work. See Overlay's own Usage tab for the paired example."
       figmaUrl={`${FIGMA_FILE}2734-18960`}
       code={`import { Modal, Overlay } from "@statrys/web-ds";\n\n// Siblings, not nested — Overlay (z-index 300) dims the page,\n// Modal (z-index 400) always renders on top of it.\n{open && (\n  <>\n    <Overlay onClick={() => setOpen(false)} />\n    <Modal>\n      <Modal.Header title="Title" description="Description" onClose={() => setOpen(false)} />\n      <Modal.Content paddingBottom>Body copy…</Modal.Content>\n      <Modal.Footer\n        primaryLabel="Confirm"\n        onPrimary={() => setOpen(false)}\n        secondaryLabel="Cancel"\n        onSecondary={() => setOpen(false)}\n      />\n    </Modal>\n  </>\n)}`}
     >
