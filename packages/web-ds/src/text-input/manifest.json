@@ -20,7 +20,8 @@
     "tooltip": "string",
     "dropdown": "boolean",
     "size": ["sm", "md", "lg"],
-    "disabled": "boolean"
+    "disabled": "boolean",
+    "forceFocus": "boolean"
   },
   "status": "stable",
   "usedBy": []

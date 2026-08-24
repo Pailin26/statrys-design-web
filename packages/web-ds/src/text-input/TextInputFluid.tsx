@@ -13,6 +13,9 @@ export type TextInputFluidProps = {
   dropdown?: boolean;
   size?: "sm" | "md" | "lg";
   disabled?: boolean;
+  /** Paints the focused border without real focus — Showcase-only, same convention as
+   *  accounting's TextField/Search forceFocus. */
+  forceFocus?: boolean;
 };
 
 export function TextInputFluid({
@@ -26,8 +29,10 @@ export function TextInputFluid({
   dropdown = false,
   size = "sm",
   disabled = false,
+  forceFocus = false,
 }: TextInputFluidProps) {
-  const [focused, setFocused] = useState(false);
+  const [realFocused, setRealFocused] = useState(false);
+  const focused = realFocused || forceFocus;
   const hasError = Boolean(error);
   const hasValue = value.length > 0;
   const floating = !disabled && (focused || hasValue || hasError);
@@ -60,8 +65,8 @@ export function TextInputFluid({
               value={value}
               disabled={disabled}
               placeholder={floating ? placeholder : label}
-              onFocus={() => setFocused(true)}
-              onBlur={() => setFocused(false)}
+              onFocus={() => setRealFocused(true)}
+              onBlur={() => setRealFocused(false)}
               onChange={(event) => onChange(event.target.value)}
             />
             {!floating && tooltip && (

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, Fragment, type ComponentProps } from "react";
 import { ArrowUpRight, ChevronDown } from "lucide-react";
 import { Button, ButtonHighlight, Link, HorizontalTabs, Toggle, Checkbox, Radio, SearchInput, TextInputFluid } from "@statrys/web-ds";
 import { ComponentPage } from "../ComponentPage";
@@ -308,6 +308,29 @@ function SearchInputDemo() {
   );
 }
 
+const TEXT_INPUT_SIZES = ["sm", "md", "lg"] as const;
+
+// One state per row, one size per column — every meaningful visual variant
+// in one grid instead of scattered one-off examples. "Focused" uses
+// forceFocus (Showcase-only prop) since real focus can't be shown
+// statically; "Filled" and "Focused + filled" show the label already
+// floated with/without live focus, since a real input can be both floating
+// states from either cause.
+type TextInputVariantRow = {
+  label: string;
+  props: Partial<ComponentProps<typeof TextInputFluid>>;
+};
+
+const TEXT_INPUT_VARIANT_ROWS: TextInputVariantRow[] = [
+  { label: "Default (empty)", props: {} },
+  { label: "Filled", props: { value: "Olivia Rhye" } },
+  { label: "Focused (empty)", props: { forceFocus: true } },
+  { label: "Focused + filled", props: { forceFocus: true, value: "Olivia Rhye" } },
+  { label: "Error", props: { value: "not-an-email", error: "Enter a valid email address" } },
+  { label: "Disabled (empty)", props: { disabled: true } },
+  { label: "Disabled + filled", props: { disabled: true, value: "Olivia Rhye" } },
+];
+
 function TextInputFluidDemo() {
   const [values, setValues] = useState<Record<string, string>>({ sm: "", md: "", lg: "" });
   const [errorValue, setErrorValue] = useState("bad-input");
@@ -320,32 +343,89 @@ function TextInputFluidDemo() {
       figmaUrl={`${FIGMA_FILE}1085-5372`}
       code={`import { TextInputFluid } from "@statrys/web-ds";\n\n<TextInputFluid\n  label="Email"\n  value={email}\n  onChange={setEmail}\n  placeholder="you@example.com"\n  hint="We'll never share your email"\n/>`}
     >
-      <div style={{ display: "flex", flexDirection: "column", gap: 20, maxWidth: 343 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 32, maxWidth: 900 }}>
         <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
           The label floats to a caption above once focused or filled — computed from focus state and
           whether <code>value</code> is non-empty, not a discrete prop.
         </p>
-        {(["sm", "md", "lg"] as const).map((size) => (
-          <TextInputFluid
-            key={size}
-            label="Label"
-            placeholder="Placeholder"
-            hint="This is a help text to hint user"
-            tooltip="Helpful context"
-            size={size}
-            value={values[size]}
-            onChange={(v) => setValues((prev) => ({ ...prev, [size]: v }))}
-          />
-        ))}
-        <TextInputFluid
-          label="Email"
-          placeholder="you@example.com"
-          error="Enter a valid email address"
-          value={errorValue}
-          onChange={setErrorValue}
-        />
-        <TextInputFluid label="Country" placeholder="Select a country" dropdown value="" onChange={() => {}} />
-        <TextInputFluid label="Disabled field" value="" onChange={() => {}} disabled />
+
+        <div>
+          <h3 style={{ margin: "0 0 12px" }}>All states × sizes</h3>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: `140px repeat(${TEXT_INPUT_SIZES.length}, 1fr)`,
+              gap: 16,
+              alignItems: "start",
+            }}
+          >
+            <div />
+            {TEXT_INPUT_SIZES.map((size) => (
+              <div key={size} style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", color: "#808080" }}>
+                {size}
+              </div>
+            ))}
+            {TEXT_INPUT_VARIANT_ROWS.map((row) => (
+              <Fragment key={row.label}>
+                <div style={{ fontSize: 13, color: "#666", paddingTop: 12 }}>{row.label}</div>
+                {TEXT_INPUT_SIZES.map((size) => (
+                  <TextInputFluid
+                    key={size}
+                    label="Label"
+                    placeholder="Placeholder"
+                    value=""
+                    onChange={() => {}}
+                    size={size}
+                    {...row.props}
+                  />
+                ))}
+              </Fragment>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <h3 style={{ margin: "0 0 12px" }}>Interactive (controlled)</h3>
+          <div style={{ display: "flex", flexDirection: "column", gap: 20, maxWidth: 343 }}>
+            {TEXT_INPUT_SIZES.map((size) => (
+              <TextInputFluid
+                key={size}
+                label="Label"
+                placeholder="Placeholder"
+                hint="This is a help text to hint user"
+                tooltip="Helpful context"
+                size={size}
+                value={values[size]}
+                onChange={(v) => setValues((prev) => ({ ...prev, [size]: v }))}
+              />
+            ))}
+            <TextInputFluid
+              label="Email"
+              placeholder="you@example.com"
+              error="Enter a valid email address"
+              value={errorValue}
+              onChange={setErrorValue}
+            />
+          </div>
+        </div>
+
+        <div>
+          <h3 style={{ margin: "0 0 12px" }}>Dropdown</h3>
+          <div style={{ display: "flex", flexDirection: "column", gap: 20, maxWidth: 343 }}>
+            <TextInputFluid label="Country" placeholder="Select a country" dropdown value="" onChange={() => {}} />
+            <TextInputFluid label="Country" dropdown value="Hong Kong" onChange={() => {}} />
+            <TextInputFluid label="Country" dropdown value="" onChange={() => {}} error="Required" />
+            <TextInputFluid label="Country" dropdown value="Hong Kong" onChange={() => {}} disabled />
+          </div>
+        </div>
+
+        <div>
+          <h3 style={{ margin: "0 0 12px" }}>With tooltip</h3>
+          <div style={{ display: "flex", flexDirection: "column", gap: 20, maxWidth: 343 }}>
+            <TextInputFluid label="API key" placeholder="sk-..." tooltip="Found in Settings → Developer" value="" onChange={() => {}} />
+            <TextInputFluid label="API key" tooltip="Found in Settings → Developer" value="sk-live-abc123" onChange={() => {}} />
+          </div>
+        </div>
       </div>
     </ComponentPage>
   );
