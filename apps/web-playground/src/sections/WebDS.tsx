@@ -941,7 +941,66 @@ function OverlayDemo() {
   );
 }
 
+function ControlGroupLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <div
+      style={{
+        fontSize: 11,
+        fontWeight: 700,
+        textTransform: "uppercase",
+        letterSpacing: "0.04em",
+        color: "#999",
+        borderBottom: "1px solid #eee",
+        paddingBottom: 6,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function DemoField({
+  label,
+  value,
+  onChange,
+  multiline = false,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  multiline?: boolean;
+}) {
+  const fieldStyle: React.CSSProperties = {
+    width: "100%",
+    fontFamily: "inherit",
+    fontSize: 13,
+    fontWeight: 400,
+    color: "#1b1b1b",
+    padding: "8px 10px",
+    borderRadius: 6,
+    border: "1px solid #ddd",
+    boxSizing: "border-box",
+  };
+
+  return (
+    <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: 12, fontWeight: 600, color: "#444" }}>
+      {label}
+      {multiline ? (
+        <textarea rows={3} value={value} onChange={(e) => onChange(e.target.value)} style={{ ...fieldStyle, resize: "vertical" }} />
+      ) : (
+        <input type="text" value={value} onChange={(e) => onChange(e.target.value)} style={fieldStyle} />
+      )}
+    </label>
+  );
+}
+
+const MODAL_DEFAULT_BODY =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque enim ac odio tincidunt, ac tincidunt ipsum ullamcorper.";
+
 function ModalDemo() {
+  const [title, setTitle] = useState("Title");
+  const [descriptionText, setDescriptionText] = useState("Description");
+  const [contentText, setContentText] = useState(MODAL_DEFAULT_BODY);
   const [description, setDescription] = useState(true);
   const [content, setContent] = useState(true);
   const [secondaryButton, setSecondaryButton] = useState(true);
@@ -985,16 +1044,11 @@ function ModalDemo() {
               <Overlay onClick={() => {}} />
               <Modal>
                 <Modal.Header
-                  title="Title"
-                  description={description ? "Description" : undefined}
+                  title={title}
+                  description={description ? descriptionText : undefined}
                   onClose={closable ? () => {} : undefined}
                 />
-                {content && (
-                  <Modal.Content paddingBottom>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque enim ac
-                    odio tincidunt, ac tincidunt ipsum ullamcorper.
-                  </Modal.Content>
-                )}
+                {content && <Modal.Content paddingBottom>{contentText}</Modal.Content>}
                 <Modal.Footer
                   primaryLabel="Confirm"
                   onPrimary={() => {}}
@@ -1005,12 +1059,22 @@ function ModalDemo() {
               </Modal>
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: 16, minWidth: 200, flexShrink: 0 }}>
-              <Checkbox label="Description" selected={description} onChange={setDescription} />
-              <Checkbox label="Content body" selected={content} onChange={setContent} />
-              <Checkbox label="Secondary button" selected={secondaryButton} onChange={setSecondaryButton} />
-              <Checkbox label="Filled footer" selected={filled} onChange={setFilled} />
-              <Checkbox label="Close (×) button" selected={closable} onChange={setClosable} />
+            <div style={{ display: "flex", flexDirection: "column", gap: 24, minWidth: 220, flexShrink: 0 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>Text</ControlGroupLabel>
+                <DemoField label="Title" value={title} onChange={setTitle} />
+                {description && <DemoField label="Description" value={descriptionText} onChange={setDescriptionText} />}
+                {content && <DemoField label="Content body" value={contentText} onChange={setContentText} multiline />}
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ControlGroupLabel>Layout</ControlGroupLabel>
+                <Checkbox label="Description" selected={description} onChange={setDescription} />
+                <Checkbox label="Content body" selected={content} onChange={setContent} />
+                <Checkbox label="Secondary button" selected={secondaryButton} onChange={setSecondaryButton} />
+                <Checkbox label="Filled footer" selected={filled} onChange={setFilled} />
+                <Checkbox label="Close (×) button" selected={closable} onChange={setClosable} />
+              </div>
             </div>
           </div>
         </div>
@@ -1029,16 +1093,11 @@ function ModalDemo() {
               <Overlay onClick={() => setOpen(false)} />
               <Modal>
                 <Modal.Header
-                  title="Title"
-                  description={description ? "Description" : undefined}
+                  title={title}
+                  description={description ? descriptionText : undefined}
                   onClose={closable ? () => setOpen(false) : undefined}
                 />
-                {content && (
-                  <Modal.Content paddingBottom>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque enim ac
-                    odio tincidunt, ac tincidunt ipsum ullamcorper.
-                  </Modal.Content>
-                )}
+                {content && <Modal.Content paddingBottom>{contentText}</Modal.Content>}
                 <Modal.Footer
                   primaryLabel="Confirm"
                   onPrimary={() => setOpen(false)}
