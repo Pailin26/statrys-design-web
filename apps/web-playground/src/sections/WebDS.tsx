@@ -613,7 +613,7 @@ function SearchInputDemo() {
       figmaUrl={`${FIGMA_FILE}818-2874`}
       code={`import { SearchInput } from "@statrys/web-ds";\n\n<SearchInput value={query} onChange={setQuery} placeholder="Search" />`}
     >
-      <div style={{ display: "flex", flexDirection: "column", gap: 32, maxWidth: 900 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
         <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
           "Filled" isn't a discrete prop — it's derived from whether <code>value</code> is non-empty, since a
           real input can be both focused and filled at once, a combination Figma's flat state enum can't
@@ -674,7 +674,7 @@ function TextInputFluidDemo() {
       figmaUrl={`${FIGMA_FILE}1085-5372`}
       code={`import { TextInputFluid } from "@statrys/web-ds";\n\n<TextInputFluid\n  label="Email"\n  value={email}\n  onChange={setEmail}\n  placeholder="you@example.com"\n  hint="We'll never share your email"\n/>`}
     >
-      <div style={{ display: "flex", flexDirection: "column", gap: 32, maxWidth: 900 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
         <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
           The label floats to a caption above once focused or filled — computed from focus state and
           whether <code>value</code> is non-empty, not a discrete prop. "Force focus" below stands in
@@ -808,7 +808,7 @@ function BannerDemo() {
       figmaUrl={`${FIGMA_FILE}3443-2895`}
       code={`import { Banner } from "@statrys/web-ds";\n\n<Banner\n  color="success"\n  text="Your information is secure and encrypted"\n  onLinkClick={() => {}}\n  onDismiss={() => setShow(false)}\n/>\n\n<Banner color="warning" title="Title" text="..." fullWidth />`}
     >
-      <div style={{ display: "flex", flexDirection: "column", gap: 32, maxWidth: 900 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
         <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
           <code>title</code> is what switches between Figma's "Text only" and "Title + Text" — not a
           separate discrete prop. <code>onLinkClick</code>/<code>onDismiss</code> each show their own
@@ -902,7 +902,7 @@ function ToastMessageDemo() {
       figmaUrl={`${FIGMA_FILE}215-4052`}
       code={`import { ToastMessage } from "@statrys/web-ds";\n\n<ToastMessage\n  variant="success"\n  title="Invoice sent"\n  subtitle="Marked as sent"\n  action={{ label: "View Details", onClick: openInvoice }}\n  onClose={() => setShow(false)}\n/>`}
     >
-      <div style={{ display: "flex", flexDirection: "column", gap: 32, maxWidth: 900 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
         <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
           <code>subtitle</code> and <code>action</code> each render only when passed — Figma's
           "showSubtitle" toggle and the link row aren't separate discrete flags here.
