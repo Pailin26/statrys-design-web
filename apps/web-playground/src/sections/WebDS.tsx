@@ -120,6 +120,24 @@ function ButtonHighlightDemo() {
             </ButtonHighlight>
           </div>
         ))}
+
+        <h2 style={{ fontSize: 16, marginTop: 8 }}>Icon slots</h2>
+        <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
+          <code>iconLeft</code>/<code>iconRight</code> are consumer-supplied <code>ReactNode</code>s.
+        </p>
+        {HIGHLIGHT_VARIANTS.map((variant) => (
+          <div key={variant} style={{ display: "flex", gap: 12, alignItems: "center" }}>
+            <ButtonHighlight variant={variant} iconLeft={<ArrowUpRight size={16} />}>
+              iconLeft
+            </ButtonHighlight>
+            <ButtonHighlight variant={variant} iconRight={<ArrowUpRight size={16} />}>
+              iconRight
+            </ButtonHighlight>
+            <ButtonHighlight variant={variant} iconLeft={<ArrowUpRight size={16} />} iconRight={<ArrowUpRight size={16} />}>
+              both
+            </ButtonHighlight>
+          </div>
+        ))}
       </div>
     </ComponentPage>
   );
@@ -152,6 +170,20 @@ function LinkDemo() {
           </Link>
         </div>
 
+        <h2 style={{ fontSize: 16, marginTop: 8 }}>Icon slots</h2>
+        <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
+          <Link href="#" iconLeft={<ArrowUpRight size={16} />}>
+            iconLeft
+          </Link>
+          <Link href="#" iconRight={<ArrowUpRight size={16} />}>
+            iconRight
+          </Link>
+          <Link href="#" iconLeft={<ArrowUpRight size={16} />} iconRight={<ArrowUpRight size={16} />}>
+            both
+          </Link>
+          <Link href="#">no icon</Link>
+        </div>
+
         <h2 style={{ fontSize: 16, marginTop: 8 }}>Inverse (dark surface)</h2>
         <div style={{ background: "var(--neutral-8)", padding: 24, borderRadius: "var(--radius-lg)", display: "flex", gap: 24, alignItems: "center" }}>
           {SIZES.map((size) => (
@@ -161,6 +193,9 @@ function LinkDemo() {
           ))}
           <Link inverse href="#" disabled iconRight={<ArrowUpRight size={16} />}>
             disabled
+          </Link>
+          <Link inverse href="#" iconLeft={<ArrowUpRight size={16} />}>
+            iconLeft
           </Link>
         </div>
       </div>
@@ -174,9 +209,16 @@ const TAB_ITEMS = [
   { id: "three", label: "Tab three" },
 ];
 
+const TAB_ITEMS_PLAIN = [
+  { id: "one", label: "Tab one" },
+  { id: "two", label: "Tab two" },
+  { id: "three", label: "Tab three" },
+];
+
 function HorizontalTabsDemo() {
   const [mdActive, setMdActive] = useState("one");
   const [lgActive, setLgActive] = useState("three");
+  const [mdPlainActive, setMdPlainActive] = useState("two");
 
   return (
     <ComponentPage
@@ -188,13 +230,18 @@ function HorizontalTabsDemo() {
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
         <div>
-          <h2 style={{ fontSize: 16, marginTop: 0 }}>size=md</h2>
+          <h2 style={{ fontSize: 16, marginTop: 0 }}>size=md, with icon + badge</h2>
           <HorizontalTabs items={TAB_ITEMS} activeId={mdActive} onChange={setMdActive} />
         </div>
 
         <div>
-          <h2 style={{ fontSize: 16, marginTop: 0 }}>size=lg</h2>
+          <h2 style={{ fontSize: 16, marginTop: 0 }}>size=lg, with icon + badge</h2>
           <HorizontalTabs items={TAB_ITEMS} activeId={lgActive} onChange={setLgActive} size="lg" />
+        </div>
+
+        <div>
+          <h2 style={{ fontSize: 16, marginTop: 0 }}>size=md, plain (no icon/badge)</h2>
+          <HorizontalTabs items={TAB_ITEMS_PLAIN} activeId={mdPlainActive} onChange={setMdPlainActive} />
         </div>
       </div>
     </ComponentPage>
@@ -223,10 +270,17 @@ function ToggleDemo() {
   );
 }
 
+const CHECKBOX_SIZES = ["sm", "md"] as const;
+const CHECKBOX_VARIANT_ROWS: { label: string; props: Partial<ComponentProps<typeof Checkbox>> }[] = [
+  { label: "Unselected", props: { selected: false } },
+  { label: "Selected", props: { selected: true } },
+  { label: "Indeterminate", props: { selected: true, indeterminate: true } },
+  { label: "Disabled, unselected", props: { selected: false, disabled: true } },
+  { label: "Disabled, selected", props: { selected: true, disabled: true } },
+];
+
 function CheckboxDemo() {
-  const [plain, setPlain] = useState(true);
   const [withDesc, setWithDesc] = useState(false);
-  const [indeterminate, setIndeterminate] = useState(true);
 
   return (
     <ComponentPage
@@ -236,21 +290,55 @@ function CheckboxDemo() {
       figmaUrl={`${FIGMA_FILE}3417-179`}
       code={`import { Checkbox } from "@statrys/web-ds";\n\n<Checkbox label="Remember me" selected={checked} onChange={setChecked} />\n\n<Checkbox\n  label="Remember me"\n  description="Save my login details for next time"\n  selected={checked}\n  onChange={setChecked}\n/>`}
     >
-      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-        <Checkbox label="Remember me" selected={plain} onChange={setPlain} />
-        <Checkbox
-          label="Remember me"
-          description="Save my login details for next time"
-          selected={withDesc}
-          onChange={setWithDesc}
-        />
-        <Checkbox label="Select all" indeterminate selected={indeterminate} onChange={setIndeterminate} size="md" />
-        <Checkbox label="Disabled, unchecked" disabled />
-        <Checkbox label="Disabled, checked" selected disabled />
+      <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+        <div>
+          <h3 style={{ margin: "0 0 12px" }}>All states × sizes</h3>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: `160px repeat(${CHECKBOX_SIZES.length}, auto)`,
+              gap: 16,
+              alignItems: "center",
+            }}
+          >
+            <div />
+            {CHECKBOX_SIZES.map((size) => (
+              <div key={size} style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", color: "#808080" }}>
+                {size}
+              </div>
+            ))}
+            {CHECKBOX_VARIANT_ROWS.map((row) => (
+              <Fragment key={row.label}>
+                <div style={{ fontSize: 13, color: "#666" }}>{row.label}</div>
+                {CHECKBOX_SIZES.map((size) => (
+                  <Checkbox key={size} label="Label" size={size} onChange={() => {}} {...row.props} />
+                ))}
+              </Fragment>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <h3 style={{ margin: "0 0 12px" }}>With description</h3>
+          <Checkbox
+            label="Remember me"
+            description="Save my login details for next time"
+            selected={withDesc}
+            onChange={setWithDesc}
+          />
+        </div>
       </div>
     </ComponentPage>
   );
 }
+
+const RADIO_SIZES = ["sm", "md"] as const;
+const RADIO_VARIANT_ROWS: { label: string; props: Partial<ComponentProps<typeof Radio>> }[] = [
+  { label: "Unselected", props: { selected: false } },
+  { label: "Selected", props: { selected: true } },
+  { label: "Disabled, unselected", props: { selected: false, disabled: true } },
+  { label: "Disabled, selected", props: { selected: true, disabled: true } },
+];
 
 function RadioDemo() {
   const [choice, setChoice] = useState("a");
@@ -263,19 +351,57 @@ function RadioDemo() {
       figmaUrl={`${FIGMA_FILE}3081-4828`}
       code={`import { Radio } from "@statrys/web-ds";\n\n<Radio name="plan" value="monthly" selected={plan === "monthly"} onChange={() => setPlan("monthly")} />\n<Radio name="plan" value="yearly" selected={plan === "yearly"} onChange={() => setPlan("yearly")} />`}
     >
-      <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
-        {(["a", "b", "c"] as const).map((v) => (
-          <label key={v} style={{ display: "flex", gap: 8, alignItems: "center", cursor: "pointer" }}>
-            <Radio name="demo" value={v} selected={choice === v} onChange={() => setChoice(v)} />
-            option {v}
-          </label>
-        ))}
-        <Radio size="md" selected disabled aria-label="disabled, selected" />
-        <Radio size="md" selected={false} disabled aria-label="disabled, unselected" />
+      <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+        <div>
+          <h3 style={{ margin: "0 0 12px" }}>All states × sizes</h3>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: `160px repeat(${RADIO_SIZES.length}, auto)`,
+              gap: 16,
+              alignItems: "center",
+            }}
+          >
+            <div />
+            {RADIO_SIZES.map((size) => (
+              <div key={size} style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", color: "#808080" }}>
+                {size}
+              </div>
+            ))}
+            {RADIO_VARIANT_ROWS.map((row) => (
+              <Fragment key={row.label}>
+                <div style={{ fontSize: 13, color: "#666" }}>{row.label}</div>
+                {RADIO_SIZES.map((size) => (
+                  <Radio key={size} size={size} aria-label={`${row.label} ${size}`} {...row.props} />
+                ))}
+              </Fragment>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <h3 style={{ margin: "0 0 12px" }}>Interactive group</h3>
+          <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
+            {(["a", "b", "c"] as const).map((v) => (
+              <label key={v} style={{ display: "flex", gap: 8, alignItems: "center", cursor: "pointer" }}>
+                <Radio name="demo" value={v} selected={choice === v} onChange={() => setChoice(v)} />
+                option {v}
+              </label>
+            ))}
+          </div>
+        </div>
       </div>
     </ComponentPage>
   );
 }
+
+const SEARCH_INPUT_SIZES = ["sm", "md", "lg"] as const;
+const SEARCH_INPUT_VARIANT_ROWS: { label: string; props: Partial<ComponentProps<typeof SearchInput>> }[] = [
+  { label: "Empty", props: { value: "" } },
+  { label: "Filled", props: { value: "Statrys" } },
+  { label: "Disabled, empty", props: { value: "", disabled: true } },
+  { label: "Disabled, filled", props: { value: "Statrys", disabled: true } },
+];
 
 function SearchInputDemo() {
   const [values, setValues] = useState<Record<string, string>>({ sm: "", md: "Statrys", lg: "" });
@@ -288,21 +414,55 @@ function SearchInputDemo() {
       figmaUrl={`${FIGMA_FILE}818-2874`}
       code={`import { SearchInput } from "@statrys/web-ds";\n\n<SearchInput value={query} onChange={setQuery} placeholder="Search" />`}
     >
-      <div style={{ display: "flex", flexDirection: "column", gap: 16, maxWidth: 343 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 32, maxWidth: 900 }}>
         <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
           "Filled" isn't a discrete prop — it's derived from whether <code>value</code> is non-empty, since a
           real input can be both focused and filled at once, a combination Figma's flat state enum can't
-          represent.
+          represent. Hover/focus are real CSS pseudo-classes on the container (by design, matching
+          Button/Link/Tab) — try it live in the section below rather than in the static grid.
         </p>
-        {(["sm", "md", "lg"] as const).map((size) => (
-          <SearchInput
-            key={size}
-            size={size}
-            value={values[size]}
-            onChange={(v) => setValues((prev) => ({ ...prev, [size]: v }))}
-          />
-        ))}
-        <SearchInput size="md" value="" onChange={() => {}} disabled />
+
+        <div>
+          <h3 style={{ margin: "0 0 12px" }}>All states × sizes</h3>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: `160px repeat(${SEARCH_INPUT_SIZES.length}, 1fr)`,
+              gap: 16,
+              alignItems: "center",
+              maxWidth: 700,
+            }}
+          >
+            <div />
+            {SEARCH_INPUT_SIZES.map((size) => (
+              <div key={size} style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", color: "#808080" }}>
+                {size}
+              </div>
+            ))}
+            {SEARCH_INPUT_VARIANT_ROWS.map((row) => (
+              <Fragment key={row.label}>
+                <div style={{ fontSize: 13, color: "#666" }}>{row.label}</div>
+                {SEARCH_INPUT_SIZES.map((size) => (
+                  <SearchInput key={size} size={size} onChange={() => {}} {...row.props} />
+                ))}
+              </Fragment>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <h3 style={{ margin: "0 0 12px" }}>Interactive (controlled)</h3>
+          <div style={{ display: "flex", flexDirection: "column", gap: 16, maxWidth: 343 }}>
+            {SEARCH_INPUT_SIZES.map((size) => (
+              <SearchInput
+                key={size}
+                size={size}
+                value={values[size]}
+                onChange={(v) => setValues((prev) => ({ ...prev, [size]: v }))}
+              />
+            ))}
+          </div>
+        </div>
       </div>
     </ComponentPage>
   );
