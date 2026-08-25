@@ -1,6 +1,6 @@
 # Versioning
 
-Each package (`@statrys/tokens`, `@statrys/icons`, `@statrys/web-ds`, `@statrys/app-ds`)
+Each package (`@statrys/tokens`, `@statrys/countryicon`, `@statrys/web-ds`, `@statrys/app-ds`)
 is versioned independently with semver:
 
 - **patch** — bug fixes, no visual/API change

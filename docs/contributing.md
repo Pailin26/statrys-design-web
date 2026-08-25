@@ -4,8 +4,9 @@
 
 The design system is split across three repos by platform:
 - **Foundation** — [statrys-tokens](https://github.com/Pailin26/statrys-tokens)
-  (`@statrys/tokens`, `@statrys/icons`) — primitives, no platform logic. Consumed
-  as a git dependency by both repos below, not a workspace sibling.
+  (`@statrys/tokens`, plus per-category icon packages like `@statrys/countryicon`)
+  — primitives, no platform logic. Consumed as a git dependency by both repos
+  below, not a workspace sibling.
 - **Core DS** — [statrys-design-web](https://github.com/Pailin26/statrys-design-web)
   (`packages/web-ds`) and [statrys-design-app](https://github.com/Pailin26/statrys-design-app)
   (`packages/app-ds`), one repo per platform. Same component *name* and *props
@@ -136,12 +137,21 @@ see the PR checklist below.
 
 ## Icons
 
-[Lucide](https://lucide.dev) is the icon library for both platforms —
-`lucide-react` on web, `lucide-react-native` on app (same icon set, matching
-names, different renderer). Import an icon directly from the platform
-package, e.g. `import { ArrowRight } from "lucide-react"` — there's no
-`@statrys/icons` re-export layer for this (`packages/icons` in statrys-tokens
-is still an empty scaffold).
+[Lucide](https://lucide.dev) is the icon library for generic UI icons on both
+platforms — `lucide-react` on web, `lucide-react-native` on app (same icon
+set, matching names, different renderer). Import an icon directly from the
+platform package, e.g. `import { ArrowRight } from "lucide-react"`.
+
+Anything Lucide doesn't cover (country flags today; file-type and hand-drawn
+icons planned) lives in statrys-tokens as its own per-category package —
+`@statrys/countryicon` for flags, e.g. `import { Flag } from "@statrys/countryicon"`
+then `<Flag country="hong-kong" />`. These are additional to Lucide, not a
+replacement for it — use whichever actually has the icon you need, both in
+the same component if that's what it takes. Not yet installable here as a
+real dependency, though: a git dependency always resolves to the *repo
+root's* package.json, and there's no standard way to point one at a
+subdirectory's separate package — see statrys-tokens' own README for the
+unresolved distribution question.
 
 Lucide's own default `strokeWidth` is 2; ours is 1. Rather than passing
 `strokeWidth={1}` at every call site, wrap the app root once in
