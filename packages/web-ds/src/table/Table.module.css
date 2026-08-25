@@ -1,0 +1,106 @@
+/* Every value here comes from component/table.json (statrys-tokens) — never
+   a primitive or another semantic file directly, per docs/contributing.md.
+   The consuming app must import @statrys/tokens/dist/tokens.css once so
+   these custom properties exist.
+
+   Figma: https://www.figma.com/design/sw2QyHTScXTOrCykzYZCdX/-WEB--Decoy-Dashboard
+   node-id=2926-25590 (mockup content only — Table itself is a generic,
+   content-agnostic row/column layout, not a fixed "accounts" shape). */
+
+.table {
+  display: flex;
+  flex-direction: column;
+  gap: var(--table-body-gap);
+  width: 100%;
+  padding: var(--table-padding);
+  background: var(--table-background);
+  border-radius: var(--table-radius);
+  box-sizing: border-box;
+}
+
+/* Head — a single styled row of column labels. */
+.head {
+  display: flex;
+  align-items: center;
+  gap: var(--table-header-gap);
+  width: 100%;
+  padding: var(--table-header-padding-y) var(--table-header-padding-x);
+  background: var(--table-header-background);
+  border-radius: var(--table-header-radius);
+  box-sizing: border-box;
+}
+.headerCell {
+  margin: 0;
+  font-family: var(--table-header-font-family);
+  font-weight: var(--table-header-font-weight);
+  font-size: var(--table-header-font-size);
+  line-height: 1.3;
+  color: var(--table-header-text-color);
+  white-space: nowrap;
+}
+
+/* Body — plain vertical stack of rows; only the layout wrapper. */
+.body {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Row — one record. Border-bottom separates rows; the last row in Body
+   has no border (Figma's bottom row omits it). */
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--table-row-gap);
+  width: 100%;
+  min-height: var(--table-row-min-height);
+  padding: var(--table-row-padding-y) var(--table-row-padding-x);
+  border-bottom: var(--table-row-border-width) solid var(--table-row-border-color);
+  box-sizing: border-box;
+  font-family: var(--table-cell-font-family);
+  font-weight: var(--table-cell-font-weight);
+  font-size: var(--table-cell-font-size);
+  line-height: 1.3;
+  color: var(--table-cell-text-color);
+}
+.body > .row:last-child {
+  border-bottom: none;
+}
+.row.interactive {
+  cursor: pointer;
+}
+.row.interactive:hover,
+.row.interactive:focus-visible {
+  background: var(--table-row-hover-background);
+}
+
+/* Cell / HeaderCell sizing — shared by both so columns line up. Give a
+   column an explicit `width` to pin it (e.g. an avatar+name column); leave
+   it unset and columns divide the remaining space evenly, matching how the
+   Figma mockup's flexible columns behave. */
+.cell,
+.headerCellSizing {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+.cell.grow,
+.headerCellSizing.grow {
+  flex: 1 0 0;
+}
+.cell.fixed,
+.headerCellSizing.fixed {
+  flex: 0 0 auto;
+}
+.alignLeft {
+  justify-content: flex-start;
+  text-align: left;
+}
+.alignCenter {
+  justify-content: center;
+  text-align: center;
+}
+.alignRight {
+  justify-content: flex-end;
+  text-align: right;
+}

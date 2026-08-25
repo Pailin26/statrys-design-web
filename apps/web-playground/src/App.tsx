@@ -88,6 +88,10 @@ const NAV: Record<Tab, NavGroup[]> = {
         { id: "dashboard-template", label: "Dashboard Template" },
       ],
     },
+    {
+      group: "Data display",
+      items: [{ id: "table", label: "Table" }],
+    },
   ],
 };
 

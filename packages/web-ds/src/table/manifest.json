@@ -1,0 +1,26 @@
+{
+  "name": "Table",
+  "platform": "web",
+  "description": "Generic, content-agnostic row/column layout — a rounded card with a labeled header row above a stack of data rows. Composed from Table.Head (Table.HeaderCell per column), Table.Body (Table.Row, each holding Table.Cell per column). Column widths and alignment are set per Table.HeaderCell/Table.Cell; cell content and its typography are entirely up to the caller — text, an icon + label, a badge, an icon button, anything. Table.Row accepts an optional onClick for a hoverable/keyboard-activatable row.",
+  "figmaFileKey": "",
+  "figmaNodeId": "",
+  "figmaReference": "https://www.figma.com/design/sw2QyHTScXTOrCykzYZCdX/-WEB--Decoy-Dashboard?node-id=2926-25590 — content mockup only, not yet a published component in the [WEB] Design System library; fill in figmaFileKey/figmaNodeId once Table exists there and wire up table.figma.tsx",
+  "consumesTokens": [
+    "table.background", "table.radius", "table.padding", "table.bodyGap",
+    "table.headerBackground", "table.headerRadius", "table.headerPaddingX", "table.headerPaddingY",
+    "table.headerGap", "table.headerTextColor", "table.headerFontFamily", "table.headerFontWeight", "table.headerFontSize",
+    "table.rowGap", "table.rowPaddingX", "table.rowPaddingY", "table.rowMinHeight",
+    "table.rowBorderColor", "table.rowBorderWidth", "table.rowHoverBackground",
+    "table.cellTextColor", "table.cellFontFamily", "table.cellFontWeight", "table.cellFontSize"
+  ],
+  "props": {
+    "Table": { "children": "ReactNode (Table.Head, then Table.Body)" },
+    "Table.Head": { "children": "ReactNode (Table.HeaderCell elements)" },
+    "Table.HeaderCell": { "children": "ReactNode", "width": "string", "align": "'left' | 'center' | 'right'" },
+    "Table.Body": { "children": "ReactNode (Table.Row elements)" },
+    "Table.Row": { "children": "ReactNode (Table.Cell elements)", "onClick": "() => void" },
+    "Table.Cell": { "children": "ReactNode", "width": "string", "align": "'left' | 'center' | 'right'" }
+  },
+  "status": "draft",
+  "usedBy": []
+}

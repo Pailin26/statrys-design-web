@@ -1,6 +1,6 @@
 import { useState, Fragment } from "react";
-import { ArrowUpRight, ChevronDown, Send } from "lucide-react";
-import { Button, ButtonHighlight, Link, HorizontalTabs, Toggle, Checkbox, Radio, SearchInput, TextInputFluid, Tooltip, Banner, ToastMessage, XClose, Overlay, Modal, Sidebar, PageHeader, DashboardTemplate } from "@statrys/web-ds";
+import { ArrowUpRight, ChevronDown, Send, Landmark, Pencil, Trash2 } from "lucide-react";
+import { Button, ButtonHighlight, Link, HorizontalTabs, Toggle, Checkbox, Radio, SearchInput, TextInputFluid, Tooltip, Banner, ToastMessage, XClose, Overlay, Modal, Sidebar, PageHeader, DashboardTemplate, Table } from "@statrys/web-ds";
 import { ComponentPage } from "../ComponentPage";
 
 // One state per row, one axis value (usually size) per column — every
@@ -1559,7 +1559,160 @@ function DashboardTemplateDemo() {
   );
 }
 
+const ACCOUNTS = [
+  { name: "Personal Saving", primary: true, number: "1234 5678 6600 2222", currencies: ["HKD", "USD", "EUR"], overflow: 8, balanceCurrency: "HKD", balance: "28,500.00" },
+  { name: "Operating Account", primary: false, number: "1234 5678 6600 2222", currencies: ["HKD", "USD"], overflow: 0, balanceCurrency: "SGD", balance: "9,120.50" },
+  { name: "France Account", primary: false, number: "1234 5678 6600 2222", currencies: ["EUR"], overflow: 0, balanceCurrency: "EUR", balance: "28,500.00" },
+];
+
+function CurrencyPill({ children }: { children: React.ReactNode }) {
+  return (
+    <span
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        height: 15,
+        padding: "3px 6px",
+        borderRadius: 4,
+        border: "1px solid rgba(208, 208, 208, 0.4)",
+        background: "#fff",
+        fontSize: 10,
+        fontWeight: 500,
+        color: "#1b1b1b",
+        letterSpacing: "-0.5px",
+      }}
+    >
+      {children}
+    </span>
+  );
+}
+
+function PrimaryTag() {
+  return (
+    <span
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        height: 15,
+        padding: "2px 6px",
+        borderRadius: 4,
+        background: "#1b1b1b",
+        color: "#fff",
+        fontSize: 10,
+        fontWeight: 500,
+        letterSpacing: "-0.5px",
+      }}
+    >
+      PRIMARY
+    </span>
+  );
+}
+
+const TEAM = [
+  { name: "Alex Morgan", role: "Owner" },
+  { name: "Jordan Lee", role: "Admin" },
+  { name: "Sam Rivera", role: "Member" },
+];
+
+function TableDemo() {
+  return (
+    <ComponentPage
+      id="table"
+      title="Table"
+      whatItIs="A generic row/column layout — a card with a labeled header row above a stack of data rows. It only owns spacing, column widths, and alignment; what goes inside a cell (text, an icon, a badge, a button) is entirely up to the caller."
+      whenToUse={[
+        "Any list of records that reads better lined up in columns than as free-form cards — accounts, transactions, team members, invoices.",
+        "When rows need mixed content per column — an avatar and name together, a right-aligned amount, an inline action button — not just plain strings.",
+      ]}
+      goodToKnow={[
+        "Table.HeaderCell and Table.Cell take their own width/align — keep a shared columns array (e.g. [{ width: \"288px\" }, { align: \"right\" }]) and map over it for both the header and every row so columns stay in sync as you add or resize them.",
+        "Leave width unset on a column and it shares remaining space evenly with the other unset columns, matching a normal flexible table layout.",
+        "Give Table.Row an onClick to make the whole row hoverable and keyboard-activatable (Enter/Space) — useful for \"click a row to view details\" list pages.",
+        "Cell content is unstyled by Table — reach for the DS's own Button (shape=\"square\"/\"circle\") for an icon-only action column, or plain elements for badges/tags, the same way you would inside any other layout.",
+      ]}
+      code={`import { Table } from "@statrys/web-ds";\n\n<Table>\n  <Table.Head>\n    <Table.HeaderCell width="288px">Account</Table.HeaderCell>\n    <Table.HeaderCell>Account no.</Table.HeaderCell>\n    <Table.HeaderCell>Currency</Table.HeaderCell>\n    <Table.HeaderCell align="right">Balance</Table.HeaderCell>\n  </Table.Head>\n  <Table.Body>\n    {accounts.map((account) => (\n      <Table.Row key={account.number} onClick={() => viewAccount(account)}>\n        <Table.Cell width="288px">\n          <Landmark size={20} />\n          {account.name}\n        </Table.Cell>\n        <Table.Cell>{account.number}</Table.Cell>\n        <Table.Cell>\n          {account.currencies.map((c) => (\n            <CurrencyPill key={c}>{c}</CurrencyPill>\n          ))}\n        </Table.Cell>\n        <Table.Cell align="right">{account.balance}</Table.Cell>\n      </Table.Row>\n    ))}\n  </Table.Body>\n</Table>`}
+    >
+      <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          <ControlGroupLabel>Mixed content per column</ControlGroupLabel>
+          <Table>
+            <Table.Head>
+              <Table.HeaderCell width="288px">Account</Table.HeaderCell>
+              <Table.HeaderCell>Account no.</Table.HeaderCell>
+              <Table.HeaderCell>Currency</Table.HeaderCell>
+              <Table.HeaderCell align="right">Balance</Table.HeaderCell>
+            </Table.Head>
+            <Table.Body>
+              {ACCOUNTS.map((account) => (
+                <Table.Row key={account.number + account.name}>
+                  <Table.Cell width="288px">
+                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      <Landmark size={20} color="#808080" />
+                      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                        <span style={{ fontSize: 16, fontWeight: 500, color: "#1b1b1b" }}>{account.name}</span>
+                        {account.primary && <PrimaryTag />}
+                      </div>
+                    </div>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <span style={{ fontSize: 14 }}>{account.number}</span>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                      {account.currencies.map((c) => (
+                        <CurrencyPill key={c}>{c}</CurrencyPill>
+                      ))}
+                      {account.overflow > 0 && <span style={{ fontSize: 10, fontWeight: 500 }}>+{account.overflow}</span>}
+                    </div>
+                  </Table.Cell>
+                  <Table.Cell align="right">
+                    <div style={{ display: "flex", alignItems: "baseline", gap: 4 }}>
+                      <span style={{ fontSize: 12 }}>{account.balanceCurrency}</span>
+                      <span style={{ fontSize: 20, fontWeight: 500 }}>{account.balance}</span>
+                    </div>
+                  </Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table>
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          <ControlGroupLabel>Interactive rows + icon-button column</ControlGroupLabel>
+          <Table>
+            <Table.Head>
+              <Table.HeaderCell>Name</Table.HeaderCell>
+              <Table.HeaderCell>Role</Table.HeaderCell>
+              <Table.HeaderCell width="88px" align="right">Actions</Table.HeaderCell>
+            </Table.Head>
+            <Table.Body>
+              {TEAM.map((member) => (
+                <Table.Row key={member.name} onClick={() => console.log("open", member.name)}>
+                  <Table.Cell>
+                    <span style={{ fontSize: 16, fontWeight: 500, color: "#1b1b1b" }}>{member.name}</span>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <span style={{ fontSize: 14 }}>{member.role}</span>
+                  </Table.Cell>
+                  <Table.Cell width="88px" align="right">
+                    <div style={{ display: "flex", gap: 4 }} onClick={(e) => e.stopPropagation()}>
+                      <Button shape="square" size="sm" variant="tertiary" icon={<Pencil size={16} />} aria-label={`Edit ${member.name}`} onClick={() => {}} />
+                      <Button shape="square" size="sm" variant="tertiary" icon={<Trash2 size={16} />} aria-label={`Delete ${member.name}`} onClick={() => {}} />
+                    </div>
+                  </Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table>
+        </div>
+      </div>
+    </ComponentPage>
+  );
+}
+
 export function WebDS({ item }: { item: string }) {
+  if (item === "table") return <TableDemo />;
   if (item === "button") return <ButtonDemo />;
   if (item === "button-highlight") return <ButtonHighlightDemo />;
   if (item === "link") return <LinkDemo />;
