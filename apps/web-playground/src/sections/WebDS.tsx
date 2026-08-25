@@ -113,11 +113,16 @@ function DemoRadioGroup<T extends string>({
   options,
   value,
   onChange,
+  labels,
 }: {
   label: string;
   options: readonly T[];
   value: T;
   onChange: (value: T) => void;
+  /** Override an option's displayed text — falls back to the raw value, auto-capitalized, when
+   *  an option isn't listed here. Use this when the raw value isn't a single plain word
+   *  (e.g. "ccBa" should read "CC + BA", not "CcBa"). */
+  labels?: Partial<Record<T, string>>;
 }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
@@ -126,10 +131,18 @@ function DemoRadioGroup<T extends string>({
         {options.map((option) => (
           <label
             key={option}
-            style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "#1b1b1b", cursor: "pointer", textTransform: "capitalize" }}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              fontSize: 13,
+              color: "#1b1b1b",
+              cursor: "pointer",
+              textTransform: labels?.[option] ? "none" : "capitalize",
+            }}
           >
             <Radio name={label} value={option} selected={value === option} onChange={() => onChange(option)} />
-            {option}
+            {labels?.[option] ?? option}
           </label>
         ))}
       </div>
@@ -1422,7 +1435,13 @@ function SidebarDemo() {
         <div style={{ display: "flex", flexDirection: "column", gap: 24, minWidth: 220, flexShrink: 0 }}>
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             <ControlGroupLabel>Layout</ControlGroupLabel>
-            <DemoRadioGroup label="Account type" options={ACCOUNT_TYPES} value={accountType} onChange={setAccountType} />
+            <DemoRadioGroup
+              label="Account type"
+              options={ACCOUNT_TYPES}
+              value={accountType}
+              onChange={setAccountType}
+              labels={{ ccBa: "CC + BA", ccOnly: "CC Only" }}
+            />
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             <ControlGroupLabel>State</ControlGroupLabel>
@@ -1491,10 +1510,10 @@ function DashboardTemplateDemo() {
       useInstead={[{ label: "Sidebar and PageHeader directly", because: "your page needs a different arrangement than this template's fixed layout." }]}
       code={`import { DashboardTemplate } from "@statrys/web-ds";\nimport { Send } from "lucide-react";\n\n<DashboardTemplate\n  title="Page Title"\n  sidebarProps={{ accountType: "ccBa", activeKey: "dashboard", onNavigate: navigate }}\n  pageHeaderProps={{\n    companyName: "ACME Corporation",\n    primaryAction: { label: "Make a payment", icon: <Send size={20} />, onClick: handlePay },\n    secondaryActions: [\n      { label: "Convert Funds", onClick: handleConvert },\n      { label: "Add account", onClick: handleAddAccount },\n    ],\n    unread: true,\n    profileInitials: "JM",\n  }}\n>\n  {/* page content */}\n</DashboardTemplate>`}
     >
-      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-        <DemoField label="Page title" value={title} onChange={setTitle} />
+      <div style={{ display: "flex", gap: 32, flexWrap: "wrap", alignItems: "stretch" }}>
         <div
           style={{
+            flex: "1 1 480px",
             position: "relative",
             height: 560,
             background: "#f2f2f2",
@@ -1517,6 +1536,23 @@ function DashboardTemplateDemo() {
               profileInitials: "JM",
             }}
           />
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 24, minWidth: 220, flexShrink: 0 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <ControlGroupLabel>Text</ControlGroupLabel>
+            <DemoField label="Page title" value={title} onChange={setTitle} />
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <ControlGroupLabel>Layout</ControlGroupLabel>
+            <DemoRadioGroup
+              label="Account type"
+              options={ACCOUNT_TYPES}
+              value={accountType}
+              onChange={setAccountType}
+              labels={{ ccBa: "CC + BA", ccOnly: "CC Only" }}
+            />
+          </div>
         </div>
       </div>
     </ComponentPage>
