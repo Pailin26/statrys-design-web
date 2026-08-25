@@ -1,0 +1,35 @@
+{
+  "name": "PageHeader",
+  "platform": "web",
+  "description": "Dashboard top bar — business account switcher, quick actions, notifications, and profile.",
+  "figmaFileKey": "abElBYcwuc5skfPX1c7FlP",
+  "figmaNodeId": "2523:10057",
+  "consumesTokens": [
+    "pageHeader.paddingX", "pageHeader.paddingY", "pageHeader.gap", "pageHeader.actionsGap",
+    "pageHeader.switcherPadding", "pageHeader.switcherGap", "pageHeader.switcherRadius",
+    "pageHeader.switcherBgHover", "pageHeader.switcherText", "pageHeader.switcherFontFamily",
+    "pageHeader.switcherFontWeight", "pageHeader.switcherFontSize", "pageHeader.switcherLetterSpacing",
+    "pageHeader.switcherIcon", "pageHeader.switcherIconSize",
+    "pageHeader.notificationBg", "pageHeader.notificationBgHover", "pageHeader.notificationPadding",
+    "pageHeader.notificationRadius", "pageHeader.notificationIcon", "pageHeader.notificationIconSize",
+    "pageHeader.notificationDotSize", "pageHeader.notificationDotColor",
+    "pageHeader.actionRadius", "pageHeader.actionHeight", "pageHeader.actionPaddingX", "pageHeader.actionPaddingY",
+    "pageHeader.actionGap", "pageHeader.actionFontFamily", "pageHeader.actionFontWeight", "pageHeader.actionFontSize",
+    "pageHeader.primaryActionBg", "pageHeader.primaryActionBgHover", "pageHeader.primaryActionText", "pageHeader.primaryActionIcon",
+    "pageHeader.secondaryActionBg", "pageHeader.secondaryActionBgHover", "pageHeader.secondaryActionText",
+    "pageHeader.profileSize", "pageHeader.profileRadius", "pageHeader.profileBg", "pageHeader.profileText",
+    "pageHeader.profileFontFamily", "pageHeader.profileFontWeight", "pageHeader.profileFontSize", "pageHeader.profileLetterSpacing"
+  ],
+  "props": {
+    "companyName": "string",
+    "onCompanyClick": "() => void (optional)",
+    "primaryAction": "{ label, icon?, onClick? } (optional)",
+    "secondaryActions": "Array<{ label, icon?, onClick? }> (optional)",
+    "unread": "boolean (optional)",
+    "onNotificationsClick": "() => void (optional)",
+    "profileInitials": "string",
+    "onProfileClick": "() => void (optional)"
+  },
+  "status": "stable",
+  "usedBy": ["DashboardTemplate"]
+}

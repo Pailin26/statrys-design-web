@@ -1,0 +1,65 @@
+/* Every value here comes from component/sidebar.json (never a primitive or another semantic file
+   directly — see docs/contributing.md). Figma: nodes 1979-6544 (item) + 2523-2026 (nav shell). */
+
+.root {
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 3;
+  width: var(--sidebar-width-collapsed);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sidebar-section-gap);
+  background: transparent;
+  transition: width 0.2s ease, background-color 0.2s ease;
+}
+.root.expanded {
+  width: var(--sidebar-width-expanded);
+  background: var(--sidebar-bg-expanded);
+  backdrop-filter: blur(var(--sidebar-blur-expanded));
+  -webkit-backdrop-filter: blur(var(--sidebar-blur-expanded));
+}
+
+.logoSection {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: var(--sidebar-padding-top) var(--sidebar-padding-x) var(--sidebar-padding-bottom);
+}
+
+.logoIcon {
+  flex-shrink: 0;
+  width: var(--sidebar-logo-icon-width);
+  height: var(--sidebar-logo-icon-height);
+  margin-left: var(--sidebar-item-padding-x);
+}
+
+/* Hidden at rest, revealed alongside the icon once the nav expands — same fade treatment as
+   SidebarItem's label. */
+.logoWordmark {
+  overflow: hidden;
+  opacity: 0;
+  max-width: 0;
+  height: var(--sidebar-logo-wordmark-height);
+  margin-left: var(--sidebar-item-gap);
+  transition: opacity 0.15s ease;
+}
+.logoWordmarkVisible {
+  opacity: 1;
+  max-width: var(--sidebar-logo-wordmark-width);
+}
+
+.group {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sidebar-item-group-gap);
+  flex-shrink: 0;
+  padding: var(--sidebar-padding-bottom) var(--sidebar-padding-x);
+}
+.group:first-of-type {
+  border-bottom: var(--sidebar-border-width) solid var(--sidebar-border-color);
+}

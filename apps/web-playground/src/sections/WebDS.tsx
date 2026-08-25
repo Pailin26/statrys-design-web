@@ -1,6 +1,6 @@
 import { useState, Fragment } from "react";
-import { ArrowUpRight, ChevronDown } from "lucide-react";
-import { Button, ButtonHighlight, Link, HorizontalTabs, Toggle, Checkbox, Radio, SearchInput, TextInputFluid, Tooltip, Banner, ToastMessage, XClose, Overlay, Modal } from "@statrys/web-ds";
+import { ArrowUpRight, ChevronDown, Send } from "lucide-react";
+import { Button, ButtonHighlight, Link, HorizontalTabs, Toggle, Checkbox, Radio, SearchInput, TextInputFluid, Tooltip, Banner, ToastMessage, XClose, Overlay, Modal, Sidebar, PageHeader, DashboardTemplate } from "@statrys/web-ds";
 import { ComponentPage } from "../ComponentPage";
 
 // One state per row, one axis value (usually size) per column — every
@@ -1385,6 +1385,144 @@ function ModalDemo() {
   );
 }
 
+const ACCOUNT_TYPES = ["ccBa", "ccOnly"] as const;
+
+function SidebarDemo() {
+  const [accountType, setAccountType] = useState<(typeof ACCOUNT_TYPES)[number]>("ccBa");
+  const [activeKey, setActiveKey] = useState("dashboard");
+  const [pinned, setPinned] = useState(false);
+
+  return (
+    <ComponentPage
+      id="sidebar"
+      title="Sidebar"
+      whatItIs="The app's left-hand navigation — a narrow icon rail that widens to show labels when you hover over it or tab into it with the keyboard."
+      whenToUse={["The persistent left navigation for a signed-in dashboard or app shell."]}
+      goodToKnow={[
+        "It expands on hover or keyboard focus on its own — you don't need to manage that state yourself.",
+        "“CC + BA” (Corporate Card + Business Account) shows the full menu; “CC Only” shows the smaller card-only menu.",
+      ]}
+      code={`import { Sidebar } from "@statrys/web-ds";\n\n<Sidebar\n  accountType="ccBa"\n  activeKey="dashboard"\n  onNavigate={(key) => navigate(key)}\n/>`}
+    >
+      <div style={{ display: "flex", gap: 32, flexWrap: "wrap", alignItems: "stretch" }}>
+        <div
+          style={{
+            flex: "1 1 480px",
+            position: "relative",
+            height: 500,
+            background: "#f2f2f2",
+            borderRadius: 8,
+            overflow: "hidden",
+            contain: "layout paint",
+          }}
+        >
+          <Sidebar accountType={accountType} activeKey={activeKey} onNavigate={setActiveKey} expanded={pinned} />
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 24, minWidth: 220, flexShrink: 0 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <ControlGroupLabel>Layout</ControlGroupLabel>
+            <DemoRadioGroup label="Account type" options={ACCOUNT_TYPES} value={accountType} onChange={setAccountType} />
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <ControlGroupLabel>State</ControlGroupLabel>
+            <Checkbox label="Pinned expanded" selected={pinned} onChange={setPinned} />
+          </div>
+        </div>
+      </div>
+    </ComponentPage>
+  );
+}
+
+function PageHeaderDemo() {
+  const [companyName, setCompanyName] = useState("ACME Corporation");
+  const [profileInitials, setProfileInitials] = useState("JM");
+  const [unread, setUnread] = useState(true);
+
+  return (
+    <ComponentPage
+      id="page-header"
+      title="Page Header"
+      whatItIs="The dashboard's top bar — the business account switcher on the left, quick actions and account controls on the right."
+      whenToUse={["The top of any signed-in dashboard page, usually paired with Sidebar."]}
+      code={`import { PageHeader } from "@statrys/web-ds";\nimport { Send } from "lucide-react";\n\n<PageHeader\n  companyName="ACME Corporation"\n  primaryAction={{ label: "Make a payment", icon: <Send size={20} />, onClick: handlePay }}\n  secondaryActions={[\n    { label: "Convert Funds", onClick: handleConvert },\n    { label: "Add account", onClick: handleAddAccount },\n  ]}\n  unread\n  profileInitials="JM"\n/>`}
+    >
+      <div style={{ display: "flex", gap: 32, flexWrap: "wrap", alignItems: "stretch" }}>
+        <div style={{ flex: "1 1 480px", background: "#f2f2f2", borderRadius: 8, overflow: "hidden" }}>
+          <PageHeader
+            companyName={companyName}
+            primaryAction={{ label: "Make a payment", icon: <Send size={20} />, onClick: () => {} }}
+            secondaryActions={[
+              { label: "Convert Funds", onClick: () => {} },
+              { label: "Add account", onClick: () => {} },
+            ]}
+            unread={unread}
+            profileInitials={profileInitials}
+          />
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 24, minWidth: 220, flexShrink: 0 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <ControlGroupLabel>Text</ControlGroupLabel>
+            <DemoField label="Company name" value={companyName} onChange={setCompanyName} />
+            <DemoField label="Profile initials" value={profileInitials} onChange={setProfileInitials} />
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <ControlGroupLabel>State</ControlGroupLabel>
+            <Checkbox label="Unread notifications" selected={unread} onChange={setUnread} />
+          </div>
+        </div>
+      </div>
+    </ComponentPage>
+  );
+}
+
+function DashboardTemplateDemo() {
+  const [title, setTitle] = useState("Page Title");
+  const [accountType, setAccountType] = useState<(typeof ACCOUNT_TYPES)[number]>("ccBa");
+  const [activeKey, setActiveKey] = useState("dashboard");
+
+  return (
+    <ComponentPage
+      id="dashboard-template"
+      title="Dashboard Template"
+      whatItIs="The full app-shell page layout — Sidebar and PageHeader combined around a titled content area."
+      whenToUse={["Any signed-in dashboard page — wrap the page's own content in it instead of rebuilding the shell each time."]}
+      useInstead={[{ label: "Sidebar and PageHeader directly", because: "your page needs a different arrangement than this template's fixed layout." }]}
+      code={`import { DashboardTemplate } from "@statrys/web-ds";\nimport { Send } from "lucide-react";\n\n<DashboardTemplate\n  title="Page Title"\n  sidebarProps={{ accountType: "ccBa", activeKey: "dashboard", onNavigate: navigate }}\n  pageHeaderProps={{\n    companyName: "ACME Corporation",\n    primaryAction: { label: "Make a payment", icon: <Send size={20} />, onClick: handlePay },\n    secondaryActions: [\n      { label: "Convert Funds", onClick: handleConvert },\n      { label: "Add account", onClick: handleAddAccount },\n    ],\n    unread: true,\n    profileInitials: "JM",\n  }}\n>\n  {/* page content */}\n</DashboardTemplate>`}
+    >
+      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+        <DemoField label="Page title" value={title} onChange={setTitle} />
+        <div
+          style={{
+            position: "relative",
+            height: 560,
+            background: "#f2f2f2",
+            borderRadius: 8,
+            overflow: "hidden",
+            contain: "layout paint",
+          }}
+        >
+          <DashboardTemplate
+            title={title}
+            sidebarProps={{ accountType, activeKey, onNavigate: setActiveKey }}
+            pageHeaderProps={{
+              companyName: "ACME Corporation",
+              primaryAction: { label: "Make a payment", icon: <Send size={20} />, onClick: () => {} },
+              secondaryActions: [
+                { label: "Convert Funds", onClick: () => {} },
+                { label: "Add account", onClick: () => {} },
+              ],
+              unread: true,
+              profileInitials: "JM",
+            }}
+          />
+        </div>
+      </div>
+    </ComponentPage>
+  );
+}
+
 export function WebDS({ item }: { item: string }) {
   if (item === "button") return <ButtonDemo />;
   if (item === "button-highlight") return <ButtonHighlightDemo />;
@@ -1401,5 +1539,8 @@ export function WebDS({ item }: { item: string }) {
   if (item === "x-close") return <XCloseDemo />;
   if (item === "overlay") return <OverlayDemo />;
   if (item === "modal") return <ModalDemo />;
+  if (item === "sidebar") return <SidebarDemo />;
+  if (item === "page-header") return <PageHeaderDemo />;
+  if (item === "dashboard-template") return <DashboardTemplateDemo />;
   return <div>Unknown component: {item}</div>;
 }

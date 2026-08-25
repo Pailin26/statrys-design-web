@@ -1,0 +1,139 @@
+/* Every value here comes from component/page-header.json (never a primitive or another semantic
+   file directly — see docs/contributing.md). Figma: node 2523-10057. */
+
+.root {
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--page-header-gap);
+  padding: var(--page-header-padding-y) var(--page-header-padding-x);
+}
+
+.switcher {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--page-header-switcher-gap);
+  padding: var(--page-header-switcher-padding);
+  border: none;
+  border-radius: var(--page-header-switcher-radius);
+  background: transparent;
+  cursor: pointer;
+}
+.switcher:hover {
+  background: var(--page-header-switcher-bg-hover);
+}
+
+.switcherText {
+  color: var(--page-header-switcher-text);
+  font-family: var(--page-header-switcher-font-family);
+  font-weight: var(--page-header-switcher-font-weight);
+  font-size: var(--page-header-switcher-font-size);
+  letter-spacing: var(--page-header-switcher-letter-spacing);
+  white-space: nowrap;
+}
+
+.switcherIcon {
+  display: flex;
+  flex-shrink: 0;
+  width: var(--page-header-switcher-icon-size);
+  height: var(--page-header-switcher-icon-size);
+  color: var(--page-header-switcher-icon);
+}
+
+.actions {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--page-header-actions-gap);
+}
+
+.primaryAction,
+.secondaryAction {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--page-header-action-gap);
+  height: var(--page-header-action-height);
+  padding: var(--page-header-action-padding-y) var(--page-header-action-padding-x);
+  border: none;
+  border-radius: var(--page-header-action-radius);
+  font-family: var(--page-header-action-font-family);
+  font-weight: var(--page-header-action-font-weight);
+  font-size: var(--page-header-action-font-size);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.primaryAction {
+  background: var(--page-header-primary-action-bg);
+  color: var(--page-header-primary-action-text);
+}
+.primaryAction:hover {
+  background: var(--page-header-primary-action-bg-hover);
+}
+.primaryAction .actionIcon {
+  color: var(--page-header-primary-action-icon);
+}
+
+.secondaryAction {
+  background: var(--page-header-secondary-action-bg);
+  color: var(--page-header-secondary-action-text);
+}
+.secondaryAction:hover {
+  background: var(--page-header-secondary-action-bg-hover);
+}
+
+.actionIcon {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.notification {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: var(--page-header-notification-padding);
+  border: none;
+  border-radius: var(--page-header-notification-radius);
+  background: var(--page-header-notification-bg);
+  color: var(--page-header-notification-icon);
+  cursor: pointer;
+}
+.notification:hover {
+  background: var(--page-header-notification-bg-hover);
+}
+
+.dot {
+  position: absolute;
+  top: var(--page-header-notification-padding);
+  right: var(--page-header-notification-padding);
+  width: var(--page-header-notification-dot-size);
+  height: var(--page-header-notification-dot-size);
+  border-radius: 50%;
+  background: var(--page-header-notification-dot-color);
+}
+
+.profile {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--page-header-profile-size);
+  height: var(--page-header-profile-size);
+  border: none;
+  border-radius: var(--page-header-profile-radius);
+  background: var(--page-header-profile-bg);
+  color: var(--page-header-profile-text);
+  font-family: var(--page-header-profile-font-family);
+  font-weight: var(--page-header-profile-font-weight);
+  font-size: var(--page-header-profile-font-size);
+  letter-spacing: var(--page-header-profile-letter-spacing);
+  cursor: pointer;
+}

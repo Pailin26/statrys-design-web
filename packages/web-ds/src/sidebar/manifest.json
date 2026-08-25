@@ -1,0 +1,27 @@
+{
+  "name": "Sidebar",
+  "platform": "web",
+  "description": "App-shell left navigation rail that expands to show labels on hover or keyboard focus.",
+  "figmaFileKey": "abElBYcwuc5skfPX1c7FlP",
+  "figmaNodeId": "2523:2026",
+  "consumesTokens": [
+    "sidebar.widthCollapsed", "sidebar.widthExpanded", "sidebar.bgExpanded", "sidebar.blurExpanded",
+    "sidebar.borderColor", "sidebar.borderWidth",
+    "sidebar.paddingTop", "sidebar.paddingBottom", "sidebar.paddingX", "sidebar.sectionGap",
+    "sidebar.logoIconWidth", "sidebar.logoIconHeight", "sidebar.logoWordmarkWidth", "sidebar.logoWordmarkHeight",
+    "sidebar.itemHeight", "sidebar.itemPaddingX", "sidebar.itemGap", "sidebar.itemGroupGap",
+    "sidebar.itemRadius", "sidebar.itemIconSize",
+    "sidebar.itemBg", "sidebar.itemBgHover", "sidebar.itemBgActive",
+    "sidebar.itemText", "sidebar.itemTextDisabled", "sidebar.itemIcon", "sidebar.itemIconDisabled",
+    "sidebar.fontFamily", "sidebar.fontWeight", "sidebar.fontSize"
+  ],
+  "props": {
+    "accountType": ["ccBa", "ccOnly"],
+    "activeKey": "string",
+    "onNavigate": "(key: string) => void",
+    "getHref": "(key: string) => string | undefined (optional)",
+    "expanded": "boolean (optional — pins the expanded layout open)"
+  },
+  "status": "stable",
+  "usedBy": ["DashboardTemplate"]
+}

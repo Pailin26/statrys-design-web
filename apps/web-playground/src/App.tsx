@@ -80,6 +80,14 @@ const NAV: Record<Tab, NavGroup[]> = {
         { id: "modal", label: "Modal" },
       ],
     },
+    {
+      group: "App shell",
+      items: [
+        { id: "sidebar", label: "Sidebar" },
+        { id: "page-header", label: "Page Header" },
+        { id: "dashboard-template", label: "Dashboard Template" },
+      ],
+    },
   ],
 };
 

@@ -1,0 +1,21 @@
+{
+  "name": "DashboardTemplate",
+  "platform": "web",
+  "description": "App-shell page layout combining Sidebar and PageHeader around a titled content area.",
+  "figmaFileKey": "abElBYcwuc5skfPX1c7FlP",
+  "figmaNodeId": "2523:11049",
+  "consumesTokens": [
+    "dashboardTemplate.bg", "dashboardTemplate.sidebarOffset",
+    "dashboardTemplate.mainPaddingX", "dashboardTemplate.mainPaddingTop", "dashboardTemplate.mainPaddingBottom", "dashboardTemplate.mainGap",
+    "dashboardTemplate.titleFontFamily", "dashboardTemplate.titleFontWeight", "dashboardTemplate.titleFontSize",
+    "dashboardTemplate.titleLineHeight", "dashboardTemplate.titleLetterSpacing", "dashboardTemplate.titleColor"
+  ],
+  "props": {
+    "sidebarProps": "SidebarProps",
+    "pageHeaderProps": "PageHeaderProps",
+    "title": "string",
+    "children": "ReactNode (optional) — the page's own content, rendered below the title"
+  },
+  "status": "stable",
+  "usedBy": []
+}

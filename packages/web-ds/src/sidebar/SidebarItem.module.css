@@ -1,0 +1,57 @@
+/* Every value here comes from component/sidebar.json (never a primitive or another
+   semantic file directly — see docs/contributing.md). Figma: node 1979-6544. */
+
+.item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: var(--sidebar-item-height);
+  padding: 0 var(--sidebar-item-padding-x);
+  gap: var(--sidebar-item-gap);
+  border: none;
+  border-radius: var(--sidebar-item-radius);
+  background: var(--sidebar-item-bg);
+  color: var(--sidebar-item-text);
+  font-family: var(--sidebar-font-family);
+  font-weight: var(--sidebar-font-weight);
+  font-size: var(--sidebar-font-size);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.item:hover:not(:disabled) {
+  background: var(--sidebar-item-bg-hover);
+}
+.item.active {
+  background: var(--sidebar-item-bg-active);
+}
+.item:disabled,
+.item.disabled {
+  color: var(--sidebar-item-text-disabled);
+  cursor: not-allowed;
+}
+
+.icon {
+  display: flex;
+  flex-shrink: 0;
+  width: var(--sidebar-item-icon-size);
+  height: var(--sidebar-item-icon-size);
+  color: var(--sidebar-item-icon);
+}
+.item:disabled .icon,
+.item.disabled .icon {
+  color: var(--sidebar-item-icon-disabled);
+}
+
+/* Hidden at rest (collapsed rail) — Sidebar passes expanded=true (hover/focus/pinned) to reveal it. */
+.label {
+  overflow: hidden;
+  opacity: 0;
+  max-width: 0;
+  transition: opacity 0.15s ease;
+}
+.labelVisible {
+  opacity: 1;
+  max-width: none;
+}

@@ -1,0 +1,40 @@
+/* Every value here comes from component/dashboard-template.json (never a primitive or another
+   semantic file directly — see docs/contributing.md). Figma: node 2523-11049. */
+
+.root {
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  min-height: 100%;
+  padding-left: var(--dashboard-template-sidebar-offset);
+  background: var(--dashboard-template-bg);
+}
+
+.page {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.main {
+  box-sizing: border-box;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--dashboard-template-main-gap);
+  width: 100%;
+  padding: var(--dashboard-template-main-padding-top) var(--dashboard-template-main-padding-x) var(--dashboard-template-main-padding-bottom);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--dashboard-template-title-font-family);
+  font-weight: var(--dashboard-template-title-font-weight);
+  font-size: var(--dashboard-template-title-font-size);
+  line-height: var(--dashboard-template-title-line-height);
+  letter-spacing: var(--dashboard-template-title-letter-spacing);
+  color: var(--dashboard-template-title-color);
+}
