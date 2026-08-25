@@ -1,0 +1,57 @@
+{
+  "name": "Field",
+  "platform": "web",
+  "description": "Label + optional mandatory asterisk + a control + a hint/error caption below it, composed from Field.TextField (covers Figma's Text/Left Icon/Dropdown/Date picker/Mobile Number/Currency/Unit types via leadingIcon/trailingIcon/prefix/suffix/options) or Field.TextArea (multi-line). In Figma, Fields (4011-4962) and TextFields (4011-4993) are the same component — Fields always wraps exactly one TextFields instance — so these are exposed as Field.TextField/Field.TextArea, the same compound pattern as Modal.Header/Content/Footer, not standalone components.",
+  "figmaFileKey": "abElBYcwuc5skfPX1c7FlP",
+  "figmaNodeId": "4011:4962",
+  "consumesTokens": [
+    "formField.gap", "formField.labelColor", "formField.labelFontFamily", "formField.labelFontWeight",
+    "formField.labelFontSize", "formField.errorColor", "formField.captionColor",
+    "formField.captionFontFamily", "formField.captionFontWeight", "formField.captionFontSize",
+    "textField.background", "textField.backgroundDisabled", "textField.backgroundError",
+    "textField.border", "textField.borderHover", "textField.borderFocus", "textField.borderError",
+    "textField.height", "textField.paddingX", "textField.paddingY", "textField.radius", "textField.gap",
+    "textField.iconSize", "textField.chevronSize", "textField.dropdownChevronSize",
+    "textField.textColor", "textField.placeholderColor", "textField.disabledTextColor",
+    "textField.iconColor", "textField.trailingIconColor", "textField.disabledIconColor",
+    "textField.fontFamily", "textField.fontWeight", "textField.fontSize", "textField.chipFontSize",
+    "textArea.background", "textArea.backgroundDisabled", "textArea.backgroundError",
+    "textArea.border", "textArea.borderHover", "textArea.borderFocus", "textArea.borderError",
+    "textArea.minHeight", "textArea.paddingX", "textArea.paddingY", "textArea.radius",
+    "textArea.textColor", "textArea.placeholderColor", "textArea.disabledTextColor",
+    "textArea.fontFamily", "textArea.fontWeight", "textArea.fontSize"
+  ],
+  "props": {
+    "Field": {
+      "label": "string",
+      "mandatory": "boolean",
+      "hint": "string",
+      "error": "string",
+      "children": "ReactNode (Field.TextField or Field.TextArea)"
+    },
+    "Field.TextField": {
+      "value": "string",
+      "onChange": "(value: string) => void",
+      "placeholder": "string",
+      "type": ["text", "tel", "email", "number"],
+      "disabled": "boolean",
+      "error": "boolean",
+      "leadingIcon": "ReactNode",
+      "trailingIcon": "ReactNode",
+      "onTrailingIconClick": "() => void",
+      "prefix": "{ icon?: ReactNode; label: string; onClick?: () => void }",
+      "suffix": "{ label: string; onClick?: () => void }",
+      "options": "{ value: string; label: string }[]"
+    },
+    "Field.TextArea": {
+      "value": "string",
+      "onChange": "(value: string) => void",
+      "placeholder": "string",
+      "disabled": "boolean",
+      "error": "boolean",
+      "rows": "number"
+    }
+  },
+  "status": "stable",
+  "usedBy": []
+}

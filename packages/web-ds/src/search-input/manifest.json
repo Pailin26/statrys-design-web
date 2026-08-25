@@ -1,20 +1,22 @@
 {
   "name": "SearchInput",
   "platform": "web",
-  "description": "Search field with a leading search icon and a clear button once filled. Hover/Active are real CSS states; \"Filled\" is derived from value being non-empty, not a discrete prop.",
+  "description": "Search field with a leading search icon, an optional trailing voice-search (mic) action, and a clear button that swaps in while the field is focused with a value. Hover/Active are real CSS states; \"Filled\" is derived from value being non-empty, not a discrete prop; the clear-vs-mic action button is derived from focus + value together, not a discrete prop either.",
   "figmaFileKey": "abElBYcwuc5skfPX1c7FlP",
-  "figmaNodeId": "818:2874",
+  "figmaNodeId": "4011:5322",
   "consumesTokens": [
     "field.bg", "field.bgDisabled", "field.border", "field.borderHover", "field.borderFocus",
-    "icon.secondary", "icon.disabled", "text.primary", "text.placeholder", "text.disabled",
-    "radius.lg", "radius.xl", "radius.2xl", "borderWidth.sm"
+    "border.error.bold",
+    "icon.primary", "icon.disabled", "text.primary", "text.placeholder", "text.disabled",
+    "radius.xl", "borderWidth.sm", "field.iconSize", "field.heightSm"
   ],
   "props": {
     "value": "string",
     "onChange": "(value: string) => void",
     "placeholder": "string",
-    "size": ["sm", "md", "lg"],
-    "disabled": "boolean"
+    "disabled": "boolean",
+    "error": "boolean",
+    "onMicClick": "() => void"
   },
   "status": "stable",
   "usedBy": []

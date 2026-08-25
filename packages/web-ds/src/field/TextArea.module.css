@@ -1,0 +1,50 @@
+/* Every value here comes from component/text-area.json (statrys-tokens) —
+   never a primitive or another semantic file directly, per docs/contributing.md.
+
+   The <textarea> IS the styled element — no wrapper div needed, unlike
+   TextField, since Figma's TextAreaFields has no leading/trailing adornment
+   slots. Hover/focus are real CSS pseudo-classes, matching TextField.
+
+   Figma: https://www.figma.com/design/abElBYcwuc5skfPX1c7FlP/-WEB--Design-System?node-id=4011-5301 */
+
+.textarea {
+  display: block;
+  width: 100%;
+  min-height: var(--text-area-min-height);
+  box-sizing: border-box;
+  padding: var(--text-area-padding-y) var(--text-area-padding-x);
+  border: var(--border-width-sm) solid var(--text-area-border);
+  border-radius: var(--text-area-radius);
+  background: var(--text-area-background);
+  outline: none;
+  resize: vertical;
+  font-family: var(--text-area-font-family);
+  font-weight: var(--text-area-font-weight);
+  font-size: var(--text-area-font-size);
+  line-height: 1.3;
+  color: var(--text-area-text-color);
+  transition: border-color 0.1s, background-color 0.1s;
+}
+.textarea:not(:disabled):not(.error):hover {
+  border-color: var(--text-area-border-hover);
+}
+.textarea:not(:disabled):not(.error):focus {
+  border-color: var(--text-area-border-focus);
+}
+.textarea.error {
+  background: var(--text-area-background-error);
+  border-color: var(--text-area-border-error);
+}
+.textarea::placeholder {
+  color: var(--text-area-placeholder-color);
+}
+.textarea:disabled {
+  background: var(--text-area-background-disabled);
+  border-color: var(--text-area-border);
+  color: var(--text-area-disabled-text-color);
+  cursor: not-allowed;
+  resize: none;
+}
+.textarea:disabled::placeholder {
+  color: var(--text-area-disabled-text-color);
+}

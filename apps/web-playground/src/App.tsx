@@ -54,7 +54,8 @@ const NAV: Record<Tab, NavGroup[]> = {
         { id: "radio", label: "Radio" },
         { id: "toggle", label: "Toggle" },
         { id: "search-input", label: "Search Input" },
-        { id: "text-input-fluid", label: "Text Input Fluid" },
+        { id: "field", label: "Field" },
+        { id: "text-area", label: "Text Area" },
       ],
     },
     {

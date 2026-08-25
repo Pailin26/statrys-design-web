@@ -1,0 +1,159 @@
+/* Every value here comes from component/text-field.json (statrys-tokens) —
+   never a primitive or another semantic file directly, per docs/contributing.md.
+
+   Hover/focus are real CSS pseudo-classes (:focus-within) on the container,
+   not JS-driven props — matching SearchInput/TextInputFluid's convention.
+   "Filled" isn't a discrete prop; it's just whatever `value` holds.
+
+   Figma: https://www.figma.com/design/abElBYcwuc5skfPX1c7FlP/-WEB--Design-System?node-id=4011-4993
+   (the "Text"/"Left Icon"/"Dropdown"/"Date picker"/"Mobile Number"/
+   "Currency"/"Unit" types are all this one component — leadingIcon,
+   trailingIcon, prefix, suffix, and options together cover them) */
+
+.container {
+  display: flex;
+  align-items: center;
+  gap: var(--text-field-gap);
+  width: 100%;
+  height: var(--text-field-height);
+  box-sizing: border-box;
+  padding: var(--text-field-padding-y) var(--text-field-padding-x);
+  border: var(--border-width-sm) solid var(--text-field-border);
+  border-radius: var(--text-field-radius);
+  background: var(--text-field-background);
+  transition: border-color 0.1s, background-color 0.1s;
+}
+.container:not(.disabled):not(.error):hover {
+  border-color: var(--text-field-border-hover);
+}
+.container:not(.disabled):not(.error):focus-within {
+  border-color: var(--text-field-border-focus);
+}
+.container.error {
+  background: var(--text-field-background-error);
+  border-color: var(--text-field-border-error);
+}
+.container.disabled {
+  background: var(--text-field-background-disabled);
+  border-color: var(--text-field-border);
+  cursor: not-allowed;
+}
+
+.input {
+  flex: 1 0 0;
+  min-width: 0;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: none;
+  padding: 0;
+  appearance: none;
+  font-family: var(--text-field-font-family);
+  font-weight: var(--text-field-font-weight);
+  font-size: var(--text-field-font-size);
+  color: var(--text-field-text-color);
+}
+.input::placeholder {
+  color: var(--text-field-placeholder-color);
+}
+.input.placeholder {
+  color: var(--text-field-placeholder-color);
+}
+select.input {
+  cursor: pointer;
+}
+.container.disabled .input {
+  color: var(--text-field-disabled-text-color);
+  cursor: not-allowed;
+}
+.container.disabled .input::placeholder {
+  color: var(--text-field-disabled-text-color);
+}
+
+.icon {
+  flex-shrink: 0;
+  display: inline-flex;
+  width: var(--text-field-icon-size);
+  height: var(--text-field-icon-size);
+  color: var(--text-field-icon-color);
+}
+.icon svg {
+  width: 100%;
+  height: 100%;
+}
+.container.disabled .icon {
+  color: var(--text-field-disabled-icon-color);
+}
+
+.iconButton {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--text-field-icon-size);
+  height: var(--text-field-icon-size);
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--text-field-trailing-icon-color);
+}
+.iconButton:disabled {
+  color: var(--text-field-disabled-icon-color);
+  cursor: not-allowed;
+}
+.iconButton svg {
+  width: 100%;
+  height: 100%;
+}
+
+.chip {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--space-2);
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: var(--text-field-font-family);
+  font-weight: var(--text-field-font-weight);
+  font-size: var(--text-field-chip-font-size);
+  color: var(--text-field-text-color);
+}
+.chip:disabled {
+  color: var(--text-field-disabled-text-color);
+  cursor: not-allowed;
+}
+.chipIcon {
+  flex-shrink: 0;
+  display: inline-flex;
+  width: var(--text-field-icon-size);
+  height: var(--text-field-icon-size);
+}
+.chipIcon svg,
+.chipIcon img {
+  width: 100%;
+  height: 100%;
+}
+.chevron {
+  flex-shrink: 0;
+  width: var(--text-field-chevron-size);
+  height: var(--text-field-chevron-size);
+  color: var(--text-field-icon-color);
+}
+.chip:disabled .chevron {
+  color: var(--text-field-disabled-icon-color);
+}
+
+.dropdownChevron {
+  flex-shrink: 0;
+  width: var(--text-field-dropdown-chevron-size);
+  height: var(--text-field-dropdown-chevron-size);
+  color: var(--text-field-icon-color);
+  pointer-events: none;
+}
+.container.disabled .dropdownChevron {
+  color: var(--text-field-disabled-icon-color);
+}

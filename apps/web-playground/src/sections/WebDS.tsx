@@ -1,6 +1,6 @@
 import { useState, Fragment } from "react";
-import { ArrowUpRight, ChevronDown, Send, Landmark, Pencil, Trash2 } from "lucide-react";
-import { Button, ButtonHighlight, Link, HorizontalTabs, Toggle, Checkbox, Radio, SearchInput, TextInputFluid, Tooltip, Banner, ToastMessage, XClose, Overlay, Modal, Sidebar, PageHeader, DashboardTemplate, Table } from "@statrys/web-ds";
+import { ArrowUpRight, ChevronDown, Send, Landmark, Pencil, Trash2, Circle, Calendar, Globe } from "lucide-react";
+import { Button, ButtonHighlight, Link, HorizontalTabs, Toggle, Checkbox, Radio, SearchInput, Tooltip, Banner, ToastMessage, XClose, Overlay, Modal, Sidebar, PageHeader, DashboardTemplate, Table, Field } from "@statrys/web-ds";
 import { ComponentPage } from "../ComponentPage";
 
 // One state per row, one axis value (usually size) per column — every
@@ -688,26 +688,29 @@ function RadioDemo() {
   );
 }
 
-const SEARCH_INPUT_SIZES = ["sm", "md", "lg"] as const;
-
 function SearchInputDemo() {
   const [value, setValue] = useState("Statrys");
   const [placeholder, setPlaceholder] = useState("Search");
-  const [size, setSize] = useState<(typeof SEARCH_INPUT_SIZES)[number]>("md");
   const [disabled, setDisabled] = useState(false);
+  const [error, setError] = useState(false);
+  const [micAction, setMicAction] = useState(true);
 
   return (
     <ComponentPage
       id="search-input"
       title="Search Input"
-      whatItIs="A search box with a search icon, and a clear button that appears once you start typing."
+      whatItIs="A search box with a search icon, an optional voice-search (mic) action, and a clear button that swaps in once you focus the field with text in it."
       whenToUse={[
         "Filtering or searching a list, table, or page of results.",
       ]}
       useInstead={[
-        { label: "Text Input Fluid", because: "it's a regular form field like name or email, not a search box." },
+        { label: "Field.TextField", because: "it's a regular form field like name or email, not a search box." },
       ]}
-      code={`import { SearchInput } from "@statrys/web-ds";\n\n<SearchInput value={query} onChange={setQuery} placeholder="Search" />`}
+      goodToKnow={[
+        "The clear button only shows while the field is focused and has a value — blur it and, if onMicClick is set, the mic action takes its place again.",
+        "error is independent of disabled/focus — pass it whenever validation fails, even while the user is still typing.",
+      ]}
+      code={`import { SearchInput } from "@statrys/web-ds";\n\n<SearchInput\n  value={query}\n  onChange={setQuery}\n  placeholder="Search"\n  onMicClick={() => startVoiceSearch()}\n/>`}
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
         <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
@@ -721,7 +724,14 @@ function SearchInputDemo() {
           <div style={{ display: "flex", gap: 32, flexWrap: "wrap", alignItems: "stretch" }}>
             <div style={{ flex: "1 1 400px", minHeight: 120, display: "flex", alignItems: "center", justifyContent: "center", background: "#f2f2f2", borderRadius: 8, padding: 24 }}>
               <div style={{ width: "100%", maxWidth: 343 }}>
-                <SearchInput size={size} value={value} placeholder={placeholder} disabled={disabled} onChange={setValue} />
+                <SearchInput
+                  value={value}
+                  placeholder={placeholder}
+                  disabled={disabled}
+                  error={error}
+                  onChange={setValue}
+                  onMicClick={micAction ? () => console.log("start voice search") : undefined}
+                />
               </div>
             </div>
 
@@ -733,13 +743,10 @@ function SearchInputDemo() {
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                <ControlGroupLabel>Layout</ControlGroupLabel>
-                <DemoRadioGroup label="Size" options={SEARCH_INPUT_SIZES} value={size} onChange={setSize} />
-              </div>
-
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 <ControlGroupLabel>State</ControlGroupLabel>
                 <Checkbox label="Disabled" selected={disabled} onChange={setDisabled} />
+                <Checkbox label="Error" selected={error} onChange={setError} />
+                <Checkbox label="Voice search action (mic)" selected={micAction} onChange={setMicAction} />
               </div>
             </div>
           </div>
@@ -749,99 +756,217 @@ function SearchInputDemo() {
   );
 }
 
-const TEXT_INPUT_SIZES = ["sm", "md", "lg"] as const;
+const TEXT_FIELD_TYPES = ["text", "left-icon", "dropdown", "date-picker", "mobile-number", "currency", "unit"] as const;
+const TEXT_FIELD_TYPE_LABELS: Record<(typeof TEXT_FIELD_TYPES)[number], string> = {
+  text: "Text",
+  "left-icon": "Left Icon",
+  dropdown: "Dropdown",
+  "date-picker": "Date picker",
+  "mobile-number": "Mobile Number",
+  currency: "Currency",
+  unit: "Unit",
+};
 
-function TextInputFluidDemo() {
-  const [label, setLabel] = useState("Label");
-  const [placeholder, setPlaceholder] = useState("Placeholder");
+function FieldDemo() {
+  const [label, setLabel] = useState("Input Label");
+  const [placeholder, setPlaceholder] = useState("Input text");
   const [value, setValue] = useState("");
-  const [hint, setHint] = useState("This is a help text to hint user");
-  const [error, setError] = useState("Enter a valid email address");
-  const [tooltipText, setTooltipText] = useState("Helpful context");
-  const [size, setSize] = useState<(typeof TEXT_INPUT_SIZES)[number]>("md");
-  const [disabled, setDisabled] = useState(false);
-  const [dropdown, setDropdown] = useState(false);
-  const [forceFocus, setForceFocus] = useState(false);
+  const [hint, setHint] = useState("Caption");
+  const [errorMessage, setErrorMessage] = useState("Caption");
+  const [mandatory, setMandatory] = useState(true);
   const [showHint, setShowHint] = useState(true);
   const [showError, setShowError] = useState(false);
-  const [showTooltip, setShowTooltip] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+  const [type, setType] = useState<(typeof TEXT_FIELD_TYPES)[number]>("text");
+
+  const error = showError ? errorMessage : undefined;
+  const fieldHint = showError ? undefined : showHint ? hint : undefined;
+
+  let control: React.ReactNode;
+  if (type === "left-icon") {
+    control = (
+      <Field.TextField value={value} onChange={setValue} placeholder={placeholder} disabled={disabled} error={showError} leadingIcon={<Circle size={20} />} />
+    );
+  } else if (type === "dropdown") {
+    control = (
+      <Field.TextField
+        value={value}
+        onChange={setValue}
+        placeholder={placeholder}
+        disabled={disabled}
+        error={showError}
+        options={[
+          { value: "us", label: "United States" },
+          { value: "sg", label: "Singapore" },
+          { value: "fr", label: "France" },
+        ]}
+      />
+    );
+  } else if (type === "date-picker") {
+    control = (
+      <Field.TextField
+        value={value}
+        onChange={setValue}
+        placeholder={placeholder}
+        disabled={disabled}
+        error={showError}
+        trailingIcon={<Calendar size={20} />}
+        onTrailingIconClick={() => console.log("open calendar")}
+      />
+    );
+  } else if (type === "mobile-number") {
+    control = (
+      <Field.TextField
+        value={value}
+        onChange={setValue}
+        placeholder={placeholder}
+        disabled={disabled}
+        error={showError}
+        type="tel"
+        prefix={{ icon: <Globe size={20} />, label: "+1", onClick: () => console.log("open country list") }}
+      />
+    );
+  } else if (type === "currency") {
+    control = (
+      <Field.TextField
+        value={value}
+        onChange={setValue}
+        placeholder={placeholder}
+        disabled={disabled}
+        error={showError}
+        type="number"
+        prefix={{ label: "USD", onClick: () => console.log("open currency list") }}
+      />
+    );
+  } else if (type === "unit") {
+    control = (
+      <Field.TextField
+        value={value}
+        onChange={setValue}
+        placeholder={placeholder}
+        disabled={disabled}
+        error={showError}
+        suffix={{ label: "Unit", onClick: () => console.log("open unit list") }}
+      />
+    );
+  } else {
+    control = <Field.TextField value={value} onChange={setValue} placeholder={placeholder} disabled={disabled} error={showError} />;
+  }
 
   return (
     <ComponentPage
-      id="text-input-fluid"
-      title="Text Input Fluid"
-      whatItIs="A form field with a floating label that shrinks out of the way once you start typing."
-      whenToUse={[
-        "Standard form fields like name, email, or address.",
-        "Turn on “dropdown” when tapping the field should open a list of choices instead of a keyboard.",
-      ]}
-      useInstead={[
-        { label: "Search Input", because: "it's specifically for filtering a list or table, not a general form field." },
-      ]}
+      id="field"
+      title="Field"
+      whatItIs="A label, optional mandatory asterisk, and a hint/error caption wrapped around a Field.TextField or Field.TextArea control."
+      whenToUse={["Any labeled form field — Field owns the label/caption chrome, Field.TextField or Field.TextArea owns the control itself."]}
       goodToKnow={[
-        "Always pair a field with a hint or error message — don't rely on color alone to show something's wrong.",
+        'Field.TextField is one flexible component covering Text/Left Icon/Dropdown/Date picker/Mobile Number/Currency/Unit — switch "Type" below to see each.',
+        "Dropdown renders a real native <select>. The other adornments (prefix/suffix/trailing icon) are clickable chips/buttons, but opening an actual picker or calendar is left to your onClick — same pattern as SearchInput's onMicClick.",
+        "error is a message string, not a boolean — its presence is the error state, and it replaces the hint caption.",
       ]}
-      code={`import { TextInputFluid } from "@statrys/web-ds";\n\n<TextInputFluid\n  label="Email"\n  value={email}\n  onChange={setEmail}\n  placeholder="you@example.com"\n  hint="We'll never share your email"\n/>`}
+      code={`import { Field } from "@statrys/web-ds";\n\n<Field label="Input Label" mandatory hint="Caption">\n  <Field.TextField value={value} onChange={setValue} placeholder="Input text" />\n</Field>`}
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
-        <p style={{ color: "#666", maxWidth: 560, marginTop: 0 }}>
-          The label shrinks into a small caption above the field automatically, once you click into it
-          or it already has text — you don't set that directly. "Force focus" below fakes that focused
-          look so you can see it without having to click into the field yourself.
-        </p>
+        <div style={{ display: "flex", gap: 32, flexWrap: "wrap", alignItems: "stretch" }}>
+          <div style={{ flex: "1 1 400px", minHeight: 160, display: "flex", alignItems: "center", justifyContent: "center", background: "#f2f2f2", borderRadius: 8, padding: 24 }}>
+            <div style={{ width: "100%", maxWidth: 343 }}>
+              <Field label={label} mandatory={mandatory} hint={fieldHint} error={error}>
+                {control}
+              </Field>
+            </div>
+          </div>
 
-        <div>
-          <div style={{ display: "flex", gap: 32, flexWrap: "wrap", alignItems: "stretch" }}>
-            <div style={{ flex: "1 1 400px", minHeight: 160, display: "flex", alignItems: "center", justifyContent: "center", background: "#f2f2f2", borderRadius: 8, padding: 24 }}>
-              <div style={{ width: "100%", maxWidth: 343 }}>
-                <TextInputFluid
-                  label={label}
-                  placeholder={placeholder}
-                  value={value}
-                  onChange={setValue}
-                  size={size}
-                  disabled={disabled}
-                  dropdown={dropdown}
-                  forceFocus={forceFocus}
-                  tooltip={showTooltip ? tooltipText : undefined}
-                  hint={showError ? undefined : showHint ? hint : undefined}
-                  error={showError ? error : undefined}
-                />
-              </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 24, minWidth: 220, flexShrink: 0 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              <ControlGroupLabel>Text</ControlGroupLabel>
+              <DemoField label="Label" value={label} onChange={setLabel} />
+              <DemoField label="Placeholder" value={placeholder} onChange={setPlaceholder} />
+              {showError ? (
+                <DemoField label="Error" value={errorMessage} onChange={setErrorMessage} />
+              ) : (
+                showHint && <DemoField label="Hint" value={hint} onChange={setHint} />
+              )}
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: 24, minWidth: 220, flexShrink: 0 }}>
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                <ControlGroupLabel>Text</ControlGroupLabel>
-                <DemoField label="Label" value={label} onChange={setLabel} />
-                <DemoField label="Placeholder" value={placeholder} onChange={setPlaceholder} />
-                <DemoField label="Value" value={value} onChange={setValue} />
-                {showTooltip && <DemoField label="Tooltip" value={tooltipText} onChange={setTooltipText} />}
-                {showError ? (
-                  <DemoField label="Error" value={error} onChange={setError} />
-                ) : (
-                  showHint && <DemoField label="Hint" value={hint} onChange={setHint} />
-                )}
-              </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              <ControlGroupLabel>Type</ControlGroupLabel>
+              <DemoRadioGroup label="Type" options={TEXT_FIELD_TYPES} value={type} onChange={setType} labels={TEXT_FIELD_TYPE_LABELS} />
+            </div>
 
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                <ControlGroupLabel>Layout</ControlGroupLabel>
-                <DemoRadioGroup label="Size" options={TEXT_INPUT_SIZES} value={size} onChange={setSize} />
-                <Checkbox label="Dropdown" selected={dropdown} onChange={setDropdown} />
-              </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              <ControlGroupLabel>Content</ControlGroupLabel>
+              <Checkbox label="Mandatory" selected={mandatory} onChange={setMandatory} />
+              <Checkbox label="Hint" selected={showHint} onChange={setShowHint} />
+            </div>
 
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                <ControlGroupLabel>Content</ControlGroupLabel>
-                <Checkbox label="Tooltip" selected={showTooltip} onChange={setShowTooltip} />
-                <Checkbox label="Hint" selected={showHint} onChange={setShowHint} />
-              </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              <ControlGroupLabel>State</ControlGroupLabel>
+              <Checkbox label="Error" selected={showError} onChange={setShowError} />
+              <Checkbox label="Disabled" selected={disabled} onChange={setDisabled} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </ComponentPage>
+  );
+}
 
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                <ControlGroupLabel>State</ControlGroupLabel>
-                <Checkbox label="Force focus" selected={forceFocus} onChange={setForceFocus} />
-                <Checkbox label="Error" selected={showError} onChange={setShowError} />
-                <Checkbox label="Disabled" selected={disabled} onChange={setDisabled} />
-              </div>
+function TextAreaDemo() {
+  const [label, setLabel] = useState("Input Label");
+  const [placeholder, setPlaceholder] = useState("Input text");
+  const [value, setValue] = useState("");
+  const [hint, setHint] = useState("Caption");
+  const [errorMessage, setErrorMessage] = useState("Caption");
+  const [mandatory, setMandatory] = useState(true);
+  const [showHint, setShowHint] = useState(true);
+  const [showError, setShowError] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+
+  const error = showError ? errorMessage : undefined;
+  const fieldHint = showError ? undefined : showHint ? hint : undefined;
+
+  return (
+    <ComponentPage
+      id="text-area"
+      title="Text Area"
+      whatItIs="A bare multi-line control — Field.TextArea pairs with Field for a label and hint/error caption, the same way Field.TextField does."
+      whenToUse={["Free-form multi-line text — a message, a note, an address with multiple lines."]}
+      useInstead={[{ label: "Field.TextField", because: "the input only needs a single line." }]}
+      goodToKnow={["Resizable vertically by default (drag the bottom-right corner) — turned off automatically while disabled."]}
+      code={`import { Field } from "@statrys/web-ds";\n\n<Field label="Input Label" mandatory hint="Caption">\n  <Field.TextArea value={value} onChange={setValue} placeholder="Input text" />\n</Field>`}
+    >
+      <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+        <div style={{ display: "flex", gap: 32, flexWrap: "wrap", alignItems: "stretch" }}>
+          <div style={{ flex: "1 1 400px", minHeight: 220, display: "flex", alignItems: "center", justifyContent: "center", background: "#f2f2f2", borderRadius: 8, padding: 24 }}>
+            <div style={{ width: "100%", maxWidth: 343 }}>
+              <Field label={label} mandatory={mandatory} hint={fieldHint} error={error}>
+                <Field.TextArea value={value} onChange={setValue} placeholder={placeholder} disabled={disabled} error={showError} />
+              </Field>
+            </div>
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: 24, minWidth: 220, flexShrink: 0 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              <ControlGroupLabel>Text</ControlGroupLabel>
+              <DemoField label="Label" value={label} onChange={setLabel} />
+              <DemoField label="Placeholder" value={placeholder} onChange={setPlaceholder} />
+              {showError ? (
+                <DemoField label="Error" value={errorMessage} onChange={setErrorMessage} />
+              ) : (
+                showHint && <DemoField label="Hint" value={hint} onChange={setHint} />
+              )}
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              <ControlGroupLabel>Content</ControlGroupLabel>
+              <Checkbox label="Mandatory" selected={mandatory} onChange={setMandatory} />
+              <Checkbox label="Hint" selected={showHint} onChange={setShowHint} />
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              <ControlGroupLabel>State</ControlGroupLabel>
+              <Checkbox label="Error" selected={showError} onChange={setShowError} />
+              <Checkbox label="Disabled" selected={disabled} onChange={setDisabled} />
             </div>
           </div>
         </div>
@@ -1721,7 +1846,8 @@ export function WebDS({ item }: { item: string }) {
   if (item === "checkbox") return <CheckboxDemo />;
   if (item === "radio") return <RadioDemo />;
   if (item === "search-input") return <SearchInputDemo />;
-  if (item === "text-input-fluid") return <TextInputFluidDemo />;
+  if (item === "field") return <FieldDemo />;
+  if (item === "text-area") return <TextAreaDemo />;
   if (item === "tooltip") return <TooltipDemo />;
   if (item === "banner") return <BannerDemo />;
   if (item === "toast-message") return <ToastMessageDemo />;
