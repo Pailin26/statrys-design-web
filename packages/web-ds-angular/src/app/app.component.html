@@ -1,0 +1,26 @@
+<main style="padding: 32px; display: flex; flex-direction: column; gap: 24px;">
+  <h1>web-ds Button — Angular pilot</h1>
+
+  <section style="display: flex; gap: 16px; align-items: center;">
+    @for (variant of variants; track variant) {
+      <ds-button [variant]="variant">{{ variant }}</ds-button>
+    }
+  </section>
+
+  <section style="display: flex; gap: 16px; align-items: center;">
+    <ds-button variant="primary" size="sm">Small</ds-button>
+    <ds-button variant="primary" size="md">Medium</ds-button>
+    <ds-button variant="primary" size="lg">Large</ds-button>
+  </section>
+
+  <section style="display: flex; gap: 16px; align-items: center;">
+    <ds-button variant="primary" shape="rounded">Rounded</ds-button>
+    <ds-button variant="primary" [disabled]="true">Disabled</ds-button>
+  </section>
+
+  <section style="display: flex; gap: 16px; align-items: center; background: #1b1b1b; padding: 16px; border-radius: 8px;">
+    <ds-button variant="primary" [inverse]="true">Inverse primary</ds-button>
+    <ds-button variant="secondary" [inverse]="true">Inverse secondary</ds-button>
+    <ds-button variant="tertiary" [inverse]="true">Inverse tertiary</ds-button>
+  </section>
+</main>

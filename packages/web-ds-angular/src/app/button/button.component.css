@@ -1,0 +1,154 @@
+/* Ported 1:1 from @statrys/web-ds's Button.module.css (React) — the CSS itself
+   doesn't change between frameworks, only how classes get applied (see
+   button.component.ts). Every value comes from the component-level tokens in
+   packages/tokens/component/button.json (never a primitive directly). */
+
+.base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: var(--button-border-width) solid transparent;
+  border-radius: var(--button-radius);
+  font-family: var(--button-font-family);
+  font-weight: var(--button-font-weight);
+  text-transform: var(--button-text-transform);
+  cursor: pointer;
+  transition: background-color 0.1s, border-color 0.1s, color 0.1s;
+}
+.base:disabled {
+  cursor: not-allowed;
+}
+
+.primary {
+  background: var(--button-primary);
+  border-color: var(--button-primary);
+  color: var(--button-text-on-fill);
+}
+.primary:hover:not(:disabled) {
+  background: var(--button-primary-hover);
+  border-color: var(--button-primary-hover);
+}
+.primary:active:not(:disabled) {
+  background: var(--button-primary-active);
+  border-color: var(--button-primary-active);
+}
+.primary:disabled {
+  background: var(--button-disabled);
+  border-color: transparent;
+  color: var(--button-text-on-fill-disabled);
+}
+
+.secondary {
+  background: var(--button-secondary-bg);
+  border-color: var(--button-primary);
+  color: var(--button-primary);
+}
+.secondary:hover:not(:disabled) {
+  background: var(--button-secondary-bg-hover);
+  border-color: var(--button-secondary-hover);
+  color: var(--button-secondary-hover);
+}
+.secondary:active:not(:disabled) {
+  background: var(--button-secondary-bg-active);
+  border-color: var(--button-secondary-active);
+  color: var(--button-secondary-active);
+}
+.secondary:disabled {
+  background: var(--button-secondary-bg-disabled);
+  border-color: var(--button-disabled);
+  color: var(--button-disabled);
+}
+
+.tertiary {
+  background: transparent;
+  border-color: transparent;
+  color: var(--button-primary);
+}
+.tertiary:hover:not(:disabled) {
+  background: var(--button-tertiary-hover);
+}
+.tertiary:active:not(:disabled) {
+  background: var(--button-tertiary-active);
+}
+.tertiary:disabled {
+  color: var(--button-disabled);
+}
+
+/* Inverse (dark-surface) hierarchies — applied as a second class alongside the
+   hierarchy class, same combined-selector approach as the React version. */
+.inverse.primary {
+  background: var(--button-inverse);
+  border-color: var(--button-inverse);
+  color: var(--button-primary);
+}
+.inverse.primary:hover:not(:disabled) {
+  background: var(--button-inverse-hover);
+  border-color: var(--button-inverse-hover);
+}
+.inverse.primary:active:not(:disabled) {
+  background: var(--button-inverse-active);
+  border-color: var(--button-inverse-active);
+}
+.inverse.primary:disabled {
+  background: var(--button-inverse-disabled);
+  border-color: transparent;
+  color: var(--button-text-on-inverse-fill-disabled);
+}
+
+.inverse.secondary {
+  background: transparent;
+  border-color: var(--button-inverse);
+  color: var(--button-inverse);
+}
+.inverse.secondary:hover:not(:disabled) {
+  border-color: var(--button-inverse-hover);
+  color: var(--button-inverse-hover);
+}
+.inverse.secondary:active:not(:disabled) {
+  border-color: var(--button-inverse-active);
+  color: var(--button-inverse-active);
+}
+.inverse.secondary:disabled {
+  border-color: var(--button-inverse-disabled);
+  color: var(--button-inverse-disabled);
+}
+
+.inverse.tertiary {
+  background: transparent;
+  border-color: transparent;
+  color: var(--button-inverse);
+}
+.inverse.tertiary:hover:not(:disabled) {
+  background: var(--button-inverse-hover);
+}
+.inverse.tertiary:active:not(:disabled) {
+  background: var(--button-inverse-active);
+}
+.inverse.tertiary:disabled {
+  color: var(--button-inverse-disabled);
+}
+
+.sm {
+  font-size: var(--button-font-size-sm);
+  padding: var(--button-padding-vertical-sm) var(--button-padding-horizontal-sm);
+  height: var(--button-height-sm);
+}
+
+.md {
+  font-size: var(--button-font-size-md);
+  padding: var(--button-padding-vertical-md) var(--button-padding-horizontal-md);
+  min-height: var(--button-min-height-md);
+}
+
+.lg {
+  font-size: var(--button-font-size-lg);
+  padding: var(--button-padding-vertical-lg) var(--button-padding-horizontal-lg);
+  min-height: var(--button-min-height-lg);
+}
+
+/* Shape=Rounded — same hierarchy/size rules as the default rec shape, pill
+   radius instead of --button-radius. Square/Circle (icon-only) intentionally
+   left out of this pilot — see button.component.ts's comment. */
+.rounded {
+  border-radius: var(--button-radius-full);
+}
