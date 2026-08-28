@@ -11,7 +11,7 @@
     "button.tertiary", "button.tertiaryHover", "button.tertiaryActive",
     "button.inverse", "button.inverseHover", "button.inverseActive", "button.inverseDisabled",
     "button.disabled", "button.textOnFill", "button.textOnFillDisabled", "button.textOnInverseFillDisabled",
-    "button.radius", "button.radiusFull", "button.borderWidth", "button.fontFamily", "button.fontWeight",
+    "button.radius", "button.radiusFull", "button.borderWidth", "button.fontFamily", "button.fontWeight", "button.textTransform",
     "button.fontSizeSm", "button.paddingVerticalSm", "button.paddingHorizontalSm", "button.heightSm",
     "button.squareSizeSm", "button.circleSizeSm",
     "button.fontSizeMd", "button.paddingVerticalMd", "button.paddingHorizontalMd", "button.minHeightMd",

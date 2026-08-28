@@ -3,6 +3,8 @@ import styles from "./Link.module.css";
 
 export type LinkProps = {
   size?: "sm" | "md" | "lg";
+  /** Text casing — "sentence" (default, capitalize) or "upper" (uppercase, matching Button's label style). */
+  case?: "sentence" | "upper";
   /** Dark-surface variant — cream text (Figma "Inverse"). */
   inverse?: boolean;
   disabled?: boolean;
@@ -15,6 +17,7 @@ export type LinkProps = {
 
 export function Link({
   size = "md",
+  case: textCase = "sentence",
   inverse = false,
   disabled = false,
   iconLeft,
@@ -25,7 +28,7 @@ export function Link({
 }: LinkProps) {
   return (
     <a
-      className={[styles.base, styles[size], inverse && styles.inverse, disabled && styles.disabled]
+      className={[styles.base, styles[size], styles[textCase], inverse && styles.inverse, disabled && styles.disabled]
         .filter(Boolean)
         .join(" ")}
       // A disabled <a> has no native semantics of its own — drop href so it

@@ -8,10 +8,12 @@
     "link.primary", "link.primaryHover", "link.primaryActive", "link.primaryDisabled",
     "link.inverse", "link.inverseHover", "link.inverseActive", "link.inverseDisabled",
     "link.fontFamily", "link.fontWeight", "link.gap", "link.iconSize",
+    "link.textTransformUppercase", "link.textTransformSentence",
     "link.fontSizeSm", "link.fontSizeMd", "link.fontSizeLg"
   ],
   "props": {
     "size": ["sm", "md", "lg"],
+    "case": ["sentence", "upper"],
     "inverse": "boolean",
     "disabled": "boolean",
     "iconLeft": "ReactNode",

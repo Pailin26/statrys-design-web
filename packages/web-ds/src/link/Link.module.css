@@ -1,5 +1,5 @@
-/* Colors, font, gap and icon sizing come from the component-level semantic
-   tokens in packages/tokens/semantic/link.json — never a primitive directly
+/* Colors, font, gap, icon sizing and text case come from the component-level
+   tokens in packages/tokens/component/link.json — never a primitive directly
    (see Button.module.css for the full rationale, same rule applies here).
 
    Figma: https://www.figma.com/design/abElBYcwuc5skfPX1c7FlP/-WEB--Design-System?node-id=2153-6347 */
@@ -10,7 +10,6 @@
   gap: var(--link-gap);
   font-family: var(--link-font-family);
   font-weight: var(--link-font-weight);
-  text-transform: capitalize;
   text-decoration: none;
   cursor: pointer;
   color: var(--link-primary);
@@ -59,4 +58,11 @@
 }
 .lg {
   font-size: var(--link-font-size-lg);
+}
+
+.sentence {
+  text-transform: var(--link-text-transform-sentence);
+}
+.upper {
+  text-transform: var(--link-text-transform-uppercase);
 }

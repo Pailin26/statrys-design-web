@@ -348,9 +348,12 @@ function ButtonHighlightDemo() {
   );
 }
 
+const LINK_CASES = ["sentence", "upper"] as const;
+
 function LinkDemo() {
   const [label, setLabel] = useState("Learn more");
   const [size, setSize] = useState<(typeof SIZES)[number]>("md");
+  const [textCase, setTextCase] = useState<(typeof LINK_CASES)[number]>("sentence");
   const [disabled, setDisabled] = useState(false);
   const [inverse, setInverse] = useState(false);
 
@@ -388,7 +391,7 @@ function LinkDemo() {
                 borderRadius: 8,
               }}
             >
-              <Link size={size} href="#" disabled={disabled} inverse={inverse} iconRight={<ArrowUpRight size={16} />}>
+              <Link size={size} case={textCase} href="#" disabled={disabled} inverse={inverse} iconRight={<ArrowUpRight size={16} />}>
                 {label}
               </Link>
             </div>
@@ -402,6 +405,7 @@ function LinkDemo() {
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 <ControlGroupLabel>Layout</ControlGroupLabel>
                 <DemoRadioGroup label="Size" options={SIZES} value={size} onChange={setSize} />
+                <DemoRadioGroup label="Case" options={LINK_CASES} value={textCase} onChange={setTextCase} />
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
